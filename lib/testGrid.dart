@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
-
+// import 'package:flutter/semantics.dart';
 
 const fondColor = Color(0xFF181929);
 const whiteColor = Color(0xFFf1f1f1);
 const grayColor = Color(0xFF272b3e);
-
 
 class TestGrid extends StatelessWidget {
   final List recoList = [
@@ -90,10 +88,9 @@ class TestGrid extends StatelessWidget {
         //     color: Colors.teal[600],
         //   ),
         // ],
-    );
+        );
   }
 }
-
 
 class RecoCard extends StatelessWidget {
   final Map recoData;
@@ -101,7 +98,6 @@ class RecoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 206,
       margin: EdgeInsets.only(bottom: 10),
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
@@ -144,6 +140,7 @@ class RecoCard extends StatelessWidget {
             ),
           ),
           Container(
+            width: 132,
             margin: EdgeInsets.only(top: 8),
             child: Row(
               children: [

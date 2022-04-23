@@ -1,5 +1,7 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
+// import 'package:flutter/semantics.dart';
 // import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,6 +10,7 @@ import 'testGrid.dart';
 const fondColor = Color(0xFF181929);
 const whiteColor = Color(0xFFf1f1f1);
 const grayColor = Color(0xFF272b3e);
+const radientColor = Color(0xFF074AD1);
 
 void main() {
   runApp(MyApp());
@@ -149,7 +152,7 @@ class PromoteSection extends StatelessWidget {
                     Container(
                       height: 77,
                       width: 125,
-                      margin: EdgeInsets.only(right: 12, bottom: 19),
+                      margin: EdgeInsets.only(right: 12, bottom: 22),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(6)),
                           image: DecorationImage(
@@ -165,13 +168,14 @@ class PromoteSection extends StatelessWidget {
                       // mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Container(
+                            width: 162,
                             child: Text(
-                          'Soirée célib! Faites des rencontres!',
-                          style: TextStyle(
-                              color: whiteColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold),
-                        )),
+                              'Soirée célib! Faites des rencontres!',
+                              style: TextStyle(
+                                  color: whiteColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold),
+                            )),
                         Container(
                             margin: EdgeInsets.only(top: 10),
                             child: Text(
@@ -185,31 +189,43 @@ class PromoteSection extends StatelessWidget {
                     )
                   ],
                 ),
-                Container(
-                  margin: EdgeInsets.only(top: 8),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 23,
-                        width: 61,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(12),
-                                bottomRight: Radius.circular(7)),
-                            color: Theme.of(context).colorScheme.primary),
-                        child: ElevatedButton(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Tags("Célibataire", Color(0xFFffc952)),
+                        Tags("Autre", Color(0xFFfa552d)),
+                        Tags("Promo", Color(0xFF39b3fa)),
+                      ],
+                    ),
+                    Container(
+                      // height: 23,
+                      // width: 61,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              bottomRight: Radius.circular(7)),
+                          // color: Theme.of(context).colorScheme.primary),
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Theme.of(context).colorScheme.primary,
+                                radientColor,
+                              ])),
+                      child: TextButton(
                           onPressed: null,
-                          child: Text(
-                            'Y aller !',
-                            style: TextStyle(
-                                color: whiteColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12),
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.only(
+                                top: 8, right: 10, bottom: 18, left: 10),
+                            primary: whiteColor,
+                            textStyle: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
                           ),
-                        ),
-                      )
-                    ],
-                  ),
+                          child: Text('Y aller !')),
+                    )
+                  ],
                 ),
               ]),
             ),
@@ -236,6 +252,27 @@ class RecoSection extends StatelessWidget {
                 ),
               ])),
         ],
+      ),
+    );
+  }
+}
+
+class Tags extends StatelessWidget {
+  final tagColor;
+  final tagText;
+  Tags(this.tagText, this.tagColor);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+      decoration: BoxDecoration(color: tagColor),
+      child: Text(
+        tagText,
+        style: TextStyle(
+          fontFamily: 'Dosis',
+          color: whiteColor,
+          fontSize: 8,
+        ),
       ),
     );
   }

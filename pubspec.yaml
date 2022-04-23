@@ -40,6 +40,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.9.2
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/maelstrom.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -63,6 +69,7 @@ flutter:
   assets:
    - assets/
    - assets/icons/maelstrom.svg
+   - assets/icons/maelstrom.png
    - assets/icons/go.svg  
    - assets/images/image1.jpg
    - assets/images/image2.jpg
