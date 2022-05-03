@@ -69,6 +69,7 @@ flutter:
   assets:
    - assets/
    - assets/icons/maelstrom.svg
+   - assets/icons/button-icon.svg
    - assets/icons/maelstrom.png
    - assets/icons/go.svg  
    - assets/images/image1.jpg

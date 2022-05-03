@@ -1,9 +1,36 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter/semantics.dart';
 
+import '../../config.dart';
+
 const fondColor = Color(0xFF181929);
 const whiteColor = Color(0xFFf1f1f1);
 const grayColor = Color(0xFF272b3e);
+
+class RecoSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 30),
+      child: Column(
+        children: [
+          Container(
+              height: 30,
+              margin: const EdgeInsets.only(bottom: 15),
+              child: Row(children: [
+                Text(
+                  'Recomandations',
+                  style: TextStyle(
+                      fontFamily: 'Dosis',
+                      color: ThemeColors.whiteColor,
+                      fontSize: 24),
+                ),
+              ])),
+        ],
+      ),
+    );
+  }
+}
 
 class TestGrid extends StatelessWidget {
   final List recoList = [
