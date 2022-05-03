@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/semantics.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../config.dart';
 
-class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
+class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => new Size.fromHeight(80);
   @override
   Widget build(BuildContext context) {

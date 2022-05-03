@@ -7,7 +7,6 @@ class SearchSection extends StatelessWidget {
   Widget build(BuildContext contexfontt) {
     return Container(
       height: 40,
-      margin: const EdgeInsets.only(top: 15, bottom: 20),
       child: Expanded(
           child: Container(
         decoration: BoxDecoration(

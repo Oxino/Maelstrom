@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import '../config.dart';
 
 class Tags extends StatelessWidget {
-  final TagsSize tagType;
+  final TagsType tagType;
   final String tagText;
   final Color tagColor;
-  Tags(TagsSize this.tagType, String this.tagText, Color this.tagColor);
+  Tags(TagsType this.tagType, String this.tagText, Color this.tagColor);
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: tagType == TagsSize.bubble
+      padding: tagType == TagsType.bubble
           ? EdgeInsets.all(5)
           : EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       decoration: BoxDecoration(
         color: tagColor,
         borderRadius: BorderRadius.circular(8),
       ),
-      child: tagType == TagsSize.bubble
+      child: tagType == TagsType.bubble
           ? Container()
           : Text(
               tagText,
@@ -29,19 +29,19 @@ class Tags extends StatelessWidget {
     );
   }
 
-  _buildFontSize(TagsSize type) {
+  _buildFontSize(TagsType type) {
     switch (type) {
-      case TagsSize.small:
+      case TagsType.small:
         {
           return 8.toDouble();
         }
 
-      case TagsSize.medium:
+      case TagsType.medium:
         {
           return 12.toDouble();
         }
 
-      case TagsSize.big:
+      case TagsType.big:
         {
           return 15.toDouble();
         }

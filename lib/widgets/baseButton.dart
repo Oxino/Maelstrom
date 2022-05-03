@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../config.dart';
 
-class MainButton extends StatelessWidget {
-  final ButtonsSize buttonType;
-  MainButton(ButtonsSize this.buttonType);
+class BaseButton extends StatelessWidget {
+  final ButtonsType buttonType;
+  final String buttonText;
+  BaseButton(ButtonsType this.buttonType, [String this.buttonText = "Y aller !"]);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,13 +26,13 @@ class MainButton extends StatelessWidget {
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            child: buttonType == ButtonsSize.icon
+            child: buttonType == ButtonsType.icon
                 ? SvgPicture.asset(
                     'assets/icons/button-icon.svg',
                     // color: Colors.red,
                   )
                 : Text(
-                    'Y aller !',
+                    buttonText,
                     style:
                         TextStyle(fontSize: _buildButtonFontSize(buttonType)),
                   ),
@@ -40,14 +41,14 @@ class MainButton extends StatelessWidget {
     );
   }
 
-  _buildButtonFontSize(ButtonsSize type) {
+  _buildButtonFontSize(ButtonsType type) {
     switch (type) {
-      case ButtonsSize.small:
+      case ButtonsType.small:
         {
           return 12.toDouble();
         }
 
-      case ButtonsSize.big:
+      case ButtonsType.big:
         {
           return 15.toDouble();
         }

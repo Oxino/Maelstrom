@@ -1,38 +1,12 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/semantics.dart';
+import 'package:maelstrom/widgets/baseButton.dart';
+import 'package:maelstrom/widgets/baseText.dart';
+import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 
 import '../../config.dart';
-
-const fondColor = Color(0xFF181929);
-const whiteColor = Color(0xFFf1f1f1);
-const grayColor = Color(0xFF272b3e);
+import '../tags.dart';
 
 class RecoSection extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 30),
-      child: Column(
-        children: [
-          Container(
-              height: 30,
-              margin: const EdgeInsets.only(bottom: 15),
-              child: Row(children: [
-                Text(
-                  'Recomandations',
-                  style: TextStyle(
-                      fontFamily: 'Dosis',
-                      color: ThemeColors.whiteColor,
-                      fontSize: 24),
-                ),
-              ])),
-        ],
-      ),
-    );
-  }
-}
-
-class TestGrid extends StatelessWidget {
   final List recoList = [
     {
       'title': 'Soirée célib : Faites des rencontres !',
@@ -49,7 +23,7 @@ class TestGrid extends StatelessWidget {
       'tag': [],
     },
     {
-      'title': 'Soirée avec DJ Snake  1 conso offerte',
+      'title': 'Soirée aèvec DJ Snake  1 conso offerte',
       'place': 'La plage',
       'picture': 'assets/images/image3.jpg',
       'km': '2km',
@@ -72,50 +46,17 @@ class TestGrid extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-        scrollDirection: Axis.vertical,
+    return GridView(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 15,
+          mainAxisSpacing: 10,
+          mainAxisExtent: 210,
+        ),
         shrinkWrap: true,
-        primary: false,
-        padding: const EdgeInsets.all(20),
-        crossAxisSpacing: 15,
-        mainAxisSpacing: 10,
-        crossAxisCount: 2,
         children: recoList.map((reco) {
           return RecoCard(reco);
-        }).toList()
-        // children: <Widget>[
-        //   Container(
-        //     padding: const EdgeInsets.all(8),
-        //     child: const Text("He'd have you all unravel at the"),
-        //     color: Colors.teal[100],
-        //   ),
-        //   Container(
-        //     padding: const EdgeInsets.all(8),
-        //     child: const Text('Heed not the rabble'),
-        //     color: Colors.teal[200],
-        //   ),
-        //   Container(
-        //     padding: const EdgeInsets.all(8),
-        //     child: const Text('Sound of screams but the'),
-        //     color: Colors.teal[300],
-        //   ),
-        //   Container(
-        //     padding: const EdgeInsets.all(8),
-        //     child: const Text('Who scream'),
-        //     color: Colors.teal[400],
-        //   ),
-        //   Container(
-        //     padding: const EdgeInsets.all(8),
-        //     child: const Text('Revolution is coming...'),
-        //     color: Colors.teal[500],
-        //   ),
-        //   Container(
-        //     padding: const EdgeInsets.all(8),
-        //     child: const Text('Revolution, they...'),
-        //     color: Colors.teal[600],
-        //   ),
-        // ],
-        );
+        }).toList());
   }
 }
 
@@ -125,98 +66,65 @@ class RecoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 10),
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
-          color: grayColor,
-          borderRadius: BorderRadius.all(Radius.circular(10))),
+          color: ThemeColors.grayColor,
+          borderRadius: BorderRadius.all((Radius.circular(10)))),
+      // child: Expanded(
       child: Column(
-        children: [
-          Container(
-            height: 92,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(6)),
-                image: DecorationImage(
-                  image: AssetImage(
-                    recoData['picture'],
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 92,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(6)),
+                  image: DecorationImage(
+                    image: AssetImage(
+                      recoData['picture'],
+                    ),
+                    fit: BoxFit.cover,
+                  )),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 75,
+                    right: 0,
+                    child: Container(
+                        padding: EdgeInsets.fromLTRB(10, 2, 3, 1),
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.only(topLeft: Radius.circular(6)),
+                          color: ThemeColors.grayColor,
+                        ),
+                        child:
+                            BaseText(TextType.littleBoldText, recoData['km'])),
                   ),
-                  fit: BoxFit.cover,
-                )),
-            child: Stack(
+                ],
+              ),
+            ),
+            SizedBox(height: 8),
+            BaseText(TextType.littleBoldText, recoData['title']),
+            SizedBox(height: 8),
+            BaseText(TextType.littleText, recoData['place']),
+            SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Positioned(
-                  top: 75,
-                  right: 0,
-                  child: Container(
-                    padding: EdgeInsets.fromLTRB(10, 2, 3, 1),
-                    decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.only(topLeft: Radius.circular(6)),
-                      color: grayColor,
-                    ),
-                    child: Text(
-                      recoData['km'],
-                      style: TextStyle(
-                          color: whiteColor,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Tags(TagsType.bubble, "test", TagsColors.yellowTag),
+                    SizedBox(width: 5),
+                    Tags(TagsType.bubble, "test", TagsColors.blueTag),
+                    SizedBox(width: 5),
+                    Tags(TagsType.bubble, "test", TagsColors.redTag),
+                  ],
                 ),
+                BaseButton(ButtonsType.icon),
               ],
-            ),
-          ),
-          Container(
-            width: 132,
-            margin: EdgeInsets.only(top: 8),
-            child: Row(
-              children: [
-                Text(
-                  recoData['title'],
-                  style: TextStyle(
-                      color: whiteColor,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold),
-                )
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 8),
-            child: Row(
-              children: [
-                Text(
-                  recoData['place'],
-                  style: TextStyle(
-                    color: whiteColor,
-                    fontSize: 12,
-                  ),
-                )
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 8),
-            child: Row(
-              children: [
-                Container(
-                  height: 23,
-                  width: 32,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          bottomRight: Radius.circular(7)),
-                      color: Theme.of(context).colorScheme.primary),
-                  child: ElevatedButton(
-                    onPressed: null,
-                    child: null,
-                  ),
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
+            )
+          ]),
     );
   }
 }
