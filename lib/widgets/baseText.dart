@@ -6,11 +6,20 @@ class BaseText extends StatelessWidget {
   final TextType textType;
   final Color textColor;
   final String textContent;
+  dynamic textMaxSize;
   BaseText(TextType this.textType, String this.textContent,
-      [Color this.textColor = ThemeColors.whiteColor]);
+      {Color this.textColor = ThemeColors.whiteColor,
+      dynamic textMaxSize = 0}) {
+    this.textMaxSize = textMaxSize;
+  }
   @override
   Widget build(BuildContext context) {
-    return Text(textContent,
+    return Text(
+        textMaxSize == 0
+            ? textContent
+            : textContent.length > textMaxSize
+                ? textContent.substring(0, textMaxSize) + '...'
+                : textContent,
         style: textType == TextType.megaTitle ||
                 textType == TextType.pageTitle ||
                 textType == TextType.sectionTitle

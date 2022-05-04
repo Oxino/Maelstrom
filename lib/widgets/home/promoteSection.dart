@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:maelstrom/widgets/baseImage.dart';
 
 import '../../config.dart';
 
 import '../../widgets/tags.dart';
 import '../baseButton.dart';
 import '../baseText.dart';
+import '../baseImage.dart';
 
 class PromoteSection extends StatelessWidget {
   @override
@@ -18,20 +20,10 @@ class PromoteSection extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: 77,
-              width: 125,
-              margin: EdgeInsets.only(right: 12),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(6)),
-                  image: DecorationImage(
-                    image: AssetImage(
-                      'assets/images/image3.jpg',
-                    ),
-                    fit: BoxFit.cover,
-                  )),
-              child: null,
-            ),
+            Padding(
+                padding: EdgeInsets.only(right: 12),
+                child:
+                    BaseImage(ImageType.promote, 'assets/images/image3.jpg')),
             Expanded(
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

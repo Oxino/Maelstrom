@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import '../widgets/home/searchSection.dart';
 import '../widgets/home/promoteSection.dart';
 import '../widgets/home/recoSection.dart';
-import '../widgets/baseAppBar.dart';
 
 import '../widgets/baseText.dart';
 import '../config.dart';
@@ -13,10 +12,12 @@ import '../config.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        appBar: BaseAppBar(),
-        body: Padding(
+    return
+        // Scaffold(
+        //   backgroundColor: ThemeColors.backgroundColor,
+        //   appBar: HomeAppBar(),
+        //   body:
+        Padding(
             padding: EdgeInsets.symmetric(horizontal: 30),
             child: SingleChildScrollView(
               child: Column(
@@ -40,6 +41,8 @@ class HomePage extends StatelessWidget {
                   SizedBox(height: 30),
                 ],
               ),
-            )));
+            ));
+    // bottomNavigationBar: BaseNavigationBar(2),
+    // );
   }
 }

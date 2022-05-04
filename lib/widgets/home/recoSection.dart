@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:maelstrom/widgets/baseButton.dart';
 import 'package:maelstrom/widgets/baseText.dart';
-import 'package:flutter_layout_grid/flutter_layout_grid.dart';
+// import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 
 import '../../config.dart';
 import '../tags.dart';
+import '../baseImage.dart';
 
 class RecoSection extends StatelessWidget {
   final List recoList = [
     {
-      'title': 'Soirée célib : Faites des rencontres !',
-      'place': 'La casa',
+      'title': 'Soirée célib : Faites des rencontre bla blab labfnzzkljj',
+      'place': 'La casacasa casacasa casa casacasacasac ',
       'picture': 'assets/images/image1.jpg',
       'km': '1km',
       'tag': [],
@@ -51,9 +52,10 @@ class RecoSection extends StatelessWidget {
           crossAxisCount: 2,
           crossAxisSpacing: 15,
           mainAxisSpacing: 10,
-          mainAxisExtent: 210,
+          mainAxisExtent: 230,
         ),
         shrinkWrap: true,
+        physics: ScrollPhysics(),
         children: recoList.map((reco) {
           return RecoCard(reco);
         }).toList());
@@ -70,43 +72,16 @@ class RecoCard extends StatelessWidget {
       decoration: BoxDecoration(
           color: ThemeColors.grayColor,
           borderRadius: BorderRadius.all((Radius.circular(10)))),
-      // child: Expanded(
       child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: 92,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(6)),
-                  image: DecorationImage(
-                    image: AssetImage(
-                      recoData['picture'],
-                    ),
-                    fit: BoxFit.cover,
-                  )),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 75,
-                    right: 0,
-                    child: Container(
-                        padding: EdgeInsets.fromLTRB(10, 2, 3, 1),
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.only(topLeft: Radius.circular(6)),
-                          color: ThemeColors.grayColor,
-                        ),
-                        child:
-                            BaseText(TextType.littleBoldText, recoData['km'])),
-                  ),
-                ],
-              ),
-            ),
+            BaseImage(ImageType.reco, recoData['picture'], recoData['km']),
             SizedBox(height: 8),
-            BaseText(TextType.littleBoldText, recoData['title']),
+            BaseText(TextType.littleBoldText, recoData['title'],
+                textMaxSize: 40),
             SizedBox(height: 8),
-            BaseText(TextType.littleText, recoData['place']),
+            BaseText(TextType.littleText, recoData['place'], textMaxSize: 30),
             SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

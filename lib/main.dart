@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'config.dart';
 
-import 'pages/home.dart';
+import 'pages/mainScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Mealstrom',
-      home: HomePage(),
+      home: MainScreen(),
     );
   }
 }
