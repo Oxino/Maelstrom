@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../config.dart';
+
+import 'package:maelstrom/config.dart';
 
 class Tags extends StatelessWidget {
   final TagsType tagType;

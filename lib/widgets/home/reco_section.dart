@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:maelstrom/widgets/baseButton.dart';
-import 'package:maelstrom/widgets/baseText.dart';
-// import 'package:flutter_layout_grid/flutter_layout_grid.dart';
+import 'package:maelstrom/widgets/base_button.dart';
+import 'package:maelstrom/widgets/base_text.dart';
 
-import '../../config.dart';
-import '../tags.dart';
-import '../baseImage.dart';
+import 'package:maelstrom/config.dart';
+
+import 'package:maelstrom/widgets/tags.dart';
+import 'package:maelstrom/widgets/base_image.dart';
 
 class RecoSection extends StatelessWidget {
   final List recoList = [

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'baseText.dart';
+import 'package:maelstrom/widgets/base_text.dart';
 
-import '../config.dart';
+import 'package:maelstrom/config.dart';
 
-class TitleAppBar extends StatelessWidget implements PreferredSizeWidget {
+class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => new Size.fromHeight(60);
   final String textBar;
-  TitleAppBar(String this.textBar);
+  final Color backgroundBar;
+  BaseAppBar(String this.textBar,
+      [Color this.backgroundBar = ThemeColors.backgroundColor]);
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -27,7 +29,7 @@ class TitleAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       automaticallyImplyLeading: false,
       title: BaseText(TextType.pageTitle, textBar),
-      backgroundColor: ThemeColors.backgroundColor,
+      backgroundColor: backgroundBar,
     );
   }
 }

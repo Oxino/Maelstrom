@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../config.dart';
+
+import 'package:maelstrom/config.dart';
 
 class BaseButton extends StatelessWidget {
   final ButtonsType buttonType;

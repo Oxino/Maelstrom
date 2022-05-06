@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:maelstrom/widgets/baseImage.dart';
 
-import '../../config.dart';
+import 'package:maelstrom/config.dart';
 
-import '../../widgets/tags.dart';
-import '../baseButton.dart';
-import '../baseText.dart';
-import '../baseImage.dart';
+import 'package:maelstrom/widgets/tags.dart';
+import 'package:maelstrom/widgets/base_button.dart';
+import 'package:maelstrom/widgets/base_text.dart';
+import 'package:maelstrom/widgets/base_image.dart';
 
 class PromoteSection extends StatelessWidget {
   @override

@@ -1,32 +1,24 @@
-// import 'dart:html';
+// import '';
 
 import 'package:flutter/material.dart';
 
-import '../widgets/home/homeAppBar.dart';
-import '../widgets/baseNavigationBar.dart';
+import 'package:maelstrom/config.dart';
+import 'package:maelstrom/pages/base_page.dart';
+import 'package:maelstrom/widgets/base_text.dart';
 
-import '../widgets/baseText.dart';
-import '../config.dart';
+import 'package:maelstrom/widgets/base_app_bar.dart';
 
-class ListPage extends StatelessWidget {
-  int pageIndex = 2;
-  @override
-  Widget build(BuildContext context) {
-    return
-        // Scaffold(
-        //   backgroundColor: ThemeColors.backgroundColor,
-        //   appBar: HomeAppBar(),
-        //   body:
-        Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  BaseText(TextType.sectionTitle, "Liste Page"),
-                ],
-              ),
-            ));
-    //   bottomNavigationBar: BaseNavigationBar(pageIndex),
-    // );
-  }
+class ListPage extends BasePage {
+  ListPage()
+      : super(
+            appBar: BaseAppBar('test'),
+            body: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      BaseText(TextType.sectionTitle, "Liste Page"),
+                    ],
+                  ),
+                )));
 }

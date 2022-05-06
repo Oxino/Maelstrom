@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../config.dart';
+
+import 'package:maelstrom/config.dart';
 
 class BaseText extends StatelessWidget {
   final TextType textType;

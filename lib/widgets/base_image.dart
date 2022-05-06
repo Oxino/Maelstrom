@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import '../config.dart';
-import 'baseText.dart';
+
+import 'package:maelstrom/config.dart';
+
+import 'package:maelstrom/widgets/base_text.dart';
 
 class BaseImage extends StatelessWidget {
   final ImageType imageType;

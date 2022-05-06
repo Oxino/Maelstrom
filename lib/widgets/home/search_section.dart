@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter/semantics.dart';
-import '../../config.dart';
+import 'package:maelstrom/config.dart';
 
 class SearchSection extends StatelessWidget {
   @override

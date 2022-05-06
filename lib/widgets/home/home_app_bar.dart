@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../pages/user.dart';
+import 'package:maelstrom/config.dart';
 
-import '../../config.dart';
+import 'package:maelstrom/pages/user.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => new Size.fromHeight(60);

@@ -2,8 +2,19 @@ import 'package:flutter/material.dart';
 
 enum TagsType { bubble, small, medium, big }
 enum ButtonsType { icon, small, big }
-enum TextType { megaTitle, pageTitle, sectionTitle, bigText, bodyBoldText, bodyText, littleBoldText, littleText, smallText}
+enum TextType {
+  megaTitle,
+  pageTitle,
+  sectionTitle,
+  bigText,
+  bodyBoldText,
+  bodyText,
+  littleBoldText,
+  littleText,
+  smallText
+}
 enum ImageType { big, promote, reco, square, smallSquare }
+enum PageType { home, list, map }
 
 class ThemeColors {
   static const principaleColor = Color(0xFF236BFE);
