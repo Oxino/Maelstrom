@@ -3,17 +3,15 @@
 import 'package:flutter/material.dart';
 
 import 'package:maelstrom/config.dart';
-import 'package:maelstrom/pages/base_page.dart';
 import 'package:maelstrom/widgets/base_text.dart';
 import 'package:maelstrom/widgets/tags.dart';
 import 'package:maelstrom/widgets/base_image.dart';
 
-import 'package:maelstrom/widgets/base_app_bar.dart';
-
-class ListPage extends BasePage {
+class ListPage extends StatelessWidget {
   final List eventList = [
     {
-      'title': 'Soirée célib : Faites des rencontre bla blab labfnzzkljj',
+      'title':
+          'Soirée célib : Faites des rencontre bla blab labfnzzkljj oimf zehsoa lfn ejijk bavamk aoieflefk njf ',
       'place': 'La casacasa casacasa casa casacasacasac ',
       'picture': 'assets/images/image1.jpg',
       'km': '1km',
@@ -50,12 +48,7 @@ class ListPage extends BasePage {
   ];
 
   @override
-  PreferredSizeWidget? buildBar() {
-    return BaseAppBar('Liste');
-  }
-
-  @override
-  Widget? buildBody() {
+  Widget build(BuildContext context) {
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 30),
         child: SingleChildScrollView(
@@ -71,42 +64,54 @@ class EventList extends StatelessWidget {
   EventList(this.eventList);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-      decoration: BoxDecoration(
-          color: ThemeColors.grayColor,
-          borderRadius: BorderRadius.all((Radius.circular(10)))),
-      child: Row(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            BaseImage(ImageType.smallSquare, eventList['picture']),
-            SizedBox(width: 8),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+        padding: EdgeInsets.only(bottom: 10),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+          decoration: BoxDecoration(
+              color: ThemeColors.grayColor,
+              borderRadius: BorderRadius.all((Radius.circular(10)))),
+          child: Row(
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    BaseText(TextType.littleBoldText, eventList['title']),
-                    BaseText(TextType.littleBoldText, eventList['title']),
-                  ],
-                ),
-                SizedBox(height: 5),
-                Row(
+                BaseImage(ImageType.smallSquare, eventList['picture']),
+                SizedBox(width: 8),
+                Flexible(
+                    child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Tags(TagsType.medium, "Guest", TagsColors.greenTag),
-                    SizedBox(width: 5),
-                    Tags(TagsType.medium, "Jeux vidéo", TagsColors.purpleTag),
-                    SizedBox(width: 5),
-                    Tags(TagsType.medium, "Promo", TagsColors.blueTag),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flexible(
+                            flex: 5,
+                            child: BaseText(
+                                TextType.littleBoldText, eventList['title'],
+                                textMaxSize: 55)),
+                        Flexible(
+                            flex: 1,
+                            child: BaseText(
+                                TextType.littleBoldText, eventList['km'])),
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Tags(TagsType.medium, "Guest", TagsColors.greenTag),
+                        SizedBox(width: 5),
+                        Tags(TagsType.medium, "Jeux vidéo",
+                            TagsColors.purpleTag),
+                        SizedBox(width: 5),
+                        Tags(TagsType.medium, "Promo", TagsColors.blueTag),
+                      ],
+                    ),
                   ],
-                ),
-              ],
-            ),
-          ]),
-    );
+                )),
+              ]),
+        ));
   }
 }

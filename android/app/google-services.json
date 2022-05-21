@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "548203551726",
+    "project_id": "maelstrom-2aa1c",
+    "storage_bucket": "maelstrom-2aa1c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548203551726:android:33c90c88305d03670b4cff",
+        "android_client_info": {
+          "package_name": "com.example.maelstrom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548203551726-sfn9m5eg9uk5jm272f2diqmeltgkkm52.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-7BRwTPdg06vJ3JMZgmf7i0sqkFEqWq0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548203551726-sfn9m5eg9uk5jm272f2diqmeltgkkm52.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "548203551726-78l82ptsu6k4p1s0a3eco2gv96t3h0vh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.maelstrom"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
