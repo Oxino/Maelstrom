@@ -3,6 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:maelstrom/pages/auth.dart';
+import 'package:maelstrom/pages/verify_email.dart';
+// import 'package:maelstrom/widgets/utils.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -11,16 +14,16 @@ import 'package:maelstrom/config.dart';
 import 'package:maelstrom/bloc/bloc_provider.dart';
 import 'package:maelstrom/bloc/application_bloc.dart';
 
-import 'package:maelstrom/pages/home.dart';
-import 'package:maelstrom/pages/list.dart';
-import 'package:maelstrom/pages/login.dart';
-import 'package:maelstrom/pages/map.dart';
-import 'package:maelstrom/widgets/base_app_bar.dart';
+// import 'package:maelstrom/pages/home.dart';
+// import 'package:maelstrom/pages/list.dart';
+// import 'package:maelstrom/pages/auth.dart';
+// import 'package:maelstrom/pages/map.dart';
+// import 'package:maelstrom/widgets/base_app_bar.dart';
 
-import 'package:maelstrom/widgets/base_navigation_bar.dart';
-import 'package:maelstrom/widgets/home/home_app_bar.dart';
+// import 'package:maelstrom/widgets/base_navigation_bar.dart';
+// import 'package:maelstrom/widgets/home/home_app_bar.dart';
 
-// import 'package:maelstrom/pages/main_screen.dart';
+// import 'pages/user.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,11 +34,14 @@ Future main() async {
       BlocProvider<ApplicationBloc>(bloc: ApplicationBloc(), child: MyApp()));
 }
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final ApplicationBloc pageBloc = BlocProvider.of<ApplicationBloc>(context);
     return MaterialApp(
+      // scaffoldMessengerKey: Utils.messengerKey,
+      navigatorKey: navigatorKey,
       theme: ThemeData(
         highlightColor: Colors.transparent,
         hoverColor: Colors.transparent,
@@ -52,54 +58,60 @@ class MyApp extends StatelessWidget {
       home: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Scaffold(
-                backgroundColor: ThemeColors.backgroundColor,
-                appBar: HomeAppBar(),
-                // buildBar(),
-                body: StreamBuilder<PageType>(
-                    stream: pageBloc.streamPage,
-                    initialData: PageType.login,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<PageType> snapshot) {
-                      return _buildPages(snapshot.requireData)[1];
-                    }),
-                bottomNavigationBar: BaseNavigationBar(),
-              );
-            } else {
-              return Scaffold(
-                  backgroundColor: ThemeColors.backgroundColor,
-                  body: LoginPage());
-            }
+            return snapshot.hasData
+                ? VerifyEmailPage()
+                : Scaffold(
+                    backgroundColor: ThemeColors.backgroundColor,
+                    appBar: AppBar(
+                      titleSpacing: 0,
+                      elevation: 0.0,
+                      backgroundColor: ThemeColors.backgroundColor,
+                    ),
+                    body: AuthPage());
           }),
     );
   }
 }
 
-_buildPages(PageType type) {
-  switch (type) {
-    case PageType.home:
-      {
-        return [HomeAppBar(), HomePage()];
-      }
-    case PageType.login:
-      {
-        return [BaseAppBar("Login"), LoginPage()];
-      }
+// _getCurentPage(isConnected) {
+//   if (!isConnected) {
+//     return [
+//       Scaffold(
+//           backgroundColor: ThemeColors.backgroundColor,
+//           appBar: AppBar(
+//             titleSpacing: 0,
+//             elevation: 0.0,
+//             backgroundColor: ThemeColors.backgroundColor,
+//           ),
+//           body: AuthPage())
+//     ];
+//   } else {
+//     return VerifyEmailPage();
 
-    case PageType.map:
-      {
-        return [BaseAppBar("Map"), MapPage()];
-      }
-
-    case PageType.list:
-      {
-        return [BaseAppBar("Map"), ListPage()];
-      }
-
-    default:
-      {
-        return [HomeAppBar(), HomePage()];
-      }
-  }
-}
+//     // switch (type) {
+//     //   case PageType.home:
+//     //     {
+//     //       return [HomeAppBar(), HomePage()];
+//     //     }
+//     //   case PageType.list:
+//     //     {
+//     //       return [BaseAppBar("Map"), ListPage()];
+//     //     }
+//     //   case PageType.map:
+//     //     {
+//     //       return [BaseAppBar("Map"), MapPage()];
+//     //     }
+//     //   case PageType.user:
+//     //     {
+//     //       return [
+//     //         BaseAppBar(FirebaseAuth.instance.currentUser!.email!),
+//     //         UserPage()
+//     //       ];
+//     //     }
+//     //   default:
+//     //     {
+//     //       return [HomeAppBar(), HomePage()];
+//     //     }
+//     // }
+//   }
+// }

@@ -50,7 +50,7 @@ class PromoteSection extends StatelessWidget {
                 Tags(TagsType.small, "Célibataire", TagsColors.purpleTag),
               ],
             ),
-            BaseButton(ButtonsType.small),
+            BaseButton(ButtonsType.small, () {}),
           ],
         ),
       ]),

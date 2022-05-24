@@ -96,7 +96,7 @@ class RecoCard extends StatelessWidget {
                     Tags(TagsType.bubble, "test", TagsColors.redTag),
                   ],
                 ),
-                BaseButton(ButtonsType.icon),
+                BaseButton(ButtonsType.icon, () {}),
               ],
             )
           ]),

@@ -6,7 +6,9 @@ import 'package:maelstrom/config.dart';
 class BaseButton extends StatelessWidget {
   final ButtonsType buttonType;
   final String buttonText;
-  BaseButton(ButtonsType this.buttonType, [String this.buttonText = "Y aller !"]);
+  final buttonFunction;
+  BaseButton(ButtonsType this.buttonType, Function this.buttonFunction,
+      [String this.buttonText = "Y aller !"]);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,9 +40,11 @@ class BaseButton extends StatelessWidget {
                         TextStyle(fontSize: _buildButtonFontSize(buttonType)),
                   ),
           ),
-          onPressed: () {}),
+          onPressed: buttonFunction),
     );
   }
+
+  _defaultFunction() {}
 
   _buildButtonFontSize(ButtonsType type) {
     switch (type) {

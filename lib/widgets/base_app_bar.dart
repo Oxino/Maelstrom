@@ -5,6 +5,9 @@ import 'package:maelstrom/widgets/base_text.dart';
 
 import 'package:maelstrom/config.dart';
 
+import '../bloc/application_bloc.dart';
+import '../bloc/bloc_provider.dart';
+
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => new Size.fromHeight(60);
   final String textBar;
@@ -13,8 +16,8 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
       [Color this.backgroundBar = ThemeColors.backgroundColor]);
   @override
   Widget build(BuildContext context) {
+    final ApplicationBloc pageBloc = BlocProvider.of<ApplicationBloc>(context);
     return AppBar(
-      // leadingWidth: 0,
       titleSpacing: 0,
       elevation: 0.0,
       leading: IconButton(
@@ -25,7 +28,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
             'assets/icons/arrow-back.svg',
           ),
         ),
-        onPressed: () => Navigator.of(context).pop(),
+        onPressed: () => pageBloc.setChangePage(PageType.home),
       ),
       automaticallyImplyLeading: false,
       title: BaseText(TextType.pageTitle, textBar),

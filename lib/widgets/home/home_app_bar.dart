@@ -3,12 +3,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:maelstrom/config.dart';
 
-import 'package:maelstrom/pages/user.dart';
+import '../../bloc/application_bloc.dart';
+import '../../bloc/bloc_provider.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => new Size.fromHeight(60);
   @override
   Widget build(BuildContext context) {
+    final ApplicationBloc pageBloc = BlocProvider.of<ApplicationBloc>(context);
     return AppBar(
       leadingWidth: 0,
       titleSpacing: 0,
@@ -32,12 +34,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                     child: SvgPicture.asset(
                       'assets/icons/user.svg',
                     )),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => UserPage()),
-                  );
-                }),
+                onPressed: () => pageBloc.setChangePage(PageType.user)),
           ])),
       backgroundColor: ThemeColors.backgroundColor,
     );

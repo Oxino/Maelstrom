@@ -14,7 +14,7 @@ enum TextType {
   smallText
 }
 enum ImageType { big, promote, reco, square, smallSquare }
-enum PageType { home, list, map, login }
+enum PageType { home, list, map, user, login }
 
 class ThemeColors {
   static const principaleColor = Color(0xFF236BFE);
