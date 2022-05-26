@@ -1,13 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:maelstrom/config.dart';
-
-import 'package:maelstrom/models/curent_user.dart';
 
 import 'package:maelstrom/widgets/base_button.dart';
 import 'package:maelstrom/widgets/base_text.dart';
@@ -20,8 +16,10 @@ import '../../main.dart';
 // class HomePage extends BasePage {
 class SignUpWidget extends StatefulWidget {
   final VoidCallback onClickedSignUp;
+  final authenticationService;
 
-  const SignUpWidget({
+  const SignUpWidget(
+    this.authenticationService, {
     Key? key,
     required this.onClickedSignUp,
   }) : super(key: key);
@@ -31,7 +29,8 @@ class SignUpWidget extends StatefulWidget {
 
 class _SignUpWidgetState extends State<SignUpWidget> {
   final formKey = GlobalKey<FormState>();
-  final usernameController = TextEditingController();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -39,6 +38,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
 
     super.dispose();
   }
@@ -64,10 +65,17 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               BaseText(TextType.sectionTitle, "Créer mon compte"),
               SizedBox(height: 20),
               FormInput(
-                  usernameController,
-                  "Votre nom d'utilisateur",
-                  (usernae) => usernae != null && usernae.length < 6
-                      ? "Le nom d'utilisateur doit faire au moins 6 characters"
+                  firstNameController,
+                  "Votre prénom",
+                  (firstName) => firstName != null && firstName.length < 2
+                      ? "Votre prénom doit faire au moins 2 characters"
+                      : null),
+              SizedBox(height: 20),
+              FormInput(
+                  lastNameController,
+                  "Votre nom",
+                  (lastName) => lastName != null && lastName.length < 2
+                      ? "Votre nom doit faire au moins 2 characters"
                       : null),
               SizedBox(height: 20),
               FormInput(
@@ -111,6 +119,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
   Future signUp() async {
     final isValid = formKey.currentState!.validate();
+    final formFirstName = firstNameController.text.trim();
+    final formLastName = lastNameController.text.trim();
+    final formEmail = emailController.text.trim();
 
     if (!isValid) return;
 
@@ -121,31 +132,13 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               child: CircularProgressIndicator(),
             ));
 
-    createUser(usernameController, emailController);
-    try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    widget.authenticationService.signUpWithEmail(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
-      );
-    } on FirebaseException catch (e) {
-      print(e);
-      if (e.code == 'weak-password') {
-        print('Le mot de passe est trop faible');
-      } else if (e.code == 'email-already-in-use') {
-        print('un compte existe déjà pour cet email');
-      }
-      // Utils.showSnackBar(e.message);
-    }
+        firstName: firstNameController.text.trim(),
+        lastName: lastNameController.text.trim());
 
     // Navigatio.of(context) not working !
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
-  }
-
-  Future createUser(userName, email) async {
-    final docUser = FirebaseFirestore.instance.collection('users').doc();
-    final user = CurentUser(id: docUser.id, userName: userName, email: email);
-    final json = user.toJson();
-
-    await docUser.set(json);
   }
 }

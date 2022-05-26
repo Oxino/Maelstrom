@@ -1,15 +1,29 @@
 class CurentUser {
   final String id;
-  final String userName;
+  final String firstName;
+  final String lastName;
   final String email;
-  CurentUser({this.id = '', required this.userName, required this.email});
-  // User.fromData(Map<String, dynamic> data)
-  //     : id = data['id'],
-  //       userName = data['userName'],
-  //       email = data['email'];
+  List<String> favorite = [];
+
+  CurentUser(
+      {required this.id,
+      required this.firstName,
+      required this.lastName,
+      required this.email,
+      favorite});
+
+  CurentUser.fromData(Map<String, dynamic> data)
+      : id = data['id'],
+        firstName = data['firstName'],
+        lastName = data['lastName'],
+        email = data['email'],
+        favorite = data['favorite'];
+
   Map<String, dynamic> toJson() => {
         'id': id,
-        'userName': userName,
+        'firstName': firstName,
+        'lastName': lastName,
         'email': email,
+        'favorite': favorite,
       };
 }

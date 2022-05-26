@@ -7,8 +7,13 @@ class BaseButton extends StatelessWidget {
   final ButtonsType buttonType;
   final String buttonText;
   final buttonFunction;
+  final List<Color> buttonColor;
   BaseButton(ButtonsType this.buttonType, Function this.buttonFunction,
-      [String this.buttonText = "Y aller !"]);
+      [String this.buttonText = "Y aller !",
+      List<Color> this.buttonColor = const [
+        ThemeColors.principaleColor,
+        ThemeColors.radientColor
+      ]]);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,7 +23,7 @@ class BaseButton extends StatelessWidget {
         gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFF236BFE), Color(0xFF074AD1)]),
+            colors: [buttonColor[0], buttonColor[1]]),
       ),
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
@@ -43,8 +48,6 @@ class BaseButton extends StatelessWidget {
           onPressed: buttonFunction),
     );
   }
-
-  _defaultFunction() {}
 
   _buildButtonFontSize(ButtonsType type) {
     switch (type) {

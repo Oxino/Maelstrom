@@ -24,7 +24,6 @@ class BaseNavigationBar extends StatelessWidget {
                 onTap: (value) {
                   pageBloc.setChangePage(_pageIndexToEnum(value));
                   pageIndex = value;
-                  print(value);
                 },
                 items: [
                   BottomNavigationBarItem(

@@ -8,12 +8,18 @@ import 'package:maelstrom/widgets/base_text.dart';
 import 'package:maelstrom/widgets/pageState.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+// import 'package:maelstrom/bloc/firestoreService.dart';
+
 class VerifyEmailPage extends StatefulWidget {
+  final authenticationService;
+  VerifyEmailPage(this.authenticationService);
   @override
-  _VerifyEmailPageState createState() => _VerifyEmailPageState();
+  _VerifyEmailPageState createState() =>
+      _VerifyEmailPageState();
 }
 
 class _VerifyEmailPageState extends State<VerifyEmailPage> {
+
   bool isEmailVerified = false;
   Timer? timer;
 
@@ -21,12 +27,9 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   void initState() {
     super.initState();
 
-    //user needs to be created before!
     isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
 
-    if (!isEmailVerified) {
-      sendVerificationEmail();
-
+    if (widget.authenticationService.isInitEmailVerification()) {
       timer = Timer.periodic(Duration(seconds: 3), (_) => checkEmailVerified());
     }
   }
@@ -36,30 +39,19 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
     await FirebaseAuth.instance.currentUser!.reload();
 
     setState(() {
-      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+      isEmailVerified = widget.authenticationService.checkEmailVerified();
+      // isEmailVerified = true;
     });
 
     if (isEmailVerified) {
       timer?.cancel();
-      
-    } 
+    }
   }
 
   @override
   void dispose() {
     timer?.cancel();
-
     super.dispose();
-  }
-
-  Future sendVerificationEmail() async {
-    try {
-      final user = FirebaseAuth.instance.currentUser!;
-      await user.sendEmailVerification();
-    } catch (e) {
-      print(e);
-      // Utils.showSnackBar(e.toString());
-    }
   }
 
   @override

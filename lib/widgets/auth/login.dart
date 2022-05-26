@@ -17,11 +17,15 @@ import '../base_text.dart';
 
 // class HomePage extends BasePage {
 class LoginWidget extends StatefulWidget {
+  final VoidCallback onClickedBusiness;
   final VoidCallback onClickedSignUp;
+  final bool isBusiness;
 
   const LoginWidget({
     Key? key,
+    required this.onClickedBusiness,
     required this.onClickedSignUp,
+    required this.isBusiness,
   }) : super(key: key);
   @override
   _LoginWidgetState createState() => _LoginWidgetState();
@@ -31,6 +35,9 @@ class _LoginWidgetState extends State<LoginWidget> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  // final bool isBusiness;
+
+  // _LoginWidgetState(this.isBusiness);
 
   @override
   void dispose() {
@@ -53,12 +60,18 @@ class _LoginWidgetState extends State<LoginWidget> {
               SizedBox(
                 height: 150, // Your Height
                 width: 150,
-                child: SvgPicture.asset(
-                  'assets/icons/maelstrom.svg',
-                ),
+                child: widget.isBusiness
+                    ? SvgPicture.asset(
+                        'assets/icons/maelstrom_business.svg',
+                      )
+                    : SvgPicture.asset(
+                        'assets/icons/maelstrom.svg',
+                      ),
               ),
               SizedBox(height: 30),
-              BaseText(TextType.megaTitle, "MAELSTRÖM"),
+              widget.isBusiness
+                  ? BaseText(TextType.sectionTitle, "MAELSTRÖM BUSINESS")
+                  : BaseText(TextType.megaTitle, "MAELSTRÖM"),
               SizedBox(height: 60),
               FormInput(
                   emailController,
@@ -75,11 +88,18 @@ class _LoginWidgetState extends State<LoginWidget> {
                       : null,
                   true),
               SizedBox(height: 20),
-              BaseButton(ButtonsType.big, signIn, "Connexion"),
+              widget.isBusiness
+                  ? BaseButton(ButtonsType.big, signIn, "Connexion", [
+                      ThemeColors.principaleBusinessColor,
+                      ThemeColors.radientBusinessColor
+                    ])
+                  : BaseButton(ButtonsType.big, signIn, "Connexion"),
               SizedBox(height: 20),
               GestureDetector(
                 child: BaseText(TextType.littleText, 'Mot de passe oublié ?',
-                    textColor: ThemeColors.principaleColor),
+                    textColor: widget.isBusiness
+                        ? ThemeColors.principaleBusinessColor
+                        : ThemeColors.principaleColor),
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => ForgotPasswordPage())),
               ),
@@ -98,8 +118,41 @@ class _LoginWidgetState extends State<LoginWidget> {
                         style: GoogleFonts.poppins(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: ThemeColors.principaleColor),
+                            color: widget.isBusiness
+                                ? ThemeColors.principaleBusinessColor
+                                : ThemeColors.principaleColor),
                         text: "Créer en un")
+                  ])),
+              SizedBox(height: 15),
+              RichText(
+                  text: TextSpan(
+                      style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: ThemeColors.whiteColor),
+                      text: widget.isBusiness
+                          ? "Vous voules savoir ou sortir avec vos amis ?"
+                          : "Vous êtes directeur d'un établissement ?")),
+              RichText(
+                  text: TextSpan(
+                      style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: ThemeColors.whiteColor),
+                      text: "Découvrez :  ",
+                      children: [
+                    TextSpan(
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = widget.onClickedBusiness,
+                        style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: widget.isBusiness
+                                ? ThemeColors.principaleColor
+                                : ThemeColors.principaleBusinessColor),
+                        text: widget.isBusiness
+                            ? "Maelström"
+                            : "Maelström Business")
                   ])),
             ],
           ),
