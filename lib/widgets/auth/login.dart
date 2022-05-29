@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,11 +16,13 @@ import '../base_text.dart';
 
 // class HomePage extends BasePage {
 class LoginWidget extends StatefulWidget {
+  final authenticationService;
   final VoidCallback onClickedBusiness;
   final VoidCallback onClickedSignUp;
   final bool isBusiness;
 
-  const LoginWidget({
+  const LoginWidget(
+    this.authenticationService, {
     Key? key,
     required this.onClickedBusiness,
     required this.onClickedSignUp,
@@ -49,6 +50,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final isBusiness = widget.isBusiness;
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 30),
         child: Form(
@@ -60,7 +62,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               SizedBox(
                 height: 150, // Your Height
                 width: 150,
-                child: widget.isBusiness
+                child: isBusiness
                     ? SvgPicture.asset(
                         'assets/icons/maelstrom_business.svg',
                       )
@@ -69,26 +71,26 @@ class _LoginWidgetState extends State<LoginWidget> {
                       ),
               ),
               SizedBox(height: 30),
-              widget.isBusiness
+              isBusiness
                   ? BaseText(TextType.sectionTitle, "MAELSTRÖM BUSINESS")
                   : BaseText(TextType.megaTitle, "MAELSTRÖM"),
               SizedBox(height: 60),
-              FormInput(
+              FormInputText(
                   emailController,
                   'Votre email',
                   (email) => email != null && !EmailValidator.validate(email)
                       ? 'Entrer un email valide'
                       : null),
               SizedBox(height: 20),
-              FormInput(
+              FormInputText(
                   passwordController,
                   'Votre mot de passe',
-                  (value) => value != null && value.length < 6
-                      ? 'Le mot de passe doit faire au moins 6 characters'
+                  (value) => value != null && value.length < 5
+                      ? 'Le mot de passe doit faire au moins 5 characters'
                       : null,
                   true),
               SizedBox(height: 20),
-              widget.isBusiness
+              isBusiness
                   ? BaseButton(ButtonsType.big, signIn, "Connexion", [
                       ThemeColors.principaleBusinessColor,
                       ThemeColors.radientBusinessColor
@@ -97,7 +99,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               SizedBox(height: 20),
               GestureDetector(
                 child: BaseText(TextType.littleText, 'Mot de passe oublié ?',
-                    textColor: widget.isBusiness
+                    textColor: isBusiness
                         ? ThemeColors.principaleBusinessColor
                         : ThemeColors.principaleColor),
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
@@ -118,7 +120,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         style: GoogleFonts.poppins(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: widget.isBusiness
+                            color: isBusiness
                                 ? ThemeColors.principaleBusinessColor
                                 : ThemeColors.principaleColor),
                         text: "Créer en un")
@@ -130,7 +132,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
                           color: ThemeColors.whiteColor),
-                      text: widget.isBusiness
+                      text: isBusiness
                           ? "Vous voules savoir ou sortir avec vos amis ?"
                           : "Vous êtes directeur d'un établissement ?")),
               RichText(
@@ -147,12 +149,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                         style: GoogleFonts.poppins(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: widget.isBusiness
+                            color: isBusiness
                                 ? ThemeColors.principaleColor
                                 : ThemeColors.principaleBusinessColor),
-                        text: widget.isBusiness
-                            ? "Maelström"
-                            : "Maelström Business")
+                        text: isBusiness ? "Maelström" : "Maelström Business")
                   ])),
             ],
           ),
@@ -170,16 +170,19 @@ class _LoginWidgetState extends State<LoginWidget> {
               child: CircularProgressIndicator(),
             ));
 
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-      );
-    } on FirebaseException catch (e) {
-      print(e);
+    widget.authenticationService.signIn(widget.isBusiness,
+        emailController.text.trim(), passwordController.text.trim());
 
-      // Utils.showSnackBar(e.message);
-    }
+    // try {
+    //   await FirebaseAuth.instance.signInWithEmailAndPassword(
+    //     email: emailController.text.trim(),
+    //     password: passwordController.text.trim(),
+    //   );
+    // } on FirebaseException catch (e) {
+    //   print(e);
+
+    // Utils.showSnackBar(e.message);
+    // }
 
     // Navigatio.of(context) not working !
     navigatorKey.currentState!.popUntil((route) => route.isFirst);

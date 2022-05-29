@@ -64,28 +64,28 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               SizedBox(height: 30),
               BaseText(TextType.sectionTitle, "Créer mon compte"),
               SizedBox(height: 20),
-              FormInput(
+              FormInputText(
                   firstNameController,
                   "Votre prénom",
                   (firstName) => firstName != null && firstName.length < 2
                       ? "Votre prénom doit faire au moins 2 characters"
                       : null),
               SizedBox(height: 20),
-              FormInput(
+              FormInputText(
                   lastNameController,
                   "Votre nom",
                   (lastName) => lastName != null && lastName.length < 2
                       ? "Votre nom doit faire au moins 2 characters"
                       : null),
               SizedBox(height: 20),
-              FormInput(
+              FormInputText(
                   emailController,
                   'Votre email',
                   (email) => email != null && !EmailValidator.validate(email)
                       ? 'Entrer un email valide'
                       : null),
               SizedBox(height: 20),
-              FormInput(
+              FormInputText(
                   passwordController,
                   'Votre mot de passe',
                   (value) => value != null && value.length < 6
@@ -119,9 +119,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
   Future signUp() async {
     final isValid = formKey.currentState!.validate();
-    final formFirstName = firstNameController.text.trim();
-    final formLastName = lastNameController.text.trim();
-    final formEmail = emailController.text.trim();
 
     if (!isValid) return;
 

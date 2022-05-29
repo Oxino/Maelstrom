@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 
 import 'package:maelstrom/config.dart';
 import 'package:maelstrom/widgets/base_text.dart';
-import 'package:maelstrom/widgets/tags.dart';
+import 'package:maelstrom/widgets/tags_widget.dart';
 import 'package:maelstrom/widgets/base_image.dart';
 
-class ListPage extends StatelessWidget {
+class EventPage extends StatelessWidget {
   final List eventList = [
     {
       'title':
@@ -101,12 +101,14 @@ class EventList extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Tags(TagsType.medium, "Guest", TagsColors.greenTag),
+                        TagsWidget(
+                            TagsType.medium, "Guest", TagsColors.greenTag),
                         SizedBox(width: 5),
-                        Tags(TagsType.medium, "Jeux vidéo",
+                        TagsWidget(TagsType.medium, "Jeux vidéo",
                             TagsColors.purpleTag),
                         SizedBox(width: 5),
-                        Tags(TagsType.medium, "Promo", TagsColors.blueTag),
+                        TagsWidget(
+                            TagsType.medium, "Promo", TagsColors.blueTag),
                       ],
                     ),
                   ],

@@ -8,7 +8,7 @@ class BaseButton extends StatelessWidget {
   final String buttonText;
   final buttonFunction;
   final List<Color> buttonColor;
-  BaseButton(ButtonsType this.buttonType, Function this.buttonFunction,
+  BaseButton(ButtonsType this.buttonType, void Function()? this.buttonFunction,
       [String this.buttonText = "Y aller !",
       List<Color> this.buttonColor = const [
         ThemeColors.principaleColor,
@@ -25,7 +25,7 @@ class BaseButton extends StatelessWidget {
             end: Alignment.bottomCenter,
             colors: [buttonColor[0], buttonColor[1]]),
       ),
-      child: ElevatedButton(
+      child: TextButton(
           style: ElevatedButton.styleFrom(
             primary: Colors.transparent,
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -33,7 +33,9 @@ class BaseButton extends StatelessWidget {
             padding: EdgeInsets.zero,
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            padding: buttonType == ButtonsType.big
+                ? EdgeInsets.symmetric(vertical: 10, horizontal: 30)
+                : EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             child: buttonType == ButtonsType.icon
                 ? SvgPicture.asset(
                     'assets/icons/button-icon.svg',
@@ -41,8 +43,10 @@ class BaseButton extends StatelessWidget {
                   )
                 : Text(
                     buttonText,
-                    style:
-                        TextStyle(fontSize: _buildButtonFontSize(buttonType)),
+                    style: TextStyle(
+                        fontSize: _buildButtonFontSize(buttonType),
+                        color: ThemeColors.whiteColor,
+                        fontWeight: FontWeight.w600),
                   ),
           ),
           onPressed: buttonFunction),

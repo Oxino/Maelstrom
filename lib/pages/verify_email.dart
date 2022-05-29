@@ -5,7 +5,7 @@ import 'dart:async';
 
 import 'package:maelstrom/widgets/base_text.dart';
 
-import 'package:maelstrom/widgets/pageState.dart';
+import 'package:maelstrom/widgets/pageStream.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 // import 'package:maelstrom/bloc/firestoreService.dart';
@@ -14,18 +14,19 @@ class VerifyEmailPage extends StatefulWidget {
   final authenticationService;
   VerifyEmailPage(this.authenticationService);
   @override
-  _VerifyEmailPageState createState() =>
-      _VerifyEmailPageState();
+  _VerifyEmailPageState createState() => _VerifyEmailPageState();
 }
 
 class _VerifyEmailPageState extends State<VerifyEmailPage> {
-
   bool isEmailVerified = false;
   Timer? timer;
+  bool isBusinessUser = false;
 
   @override
   void initState() {
     super.initState();
+
+    isBusinessUser = widget.authenticationService.isBusinessUser;
 
     isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
 
@@ -44,6 +45,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
     });
 
     if (isEmailVerified) {
+      isBusinessUser = widget.authenticationService.isBusinessUser;
       timer?.cancel();
     }
   }
@@ -56,7 +58,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
   @override
   Widget build(BuildContext context) => isEmailVerified
-      ? PageState()
+      ? UserApp(isBusinessUser)
       : Scaffold(
           backgroundColor: ThemeColors.backgroundColor,
           body: Padding(

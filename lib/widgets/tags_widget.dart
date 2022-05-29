@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:maelstrom/config.dart';
 
-class Tags extends StatelessWidget {
+class TagsWidget extends StatelessWidget {
   final TagsType tagType;
   final String tagText;
   final Color tagColor;
-  Tags(TagsType this.tagType, String this.tagText, Color this.tagColor);
+  TagsWidget(TagsType this.tagType, String this.tagText, Color this.tagColor);
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class CurentUser {
   final String id;
   final String firstName;
@@ -12,7 +14,7 @@ class CurentUser {
       required this.email,
       favorite});
 
-  CurentUser.fromData(Map<String, dynamic> data)
+  CurentUser.fromData(DocumentSnapshot<Object?> data)
       : id = data['id'],
         firstName = data['firstName'],
         lastName = data['lastName'],

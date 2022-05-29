@@ -16,6 +16,7 @@ import 'package:maelstrom/bloc/bloc_provider.dart';
 import 'package:maelstrom/bloc/application_bloc.dart';
 
 Future main() async {
+  Paint.enableDithering = true;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
         highlightColor: Colors.transparent,
         hoverColor: Colors.transparent,
         splashColor: Colors.transparent,
-        primaryColor: Color(0xFF236BFE),
+        primaryColor: ThemeColors.principaleBusinessColor,
         backgroundColor: Color(0xFF181929),
         fontFamily: GoogleFonts.poppins(
           color: ThemeColors.whiteColor,

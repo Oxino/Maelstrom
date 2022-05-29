@@ -22,14 +22,14 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) => isBusiness
       ? isLogin
-          ? LoginWidget(
+          ? LoginWidget(authenticationService,
               onClickedBusiness: toggleBusiness,
               onClickedSignUp: toggleLoginUser,
               isBusiness: isBusiness)
           : SignUpBusinessWidget(authenticationService,
               onClickedSignUp: toggleLoginUser)
       : isBusinessLogin
-          ? LoginWidget(
+          ? LoginWidget(authenticationService,
               onClickedBusiness: toggleBusiness,
               onClickedSignUp: toggleLoginBusiness,
               isBusiness: isBusiness)

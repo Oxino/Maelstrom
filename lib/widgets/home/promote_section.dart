@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:maelstrom/config.dart';
 
-import 'package:maelstrom/widgets/tags.dart';
+import 'package:maelstrom/widgets/tags_widget.dart';
 import 'package:maelstrom/widgets/base_button.dart';
 import 'package:maelstrom/widgets/base_text.dart';
 import 'package:maelstrom/widgets/base_image.dart';
@@ -43,11 +43,11 @@ class PromoteSection extends StatelessWidget {
           children: [
             Row(
               children: [
-                Tags(TagsType.small, "Célibataire", TagsColors.yellowTag),
+                TagsWidget(TagsType.small, "Célibataire", TagsColors.yellowTag),
                 SizedBox(width: 5),
-                Tags(TagsType.small, "Célibataire", TagsColors.blueTag),
+                TagsWidget(TagsType.small, "Célibataire", TagsColors.blueTag),
                 SizedBox(width: 5),
-                Tags(TagsType.small, "Célibataire", TagsColors.purpleTag),
+                TagsWidget(TagsType.small, "Célibataire", TagsColors.purpleTag),
               ],
             ),
             BaseButton(ButtonsType.small, () {}),

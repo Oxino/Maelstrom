@@ -4,7 +4,7 @@ import 'package:maelstrom/widgets/base_text.dart';
 
 import 'package:maelstrom/config.dart';
 
-import 'package:maelstrom/widgets/tags.dart';
+import 'package:maelstrom/widgets/tags_widget.dart';
 import 'package:maelstrom/widgets/base_image.dart';
 
 class RecoSection extends StatelessWidget {
@@ -89,11 +89,11 @@ class RecoCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Tags(TagsType.bubble, "test", TagsColors.yellowTag),
+                    TagsWidget(TagsType.bubble, "test", TagsColors.yellowTag),
                     SizedBox(width: 5),
-                    Tags(TagsType.bubble, "test", TagsColors.blueTag),
+                    TagsWidget(TagsType.bubble, "test", TagsColors.blueTag),
                     SizedBox(width: 5),
-                    Tags(TagsType.bubble, "test", TagsColors.redTag),
+                    TagsWidget(TagsType.bubble, "test", TagsColors.redTag),
                   ],
                 ),
                 BaseButton(ButtonsType.icon, () {}),

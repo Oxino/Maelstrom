@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Business {
   String id;
   String institutionName;
@@ -9,17 +11,17 @@ class Business {
   String email;
 
   Business({
-    this.id = "",
-    this.institutionName = "",
-    this.siret = "",
-    this.address = "",
-    this.description = "",
-    this.firstName = "",
-    this.lastName = "",
-    this.email = "",
+    required this.id,
+    required this.institutionName,
+    required this.siret,
+    required this.address,
+    required this.description,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
   });
 
-  Business.fromData(Map<String, dynamic> data)
+  Business.fromData(DocumentSnapshot<Object?> data)
       : id = data['id'],
         institutionName = data['institutionName'],
         siret = data['siret'],

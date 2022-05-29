@@ -7,7 +7,7 @@ import 'package:maelstrom/bloc/application_bloc.dart';
 
 import 'package:maelstrom/widgets/item_navigation_bar.dart';
 
-class BaseNavigationBar extends StatelessWidget {
+class BusinessNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ApplicationBloc pageBloc = BlocProvider.of<ApplicationBloc>(context);
@@ -25,21 +25,14 @@ class BaseNavigationBar extends StatelessWidget {
                 },
                 items: [
                   BottomNavigationBarItem(
-                    icon: ItemNavigationBar('Home', 'assets/icons/home.svg'),
-                    activeIcon: ItemNavigationBarActive(
-                        'Home', 'assets/icons/home.svg'),
-                    label: '',
-                  ),
+                      icon: ItemNavigationBar('Home', 'assets/icons/home.svg'),
+                      activeIcon: ItemNavigationBarActive(
+                          'Dashboard', 'assets/icons/home.svg', true),
+                      label: ''),
                   BottomNavigationBarItem(
                     icon: ItemNavigationBar('Liste', 'assets/icons/list.svg'),
                     activeIcon: ItemNavigationBarActive(
-                        'Liste', 'assets/icons/list.svg'),
-                    label: '',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: ItemNavigationBar('Map', 'assets/icons/map.svg'),
-                    activeIcon:
-                        ItemNavigationBarActive('Map', 'assets/icons/map.svg'),
+                        'Event', 'assets/icons/list.svg', true),
                     label: '',
                   ),
                 ],
@@ -54,22 +47,17 @@ class BaseNavigationBar extends StatelessWidget {
     switch (type) {
       case 0:
         {
-          return PageType.home;
+          return PageType.dashboard;
         }
 
       case 1:
         {
-          return PageType.list;
-        }
-
-      case 2:
-        {
-          return PageType.map;
+          return PageType.businessEvent;
         }
 
       default:
         {
-          return PageType.home;
+          return PageType.dashboard;
         }
     }
   }

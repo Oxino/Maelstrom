@@ -14,13 +14,22 @@ enum TextType {
   smallText
 }
 enum ImageType { big, promote, reco, square, smallSquare }
-enum PageType { home, list, map, user, login }
+enum PageType {
+  home,
+  list,
+  map,
+  user,
+  login,
+  dashboard,
+  createEvent,
+  businessEvent
+}
 
 class ThemeColors {
   static const principaleColor = Color(0xFFBB82EC);
   static const principaleBusinessColor = Color(0xFF236BFE);
   static const radientColor = Color(0xFF7F20D1);
-  static const radientBusinessColor = Color(0xFF5707D1);
+  static const radientBusinessColor = Color(0xFF074AD1);
   static const backgroundColor = Color(0xFF181929);
   static const fondColor = Color(0xFF181929);
   static const whiteColor = Color(0xFFf1f1f1);
