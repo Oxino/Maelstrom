@@ -57,7 +57,7 @@ class UserApp extends StatelessWidget {
           {
             return [
               BusinessEventAppBar(),
-              EventPage(),
+              BusinessEventPage(),
               BusinessNavigationBar()
             ];
           }

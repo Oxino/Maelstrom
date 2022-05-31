@@ -10,6 +10,7 @@ class TagsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(right: 5),
       padding: tagType == TagsType.bubble
           ? EdgeInsets.all(5)
           : EdgeInsets.symmetric(vertical: 5, horizontal: 10),

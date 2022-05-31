@@ -8,6 +8,9 @@ import 'package:maelstrom/widgets/base_text.dart';
 import 'package:maelstrom/widgets/base_image.dart';
 
 class PromoteSection extends StatelessWidget {
+  final eventName;
+  final eventTags;
+  PromoteSection(this.eventName, this.eventTags);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,12 +29,10 @@ class PromoteSection extends StatelessWidget {
             Expanded(
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              // mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                BaseText(TextType.bodyBoldText,
-                    "Soirée célib! Faites des rencontres!"),
+                BaseText(TextType.bodyBoldText, eventName),
                 SizedBox(height: 10),
-                BaseText(TextType.littleText, "La casa"),
+                BaseText(TextType.littleText, 'Lieu'),
               ],
             ))
           ],
@@ -42,14 +43,10 @@ class PromoteSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
-              children: [
-                TagsWidget(TagsType.small, "Célibataire", TagsColors.yellowTag),
-                SizedBox(width: 5),
-                TagsWidget(TagsType.small, "Célibataire", TagsColors.blueTag),
-                SizedBox(width: 5),
-                TagsWidget(TagsType.small, "Célibataire", TagsColors.purpleTag),
-              ],
-            ),
+                children: eventTags.map<Widget>((tag) {
+                 if (eventTags.indexOf(tag) > 3) return Container();
+              return TagsWidget(TagsType.small, tag, TagsColors.yellowTag);
+            }).toList()),
             BaseButton(ButtonsType.small, () {}),
           ],
         ),

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:maelstrom/bloc/application_bloc.dart';
+import 'package:maelstrom/bloc/bloc_provider.dart';
 import 'package:maelstrom/config.dart';
 
 import 'package:intl/intl.dart';
@@ -8,6 +10,7 @@ class DateTimePicker extends StatefulWidget {
   bool isDate;
   void Function(dynamic) setValue;
   var selectedValue;
+
   DateTimePicker(this.isDate, this.setValue, this.selectedValue, {Key? key})
       : super(key: key);
 
@@ -52,23 +55,24 @@ class _DateTimePickerState extends State<DateTimePicker> {
                           textAlign: TextAlign.right,
                         ),
                 )),
-            onPressed: () =>
-                widget.isDate ? _selectDate(context) : _selectTime(context)));
+            onPressed: () => widget.isDate
+                ? _selectDate(context)
+                : _selectTime(context)));
   }
 
   _selectDate(BuildContext context) async {
     final ThemeData theme = Theme.of(context);
     assert(theme.platform != null);
-    switch (theme.platform) {
-      case TargetPlatform.android:
-      case TargetPlatform.fuchsia:
-      case TargetPlatform.linux:
-      case TargetPlatform.windows:
-        return buildMaterialDatePicker(context);
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
-        return buildCupertinoDatePicker(context);
-    }
+    buildMaterialDatePicker(context);
+    // switch (theme.platform) {
+    //   case TargetPlatform.android:
+    //   case TargetPlatform.fuchsia:
+    //   case TargetPlatform.linux:
+    //   case TargetPlatform.windows:
+    //   case TargetPlatform.iOS:
+    //   case TargetPlatform.macOS:
+    //     return buildCupertinoDatePicker(context);
+    // }
   }
 
   _selectTime(BuildContext context) async {
@@ -172,28 +176,28 @@ class _DateTimePickerState extends State<DateTimePicker> {
   }
 
   /// This builds cupertion date picker in iOS
-  buildCupertinoDatePicker(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext builder) {
-          return Container(
-            height: MediaQuery.of(context).copyWith().size.height / 3,
-            color: ThemeColors.backgroundColor,
-            child: CupertinoDatePicker(
-              mode: CupertinoDatePickerMode.date,
-              onDateTimeChanged: (picked) {
-                if (picked != null && picked != widget.selectedValue)
-                  widget.setValue(picked);
-                // setState(() {
-                //   widget.selectedValue = picked;
-                //   print(widget.selectedValue);
-                // });
-              },
-              initialDateTime: widget.selectedValue,
-              minimumYear: 2000,
-              maximumYear: 2025,
-            ),
-          );
-        });
-  }
+  // buildCupertinoDatePicker(BuildContext context) {
+  //   showModalBottomSheet(
+  //       context: context,
+  //       builder: (BuildContext builder) {
+  //         return Container(
+  //           height: MediaQuery.of(context).copyWith().size.height / 3,
+  //           color: ThemeColors.backgroundColor,
+  //           child: CupertinoDatePicker(
+  //             mode: CupertinoDatePickerMode.date,
+  //             onDateTimeChanged: (picked) {
+  //               if (picked != null && picked != widget.selectedValue)
+  //                 widget.setValue(picked);
+  //               // setState(() {
+  //               //   widget.selectedValue = picked;
+  //               //   print(widget.selectedValue);
+  //               // });
+  //             },
+  //             initialDateTime: widget.selectedValue,
+  //             minimumYear: 2000,
+  //             maximumYear: 2025,
+  //           ),
+  //         );
+  //       });
+  // }
 }

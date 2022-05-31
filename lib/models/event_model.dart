@@ -23,13 +23,38 @@ class EventModel {
     required this.promote,
   });
 
-  EventModel.fromData(DocumentSnapshot<Object?> data)
-      : idBusiness = data['idBusiness'],
-        name = data['name'],
-        description = data['description'],
-        tags = data['tags'],
-        date = data['date'],
-        promote = data['promote'];
+  // EventModel.fromData(DocumentSnapshot<Object?> data)
+  //     : idBusiness = data['idBusiness'],
+  //       name = data['name'],
+  //       description = data['description'],
+  //       tags = data['tags'],
+  //       date = data['date'],
+  //       promote = data['promote'];
+
+  factory EventModel.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+    // SnapshotOptions? options,
+  ) {
+    final data = snapshot.data();
+    return EventModel(
+        idBusiness: data?['idBusiness'],
+        name: data?['name'],
+        description: data?['description'],
+        tags: data?['tags'],
+        date: data?['date'],
+        promote: data?['promote']);
+  }
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      "idBusiness": idBusiness,
+      "name": name,
+      "description": description,
+      "tags": tags,
+      "date": date,
+      "promote": promote,
+    };
+  }
 
   Map<String, dynamic> toJson() => {
         'idBusiness': idBusiness,
