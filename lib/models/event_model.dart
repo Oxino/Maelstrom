@@ -7,7 +7,7 @@ class EventModel {
   String idBusiness;
   String name;
   String description;
-  Array tags;
+  List tags;
   Timestamp date;
   int nbViews = 0;
   int nbReserved = 0;

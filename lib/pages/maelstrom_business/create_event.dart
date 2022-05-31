@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,6 +9,8 @@ import 'package:maelstrom/models/tag_model.dart';
 import 'package:maelstrom/services/firestoreService.dart';
 import 'package:maelstrom/widgets/base_button.dart';
 import 'package:maelstrom/widgets/base_text.dart';
+import 'package:maelstrom/widgets/date_time_picker.dart';
+import 'package:maelstrom/widgets/tag_picker.dart';
 
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
@@ -26,7 +29,8 @@ class _CreateEventPageState extends State<CreateEventPage> {
   final formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
-  final dateController = TextEditingController();
+  DateTime? dateController;
+  TimeOfDay? timeController;
   var tagsController = [];
   final startTimeController = TextEditingController();
   bool promoteController = false;
@@ -39,22 +43,10 @@ class _CreateEventPageState extends State<CreateEventPage> {
   void dispose() {
     nameController.dispose();
     descriptionController.dispose();
-    dateController.dispose();
     startTimeController.dispose();
 
     super.dispose();
   }
-
-  List<String> tags = [
-    "Célibataire",
-    "Autre",
-    "Promo",
-    "Jeux vidéo",
-    "Guest",
-    "Quizz",
-    "Film",
-    "Blind Test",
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -82,75 +74,15 @@ class _CreateEventPageState extends State<CreateEventPage> {
                     : null,
               ),
               SizedBox(height: 20),
-              Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(0.0, 0.0),
-                        color: Colors.transparent,
-                        blurRadius: 0.0,
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(10),
-                    color: ThemeColors.grayColor,
-                    border: Border.all(
-                      color: Colors.transparent,
-                    ),
-                  ),
-                  child: MultiSelectDialogField(
-                    title: BaseText(TextType.bigText, "Tags"),
-                    buttonIcon: Icon(null),
-                    selectedItemsTextStyle: GoogleFonts.poppins(
-                        fontSize: 12.toDouble(),
-                        fontWeight: FontWeight.w400,
-                        color: ThemeColors.whiteColor),
-                    selectedColor: ThemeColors.principaleBusinessColor,
-                    itemsTextStyle: TextStyle(
-                      color: ThemeColors.textUnfocusColor,
-                      fontSize: 12.toDouble(),
-                      fontWeight: FontWeight.w400,
-                    ),
-                    unselectedColor: ThemeColors.grayColor,
-                    confirmText: Text("Valider",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14.toDouble(),
-                            fontWeight: FontWeight.w400,
-                            color: ThemeColors.principaleBusinessColor)),
-                    cancelText: Text("Annuler",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14.toDouble(),
-                            fontWeight: FontWeight.w400,
-                            color: ThemeColors.textUnfocusColor)),
-                    buttonText: Text("Tags",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14.toDouble(),
-                            fontWeight: FontWeight.w400,
-                            color: ThemeColors.whiteColor)),
-                    backgroundColor: ThemeColors.backgroundColor,
-                    items: tags.map((e) => MultiSelectItem(e, e)).toList(),
-                    listType: MultiSelectListType.CHIP,
-                    onConfirm: (values) {
-                      tagsController = values;
-                    },
-                    chipDisplay: MultiSelectChipDisplay(
-                      items: tagsController
-                          .map((e) => MultiSelectItem(e, e))
-                          .toList(),
-                      chipColor: ThemeColors.principaleBusinessColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      textStyle: GoogleFonts.poppins(
-                          fontSize: 12.toDouble(),
-                          fontWeight: FontWeight.w400,
-                          color: ThemeColors.whiteColor),
-                      // alignment: Alignment.center,
-                      onTap: (value) {
-                        setState(() {
-                          tagsController.remove(value);
-                        });
-                      },
-                    ),
-                  )),
+              TagPicker(
+                setTagController,
+                removeTagController,
+                tagsController.map((e) => MultiSelectItem(e, e)).toList(),
+              ),
+              SizedBox(height: 20),
+              DateTimePicker(true, setDateController, dateController),
+              SizedBox(height: 20),
+              DateTimePicker(false, setTimeController, timeController),
               SizedBox(height: 20),
               Row(
                 children: [
@@ -188,16 +120,33 @@ class _CreateEventPageState extends State<CreateEventPage> {
 
   Future submitEvent() async {
     print('Création');
+    print(tagsController);
+    print(dateController);
+    print(timeController);
+    var hour = timeController?.hour;
+    var minute = timeController?.minute;
+    var dateTimeController = dateController?.add(Duration(
+        hours: hour != null ? hour : 0, minutes: minute != null ? minute : 0));
+
+    var timestampController = Timestamp.fromDate(
+        dateTimeController != null ? dateTimeController : DateTime.now());
+
     var businessId = FirebaseAuth.instance.currentUser!.uid;
 
-    // final currentEvent = Event(
-    //     idBusiness: businessId,
-    //     nameController.text.trim(),
-    //     description: descriptionController.text.trim(),
-    //     tags: tags,
-    //     date: date,
-    //     promote: promote);
+    final currentEvent = EventModel(
+        idBusiness: businessId,
+        name: nameController.text.trim(),
+        description: descriptionController.text.trim(),
+        tags: tagsController,
+        date: timestampController,
+        promote: promoteController);
 
-    // _firestoreService.createEvent(currentEvent);
+    _firestoreService.createEvent(currentEvent);
   }
+
+  void setDateController(value) => setState(() => dateController = value);
+  void setTimeController(value) => setState(() => timeController = value);
+  void setTagController(value) => setState(() => tagsController = value);
+  void removeTagController(value) =>
+      setState(() => tagsController.remove(value));
 }

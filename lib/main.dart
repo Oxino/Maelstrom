@@ -1,6 +1,7 @@
 // import '';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:maelstrom/pages/auth.dart';
@@ -33,6 +34,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       // scaffoldMessengerKey: Utils.messengerKey,
+      localizationsDelegates: [GlobalMaterialLocalizations.delegate],
+      supportedLocales: [const Locale('en'), const Locale('fr')],
       navigatorKey: navigatorKey,
       theme: ThemeData(
         highlightColor: Colors.transparent,

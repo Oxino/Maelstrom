@@ -43,6 +43,8 @@ dependencies:
   email_validator: ^2.0.1
   cloud_firestore: ^3.1.16
   multi_select_flutter: ^4.1.2
+  flutter_localizations:
+    sdk: flutter  
 
 
 dev_dependencies:
