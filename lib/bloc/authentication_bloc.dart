@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:maelstrom/models/business.dart';
-import 'package:maelstrom/services/firestoreService.dart';
-import 'package:maelstrom/models/curent_user.dart';
+import 'package:maelstrom/bloc/firestore_bloc.dart';
+import 'package:maelstrom/models/business_model.dart';
+import 'package:maelstrom/models/user_model.dart';
 import 'dart:async';
 
 class AuthenticationService {
@@ -24,7 +24,7 @@ class AuthenticationService {
         password: password,
       );
 
-      curentUser = CurentUser(
+      curentUser = UserModel(
           id: authResult.user!.uid,
           email: email,
           firstName: firstName,
@@ -60,7 +60,7 @@ class AuthenticationService {
         password: password,
       );
 
-      curentUser = Business(
+      curentUser = BusinessModel(
           id: authResult.user!.uid,
           institutionName: institutionName,
           siret: siret,

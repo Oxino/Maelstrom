@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maelstrom/bloc/application_bloc.dart';
 import 'package:maelstrom/bloc/bloc_provider.dart';
+import 'package:maelstrom/bloc/firestore_bloc.dart';
 
 import 'package:maelstrom/config.dart';
 import 'package:maelstrom/models/event_model.dart';
 import 'package:maelstrom/models/tag_model.dart';
-import 'package:maelstrom/services/firestoreService.dart';
 import 'package:maelstrom/widgets/base_button.dart';
 import 'package:maelstrom/widgets/base_text.dart';
 import 'package:maelstrom/widgets/date_time_picker.dart';

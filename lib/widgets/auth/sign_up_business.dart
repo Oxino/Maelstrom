@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:maelstrom/config.dart';
 import 'package:maelstrom/main.dart';
-import 'package:maelstrom/models/business.dart';
+import 'package:maelstrom/models/business_model.dart';
 import 'package:maelstrom/widgets/base_button.dart';
 // import 'package:maelstrom/widgets/auth/sign_up_business_first_step.dart';
 // import 'package:maelstrom/widgets/auth/sign_up_business_second_step.dart';

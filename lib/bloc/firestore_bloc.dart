@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:maelstrom/models/business.dart';
-import 'package:maelstrom/models/curent_user.dart';
+import 'package:maelstrom/models/business_model.dart';
+import 'package:maelstrom/models/user_model.dart';
 import 'package:maelstrom/models/event_model.dart';
 
 class FirestoreService {
@@ -11,36 +11,58 @@ class FirestoreService {
   final CollectionReference _eventCollectionReference =
       FirebaseFirestore.instance.collection("events");
 
-  Future createUser(CurentUser user) async {
+  final uersRef = FirebaseFirestore.instance
+      .collection('users')
+      .withConverter<UserModel>(
+        fromFirestore: (snapshot, _) => UserModel.fromJson(snapshot.data()!),
+        toFirestore: (users, _) => users.toJson(),
+      );
+  final businessRef = FirebaseFirestore.instance
+      .collection('business')
+      .withConverter<BusinessModel>(
+        fromFirestore: (snapshot, _) =>
+            BusinessModel.fromJson(snapshot.data()!),
+        toFirestore: (business, _) => business.toJson(),
+      );
+
+  Future createUser(UserModel user) async {
     try {
       await _usersCollectionReference.doc(user.id).set(user.toJson());
     } catch (e) {
-      print(e);
+      print("Echec de la création de l'utilisateur : $e");
     }
   }
+
+  // Future getUser(bool isBusiness, String id) async {
+  //   return isBusiness
+  //       ? await businessRef.doc(id).get().then((snapshot) => snapshot.data()!)
+  //       : await uersRef.doc(id).get().then((snapshot) => snapshot.data()!);
+  // }
+
+  
 
   Future getUser(bool isBusiness, String id) async {
     try {
       if (isBusiness) {
         var userData = await _businessUsersCollectionReference.doc(id).get();
         print(userData);
-        return Business.fromData(userData);
+        return BusinessModel.fromData(userData);
       } else {}
       var userData = await _usersCollectionReference.doc(id).get();
       print(userData);
-      return CurentUser.fromData(userData);
+      return UserModel.fromData(userData);
     } catch (e) {
-      print(e);
+      print("Echec de la récupération de l'utilisateur: $e");
     }
   }
 
-  Future createBusinessUser(Business businessUser) async {
+  Future createBusinessUser(BusinessModel businessUser) async {
     try {
       await _businessUsersCollectionReference
           .doc(businessUser.id)
           .set(businessUser.toJson());
     } catch (e) {
-      print(e);
+      print("Echec de la création de l'utilisateur business: $e");
     }
   }
 
@@ -48,12 +70,11 @@ class FirestoreService {
     try {
       await _eventCollectionReference.doc().set(event.toJson());
     } catch (e) {
-      print(e);
+      print("Echec de la récupération de l'utilisateur business: $e");
     }
   }
 
   Future getBusinessEvent(business_id) async {
-
 // List<DocumentSnapshot> docs;
 // await _eventCollectionReference
 // ..where("isBusiness",isEqualTo: business_id)
@@ -61,7 +82,6 @@ class FirestoreService {
 //     docs = query.documents;
 // });
 // print("DOCS: $docs");
-
 
     // final ref = _eventCollectionReference
     //     .where("idBusiness", isEqualTo: business_id)
@@ -85,24 +105,23 @@ class FirestoreService {
 
     //   snapshot.docs.forEach((doc) => {
     //     EventModel.fromFirestore(doc);
-        // final event = doc.data(),
-        // print(event),
-        // event.userRef.get().then((snap) => {
-        //   event.user = snap.data()
-        //   events.add(doc),
-        //   print(events),
+    // final event = doc.data(),
+    // print(event),
+    // event.userRef.get().then((snap) => {
+    //   event.user = snap.data()
+    //   events.add(doc),
+    //   print(events),
     // })
     //   })
     // }
     // )},
 
     // print(events)
-      
-      
-  //   //   (QuerySnapshot doc) {
-  //   //     final data = doc.data() as Map<String, dynamic>;
-  //   //   },
-  //   //   onError: (e) => print("Error getting document: $e"),
-  //   // );
+
+    //   //   (QuerySnapshot doc) {
+    //   //     final data = doc.data() as Map<String, dynamic>;
+    //   //   },
+    //   //   onError: (e) => print("Error getting document: $e"),
+    //   // );
   }
 }

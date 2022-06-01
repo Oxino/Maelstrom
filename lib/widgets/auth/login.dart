@@ -173,17 +173,6 @@ class _LoginWidgetState extends State<LoginWidget> {
     widget.authenticationService.signIn(widget.isBusiness,
         emailController.text.trim(), passwordController.text.trim());
 
-    // try {
-    //   await FirebaseAuth.instance.signInWithEmailAndPassword(
-    //     email: emailController.text.trim(),
-    //     password: passwordController.text.trim(),
-    //   );
-    // } on FirebaseException catch (e) {
-    //   print(e);
-
-    // Utils.showSnackBar(e.message);
-    // }
-
     // Navigatio.of(context) not working !
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }

@@ -1,5 +1,6 @@
 // import '';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:maelstrom/pages/maelstrom/home.dart';
 import 'package:maelstrom/pages/maelstrom/list.dart';
@@ -23,15 +24,32 @@ import 'package:maelstrom/widgets/home/home_app_bar.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
-class UserApp extends StatelessWidget {
+class PageStream extends StatelessWidget {
   final isBusiness;
-  UserApp(bool this.isBusiness);
+  PageStream(bool this.isBusiness);
 
   @override
   Widget build(BuildContext context) {
+    final currentId = FirebaseAuth.instance.currentUser!.uid;
     print(isBusiness);
     final ApplicationBloc pageBloc = BlocProvider.of<ApplicationBloc>(context);
-    return StreamBuilder<PageType>(
+    return 
+    
+    // StreamBuilder(
+      // stream: FirebaseFirestore.instance.collection('users').doc(currentId).snapshots(),
+      // builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      //   if (snapshot.hasError) {
+      //     return Text('Something went wrong');
+      //   }
+
+      //   if (snapshot.connectionState == ConnectionState.waiting) {
+      //     return Text("Loading");
+      //   }
+
+      //   if (snapshot.connectionState == ConnectionState.done) {
+    
+    
+    StreamBuilder<PageType>(
         stream: pageBloc.streamPage,
         initialData: isBusiness ? PageType.dashboard : PageType.home,
         builder: (BuildContext context, AsyncSnapshot<PageType> snapshot) {

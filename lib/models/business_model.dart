@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Business {
+class BusinessModel {
   String id;
   String institutionName;
   String siret;
@@ -10,7 +10,7 @@ class Business {
   String lastName;
   String email;
 
-  Business({
+  BusinessModel({
     required this.id,
     required this.institutionName,
     required this.siret,
@@ -21,7 +21,7 @@ class Business {
     required this.email,
   });
 
-  Business.fromData(DocumentSnapshot<Object?> data)
+  BusinessModel.fromData(DocumentSnapshot<Object?> data)
       : id = data['id'],
         institutionName = data['institutionName'],
         siret = data['siret'],
@@ -30,6 +30,17 @@ class Business {
         firstName = data['firstName'],
         lastName = data['lastName'],
         email = data['email'];
+
+  BusinessModel.fromJson(Map<String, Object?> json)
+      : this(
+            id: json['id']! as String,
+            institutionName: json['institutionName']! as String,
+            siret: json['siret']! as String,
+            address: json['address']! as String,
+            description: json['description']! as String,
+            firstName: json['firstName']! as String,
+            lastName: json['lastName']! as String,
+            email: json['email']! as String);
 
   Map<String, dynamic> toJson() => {
         'id': id,
