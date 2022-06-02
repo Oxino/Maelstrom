@@ -33,6 +33,7 @@ class EventModel {
 
   factory EventModel.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
+    SnapshotOptions? options,
     // SnapshotOptions? options,
   ) {
     final data = snapshot.data();

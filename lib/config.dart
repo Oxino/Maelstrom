@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:maelstrom/models/tag_model.dart';
 
 enum TagsType { bubble, small, medium, big }
+
 enum ButtonsType { icon, small, big }
+
 enum TextType {
   megaTitle,
   pageTitle,
@@ -13,7 +16,9 @@ enum TextType {
   littleText,
   smallText
 }
+
 enum ImageType { big, promote, reco, square, smallSquare }
+
 enum PageType {
   home,
   list,
@@ -24,6 +29,25 @@ enum PageType {
   createEvent,
   businessEvent
 }
+
+List<dynamic> allTags = [
+  {'name': 'Test', 'colorValue': 0xFFFFC952},
+  {'name': 'Jeux-vidéo', 'colorValue': 0xFFB665E6},
+  {'name': 'Film', 'colorValue': 0xFFFFC952},
+  {'name': 'Musique', 'colorValue': 0xFFFA552D},
+  {'name': 'Guest', 'colorValue': 0xFF79E674},
+  {'name': 'Célibataire', 'colorValue': 0xFF39B3FA},
+  {'name': 'Déguisement', 'colorValue': 0xFFB665E6},
+  {'name': 'Jeux de société', 'colorValue': 0xFFFFC952},
+  {'name': 'Blind test', 'colorValue': 0xFFFA552D},
+  {'name': 'Promo', 'colorValue': 0xFF79E674},
+  {'name': 'Quizz', 'colorValue': 0xFF39B3FA},
+  {'name': 'Autre', 'colorValue': 0xFFB665E6},
+  {'name': 'Karaoké', 'colorValue': 0xFFFFC952},
+  {'name': 'Jeux', 'colorValue': 0xFFFA552D},
+  {'name': 'Barathon', 'colorValue': 0xFF79E674},
+  {'name': 'Détente', 'colorValue': 0xFF39B3FA},
+];
 
 class ThemeColors {
   static const principaleColor = Color(0xFFBB82EC);

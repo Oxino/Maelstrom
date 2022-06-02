@@ -52,6 +52,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(tagsController);
     final ApplicationBloc pageBloc = BlocProvider.of<ApplicationBloc>(context);
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 30),
@@ -80,7 +81,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
               TagPicker(
                 setTagController,
                 removeTagController,
-                tagsController.map((e) => MultiSelectItem(e, e)).toList(),
+                tagsController.map((e) => MultiSelectItem(e, e['name'])).toList(),
               ),
               SizedBox(height: 20),
               DateTimePicker(true, setDateController, dateController,
@@ -142,6 +143,8 @@ class _CreateEventPageState extends State<CreateEventPage> {
         tags: tagsController,
         date: timestampController,
         promote: promoteController);
+
+    print(tagsController);
 
     _firestoreService.createEvent(currentEvent);
 

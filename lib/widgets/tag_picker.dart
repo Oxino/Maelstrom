@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maelstrom/models/tag_model.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 import 'package:maelstrom/config.dart';
@@ -47,6 +48,14 @@ class _TagPickerState extends State<TagPicker> {
           ),
         ),
         child: MultiSelectDialogField(
+          colorator: (value) {
+            if (value != null) {
+              print(value);
+              print('hello');
+            return Color((value as Map)['colorValue']);
+            }
+            return ThemeColors.principaleBusinessColor;
+                      },
           title: BaseText(TextType.bigText, "Tags"),
           buttonIcon: Icon(null),
           selectedItemsTextStyle: GoogleFonts.poppins(
@@ -76,7 +85,7 @@ class _TagPickerState extends State<TagPicker> {
                   fontWeight: FontWeight.w400,
                   color: ThemeColors.whiteColor)),
           backgroundColor: ThemeColors.backgroundColor,
-          items: all_items.map((e) => MultiSelectItem(e, e)).toList(),
+          items: allTags.map((e) => MultiSelectItem(e, e['name'])).toList(),
           listType: MultiSelectListType.CHIP,
           onConfirm: (values) {
             widget.setTagsController(values);

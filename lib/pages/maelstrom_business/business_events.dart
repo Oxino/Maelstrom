@@ -15,6 +15,21 @@ class BusinessEventPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // getEvent();
+    // return Padding(
+    //     padding: EdgeInsets.symmetric(horizontal: 30),
+    //     child: SingleChildScrollView(
+    //         child: StreamBuilder<QuerySnapshot>(
+    //             stream: _firestoreService.getAllBusinessEvent(businessId),
+    //             builder: ((context, snapshot) {
+    //               if (!snapshot.hasData) return LinearProgressIndicator();
+    //               return Column(
+    //                   children: snapshot.data!.docs.map((event) {;
+    //                 return Padding(
+    //                   child: PromoteSection(event['name'], event['tags']),
+    //                   padding: EdgeInsets.only(bottom: 20),
+    //                 );
+    //               }).toList());
+    //             }))));
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 30),
         child: SingleChildScrollView(

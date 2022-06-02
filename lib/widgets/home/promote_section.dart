@@ -45,7 +45,8 @@ class PromoteSection extends StatelessWidget {
             Row(
                 children: eventTags.map<Widget>((tag) {
                  if (eventTags.indexOf(tag) > 3) return Container();
-              return TagsWidget(TagsType.small, tag, TagsColors.yellowTag);
+                 print(tag);
+              return TagsWidget(TagsType.small, tag['name'], Color(tag['colorValue']));
             }).toList()),
             BaseButton(ButtonsType.small, () {}),
           ],
