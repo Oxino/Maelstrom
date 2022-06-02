@@ -4,6 +4,7 @@ class UserModel {
   final String id;
   final String firstName;
   final String lastName;
+  final Timestamp birthDate;
   final String email;
   List<String> favorite = [];
 
@@ -11,6 +12,7 @@ class UserModel {
       {required this.id,
       required this.firstName,
       required this.lastName,
+      required this.birthDate,
       required this.email,
       favorite});
 
@@ -18,6 +20,7 @@ class UserModel {
       : id = data['id'],
         firstName = data['firstName'],
         lastName = data['lastName'],
+        birthDate = data['birthDate'],
         email = data['email'],
         favorite = data['favorite'];
 
@@ -26,6 +29,7 @@ class UserModel {
           id: json['id']! as String,
           firstName: json['firstName']! as String,
           lastName: json['lastName']! as String,
+          birthDate: json['birthDate']! as Timestamp,
           email: json['email']! as String,
           favorite: json['favorite']! as List<String>,
         );
@@ -34,6 +38,7 @@ class UserModel {
         'id': id,
         'firstName': firstName,
         'lastName': lastName,
+        'birthDate': birthDate,
         'email': email,
         'favorite': favorite,
       };

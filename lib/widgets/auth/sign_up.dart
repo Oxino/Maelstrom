@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:maelstrom/widgets/base_button.dart';
 import 'package:maelstrom/widgets/base_text.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maelstrom/widgets/date_time_picker.dart';
 import 'package:maelstrom/widgets/form_input.dart';
 
 import '../../main.dart';
@@ -33,6 +35,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   final lastNameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  DateTime? dateController;
 
   @override
   void dispose() {
@@ -78,6 +81,16 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       ? "Votre nom doit faire au moins 2 characters"
                       : null),
               SizedBox(height: 20),
+              DateTimePicker(
+                true,
+                setDateController,
+                dateController,
+                "Votre date de naissance",
+                ThemeColors.principaleColor,
+                startDate: 1920,
+                endDate: 2050,
+              ),
+              SizedBox(height: 20),
               FormInputText(
                   emailController,
                   'Votre email',
@@ -117,6 +130,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         ));
   }
 
+  void setDateController(value) => setState(() => dateController = value);
+
   Future signUp() async {
     final isValid = formKey.currentState!.validate();
 
@@ -129,11 +144,17 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               child: CircularProgressIndicator(),
             ));
 
+    var dateTimeController = dateController?.add(Duration());
+
+    var timestampController = Timestamp.fromDate(
+        dateTimeController != null ? dateTimeController : DateTime.now());
+
     widget.authenticationService.signUpWithEmail(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
         firstName: firstNameController.text.trim(),
-        lastName: lastNameController.text.trim());
+        lastName: lastNameController.text.trim(),
+        birthDate: timestampController);
 
     // Navigatio.of(context) not working !
     navigatorKey.currentState!.popUntil((route) => route.isFirst);

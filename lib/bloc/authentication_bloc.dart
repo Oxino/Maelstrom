@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:maelstrom/bloc/firestore_bloc.dart';
 import 'package:maelstrom/models/business_model.dart';
@@ -17,6 +18,7 @@ class AuthenticationService {
     required String password,
     required String firstName,
     required String lastName,
+    required Timestamp birthDate,
   }) async {
     try {
       var authResult = await _firebaseAuth.createUserWithEmailAndPassword(
@@ -29,6 +31,7 @@ class AuthenticationService {
           email: email,
           firstName: firstName,
           lastName: lastName,
+          birthDate: birthDate,
           favorite: []);
 
       isBusinessUser = false;

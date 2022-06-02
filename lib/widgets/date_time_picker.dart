@@ -10,9 +10,21 @@ class DateTimePicker extends StatefulWidget {
   bool isDate;
   void Function(dynamic) setValue;
   var selectedValue;
+  final String text;
+  final Color color;
+  final int startDate;
+  final int endDate;
 
-  DateTimePicker(this.isDate, this.setValue, this.selectedValue, {Key? key})
-      : super(key: key);
+  DateTimePicker(
+    this.isDate,
+    this.setValue,
+    this.selectedValue,
+    this.text,
+    this.color, {
+    Key? key,
+    int this.startDate = 2022,
+    int this.endDate = 2050,
+  }) : super(key: key);
 
   @override
   State<DateTimePicker> createState() => _DateTimePickerState();
@@ -42,37 +54,33 @@ class _DateTimePickerState extends State<DateTimePicker> {
                   child: widget.isDate
                       ? Text(
                           widget.selectedValue == null
-                              ? "Selectionnez la date de votre évènement"
+                              ? widget.text
                               : DateFormat('dd-MM-yyyy')
                                   .format(widget.selectedValue as DateTime),
-                          style: TextStyle(color: ThemeColors.whiteColor),
+                          style: TextStyle(
+                              color: widget.selectedValue == null
+                                  ? ThemeColors.textUnfocusColor
+                                  : ThemeColors.whiteColor),
                           textAlign: TextAlign.right)
                       : Text(
                           widget.selectedValue == null
-                              ? "Selectionnez l'heure de votre évènement"
+                              ? widget.text
                               : "${widget.selectedValue.format(context)}",
-                          style: TextStyle(color: ThemeColors.whiteColor),
+                          style: TextStyle(
+                              color: widget.selectedValue == null
+                                  ? ThemeColors.textUnfocusColor
+                                  : ThemeColors.whiteColor),
                           textAlign: TextAlign.right,
                         ),
                 )),
-            onPressed: () => widget.isDate
-                ? _selectDate(context)
-                : _selectTime(context)));
+            onPressed: () =>
+                widget.isDate ? _selectDate(context) : _selectTime(context)));
   }
 
   _selectDate(BuildContext context) async {
     final ThemeData theme = Theme.of(context);
     assert(theme.platform != null);
     buildMaterialDatePicker(context);
-    // switch (theme.platform) {
-    //   case TargetPlatform.android:
-    //   case TargetPlatform.fuchsia:
-    //   case TargetPlatform.linux:
-    //   case TargetPlatform.windows:
-    //   case TargetPlatform.iOS:
-    //   case TargetPlatform.macOS:
-    //     return buildCupertinoDatePicker(context);
-    // }
   }
 
   _selectTime(BuildContext context) async {
@@ -96,7 +104,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
                   const BorderSide(color: Colors.transparent, width: 0),
               dayPeriodColor: MaterialStateColor.resolveWith((states) =>
                   states.contains(MaterialState.selected)
-                      ? ThemeColors.principaleBusinessColor
+                      ? widget.color
                       : ThemeColors.grayColor),
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -107,12 +115,12 @@ class _DateTimePickerState extends State<DateTimePicker> {
               ),
               hourMinuteColor: MaterialStateColor.resolveWith((states) =>
                   states.contains(MaterialState.selected)
-                      ? ThemeColors.principaleBusinessColor
+                      ? widget.color
                       : ThemeColors.grayColor),
               hourMinuteTextColor: MaterialStateColor.resolveWith((states) =>
                   states.contains(MaterialState.selected)
                       ? ThemeColors.whiteColor
-                      : ThemeColors.principaleBusinessColor),
+                      : widget.color),
               dialHandColor: Colors.blueGrey.shade700,
               dialBackgroundColor: ThemeColors.grayColor,
               hourMinuteTextStyle:
@@ -129,9 +137,9 @@ class _DateTimePickerState extends State<DateTimePicker> {
               ),
               dialTextColor: MaterialStateColor.resolveWith((states) =>
                   states.contains(MaterialState.selected)
-                      ? ThemeColors.principaleBusinessColor
+                      ? widget.color
                       : ThemeColors.whiteColor),
-              entryModeIconColor: ThemeColors.principaleBusinessColor,
+              entryModeIconColor: widget.color,
             )),
             child: child as Widget,
           );
@@ -146,8 +154,8 @@ class _DateTimePickerState extends State<DateTimePicker> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2025),
+      firstDate: DateTime(widget.startDate),
+      lastDate: DateTime(widget.endDate),
       helpText: "Selectionnez la date de l'évènement",
       cancelText: 'Annuler',
       confirmText: 'Valider',
@@ -157,7 +165,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
           data: Theme.of(context).copyWith(
             // primaryColor: ThemeColors.backgroundColor,
             colorScheme: ColorScheme.light(
-              primary: ThemeColors.principaleBusinessColor,
+              primary: widget.color,
               onPrimary: ThemeColors.whiteColor,
               onSurface: ThemeColors.whiteColor,
             ),

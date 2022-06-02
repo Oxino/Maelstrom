@@ -83,9 +83,11 @@ class _CreateEventPageState extends State<CreateEventPage> {
                 tagsController.map((e) => MultiSelectItem(e, e)).toList(),
               ),
               SizedBox(height: 20),
-              DateTimePicker(true, setDateController, dateController),
+              DateTimePicker(true, setDateController, dateController,
+                  "Date de l'évènement", ThemeColors.principaleBusinessColor),
               SizedBox(height: 20),
-              DateTimePicker(false, setTimeController, timeController),
+              DateTimePicker(false, setTimeController, timeController,
+                  "Heure de l'évènement", ThemeColors.principaleBusinessColor),
               SizedBox(height: 20),
               Row(
                 children: [
@@ -111,7 +113,8 @@ class _CreateEventPageState extends State<CreateEventPage> {
                 ],
               ),
               SizedBox(height: 20),
-              BaseButton(ButtonsType.big, () => submitEvent(pageBloc), "Créer l'évènement", [
+              BaseButton(ButtonsType.big, () => submitEvent(pageBloc),
+                  "Créer l'évènement", [
                 ThemeColors.principaleBusinessColor,
                 ThemeColors.radientBusinessColor
               ]),
@@ -121,7 +124,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
         ));
   }
 
- submitEvent(pageBloc) async {
+  submitEvent(pageBloc) async {
     var hour = timeController?.hour;
     var minute = timeController?.minute;
     var dateTimeController = dateController?.add(Duration(
@@ -141,7 +144,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
         promote: promoteController);
 
     _firestoreService.createEvent(currentEvent);
-
 
     pageBloc.setChangePage(PageType.businessEvent);
   }
