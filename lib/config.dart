@@ -59,6 +59,7 @@ class ThemeColors {
   static const whiteColor = Color(0xFFf1f1f1);
   static const textUnfocusColor = Color.fromARGB(77, 241, 241, 241);
   static const grayColor = Color(0xFF272b3e);
+  static const errorColor = Color(0xFFFA552D);
 }
 
 class TagsColors {

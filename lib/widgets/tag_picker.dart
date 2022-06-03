@@ -43,19 +43,21 @@ class _TagPickerState extends State<TagPicker> {
           ],
           borderRadius: BorderRadius.circular(10),
           color: ThemeColors.grayColor,
-          border: Border.all(
-            color: Colors.transparent,
-          ),
         ),
         child: MultiSelectDialogField(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.transparent,
+            ),
+          ),
           colorator: (value) {
             if (value != null) {
               print(value);
               print('hello');
-            return Color((value as Map)['colorValue']);
+              return Color((value as Map)['colorValue']);
             }
             return ThemeColors.principaleBusinessColor;
-                      },
+          },
           title: BaseText(TextType.bigText, "Tags"),
           buttonIcon: Icon(null),
           selectedItemsTextStyle: GoogleFonts.poppins(
@@ -81,7 +83,7 @@ class _TagPickerState extends State<TagPicker> {
                   color: ThemeColors.textUnfocusColor)),
           buttonText: Text("Tags",
               style: GoogleFonts.poppins(
-                  fontSize: 14.toDouble(),
+                  fontSize: 16.toDouble(),
                   fontWeight: FontWeight.w400,
                   color: ThemeColors.whiteColor)),
           backgroundColor: ThemeColors.backgroundColor,

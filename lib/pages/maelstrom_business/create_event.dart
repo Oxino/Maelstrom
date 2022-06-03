@@ -1,14 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:maelstrom/bloc/application_bloc.dart';
 import 'package:maelstrom/bloc/bloc_provider.dart';
 import 'package:maelstrom/bloc/firestore_bloc.dart';
 
 import 'package:maelstrom/config.dart';
 import 'package:maelstrom/models/event_model.dart';
-import 'package:maelstrom/models/tag_model.dart';
 import 'package:maelstrom/widgets/base_button.dart';
 import 'package:maelstrom/widgets/base_text.dart';
 import 'package:maelstrom/widgets/date_time_picker.dart';
@@ -56,7 +54,9 @@ class _CreateEventPageState extends State<CreateEventPage> {
     final ApplicationBloc pageBloc = BlocProvider.of<ApplicationBloc>(context);
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 30),
-        child: Form(
+        child: Center(
+            child: SingleChildScrollView(
+                child: Form(
           key: formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -81,7 +81,9 @@ class _CreateEventPageState extends State<CreateEventPage> {
               TagPicker(
                 setTagController,
                 removeTagController,
-                tagsController.map((e) => MultiSelectItem(e, e['name'])).toList(),
+                tagsController
+                    .map((e) => MultiSelectItem(e, e['name']))
+                    .toList(),
               ),
               SizedBox(height: 20),
               DateTimePicker(true, setDateController, dateController,
@@ -122,7 +124,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
               SizedBox(height: 20),
             ],
           ),
-        ));
+        ))));
   }
 
   submitEvent(pageBloc) async {

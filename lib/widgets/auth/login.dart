@@ -53,7 +53,8 @@ class _LoginWidgetState extends State<LoginWidget> {
     final isBusiness = widget.isBusiness;
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 30),
-        child: Form(
+        child: SingleChildScrollView(
+            child: Form(
           key: formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -80,7 +81,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                   'Votre email',
                   (email) => email != null && !EmailValidator.validate(email)
                       ? 'Entrer un email valide'
-                      : null),
+                      : null,
+                  keyboardType: TextInputType.emailAddress),
               SizedBox(height: 20),
               FormInputText(
                   passwordController,
@@ -88,7 +90,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                   (value) => value != null && value.length < 5
                       ? 'Le mot de passe doit faire au moins 5 characters'
                       : null,
-                  true),
+                  textHide: true,
+                  keyboardButton: TextInputAction.done),
               SizedBox(height: 20),
               isBusiness
                   ? BaseButton(ButtonsType.big, signIn, "Connexion", [
@@ -103,7 +106,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         ? ThemeColors.principaleBusinessColor
                         : ThemeColors.principaleColor),
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ForgotPasswordPage())),
+                    builder: (context) => ForgotPasswordPage(isBusiness))),
               ),
               SizedBox(height: 5),
               RichText(
@@ -156,7 +159,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   ])),
             ],
           ),
-        ));
+        )));
   }
 
   Future signIn() async {

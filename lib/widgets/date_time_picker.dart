@@ -37,44 +37,46 @@ class _DateTimePickerState extends State<DateTimePicker> {
         decoration: BoxDecoration(
             borderRadius: new BorderRadius.circular(10),
             color: ThemeColors.grayColor),
-        height: 40,
         width: double.infinity,
         padding: EdgeInsets.symmetric(horizontal: 10),
-        child: TextButton(
-            style: ElevatedButton.styleFrom(
-              primary: Colors.transparent,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              minimumSize: Size.zero,
-              padding: EdgeInsets.zero,
-            ),
+        child: GestureDetector(
+            onTap: () =>
+                widget.isDate ? _selectDate(context) : _selectTime(context),
+            // TextButton(
+            //     style: ElevatedButton.styleFrom(
+            //       primary: Colors.transparent,
+            //       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            //       minimumSize: Size.zero,
+            //       padding: EdgeInsets.zero,
+            //     ),
             child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: widget.isDate
-                      ? Text(
-                          widget.selectedValue == null
-                              ? widget.text
-                              : DateFormat('dd-MM-yyyy')
-                                  .format(widget.selectedValue as DateTime),
-                          style: TextStyle(
-                              color: widget.selectedValue == null
-                                  ? ThemeColors.textUnfocusColor
-                                  : ThemeColors.whiteColor),
-                          textAlign: TextAlign.right)
-                      : Text(
-                          widget.selectedValue == null
-                              ? widget.text
-                              : "${widget.selectedValue.format(context)}",
-                          style: TextStyle(
-                              color: widget.selectedValue == null
-                                  ? ThemeColors.textUnfocusColor
-                                  : ThemeColors.whiteColor),
-                          textAlign: TextAlign.right,
-                        ),
-                )),
-            onPressed: () =>
-                widget.isDate ? _selectDate(context) : _selectTime(context)));
+              padding: EdgeInsets.symmetric(vertical: 13),
+              child: widget.isDate
+                  ? Text(
+                      widget.selectedValue == null
+                          ? widget.text
+                          : DateFormat('dd-MM-yyyy')
+                              .format(widget.selectedValue as DateTime),
+                      style: TextStyle(
+                          fontSize: 16.toDouble(),
+                          color: widget.selectedValue == null
+                              ? ThemeColors.textUnfocusColor
+                              : ThemeColors.whiteColor),
+                      textAlign: TextAlign.left)
+                  : Text(
+                      widget.selectedValue == null
+                          ? widget.text
+                          : "${widget.selectedValue.format(context)}",
+                      style: TextStyle(
+                          fontSize: 16.toDouble(),
+                          color: widget.selectedValue == null
+                              ? ThemeColors.textUnfocusColor
+                              : ThemeColors.whiteColor),
+                      textAlign: TextAlign.left,
+                    ),
+            )));
+    // onPressed: () =>
+    //     widget.isDate ? _selectDate(context) : _selectTime(context)));
   }
 
   _selectDate(BuildContext context) async {

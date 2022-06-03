@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:maelstrom/config.dart';
 import 'package:maelstrom/main.dart';
-import 'package:maelstrom/models/business_model.dart';
 import 'package:maelstrom/widgets/base_button.dart';
 // import 'package:maelstrom/widgets/auth/sign_up_business_first_step.dart';
 // import 'package:maelstrom/widgets/auth/sign_up_business_second_step.dart';
@@ -69,6 +68,9 @@ class _SignUpBusinessWidgetState extends State<SignUpBusinessWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(
+              height: 50,
+            ),
             Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30),
                 child: Row(
@@ -87,76 +89,78 @@ class _SignUpBusinessWidgetState extends State<SignUpBusinessWidget> {
                   ],
                 )),
             SizedBox(
-              height: 50,
+              height: 20,
             ),
-            Expanded(
-                child: Theme(
-                    data: ThemeData(
-                      fontFamily: GoogleFonts.poppins(
-                        color: ThemeColors.whiteColor,
-                        fontSize: 14,
-                      ).fontFamily,
-                      canvasColor: ThemeColors.backgroundColor,
-                      colorScheme: Theme.of(context).colorScheme.copyWith(
-                          primary: ThemeColors.principaleBusinessColor,
-                          background: ThemeColors.grayColor,
-                          secondary: ThemeColors.grayColor),
-                    ),
-                    child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Stepper(
-                          margin: EdgeInsets.all(0),
-                          elevation: 0.0,
-                          type: StepperType.horizontal,
-                          steps: getSteps(),
-                          currentStep: currentStep,
-                          onStepContinue: () {
-                            if (isLastStep) {
-                              print('Envoyer les datas');
-                              signUp();
-                            } else {
-                              setState(() => currentStep += 1);
-                            }
-                          },
-                          onStepCancel: () {
-                            currentStep == 0
-                                ? null
-                                : setState(() => currentStep -= 1);
-                          },
-                          controlsBuilder: (context, ControlsDetails details) {
-                            return Padding(
-                                padding: EdgeInsets.only(top: 30),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    if (currentStep != 0)
-                                      BaseButton(ButtonsType.big,
-                                          details.onStepCancel, "Précédent", [
-                                        ThemeColors.grayColor,
-                                        ThemeColors.grayColor
-                                      ]),
-                                    if (currentStep != 0)
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                    BaseButton(
-                                        ButtonsType.big,
-                                        details.onStepContinue,
-                                        isLastStep
-                                            ? "Crée mon compte"
-                                            : "Suivant",
-                                        [
-                                          ThemeColors.principaleBusinessColor,
-                                          ThemeColors.radientBusinessColor
-                                        ]),
-                                  ],
-                                ));
-                          },
-                        )))),
+            Expanded( child:
+            Theme(
+                data: ThemeData(
+                  fontFamily: GoogleFonts.poppins(
+                    color: ThemeColors.whiteColor,
+                    fontSize: 14,
+                  ).fontFamily,
+                  canvasColor: ThemeColors.backgroundColor,
+                  colorScheme: Theme.of(context).colorScheme.copyWith(
+                      primary: ThemeColors.principaleBusinessColor,
+                      background: ThemeColors.grayColor,
+                      secondary: ThemeColors.grayColor),
+                ),
+                child: 
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: 
+                    Stepper(
+                      margin: EdgeInsets.all(0),
+                      elevation: 0.0,
+                      type: StepperType.horizontal,
+                      steps: getSteps(),
+                      currentStep: currentStep,
+                      onStepContinue: () {
+                        if (isLastStep) {
+                          print('Envoyer les datas');
+                          signUp();
+                        } else {
+                          setState(() => currentStep += 1);
+                        }
+                      },
+                      onStepCancel: () {
+                        currentStep == 0
+                            ? null
+                            : setState(() => currentStep -= 1);
+                      },
+                      controlsBuilder: (context, ControlsDetails details) {
+                        return Padding(
+                            padding: EdgeInsets.only(top: 30),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                if (currentStep != 0)
+                                  BaseButton(ButtonsType.big,
+                                      details.onStepCancel, "Précédent", [
+                                    ThemeColors.grayColor,
+                                    ThemeColors.grayColor
+                                  ]),
+                                if (currentStep != 0)
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                BaseButton(
+                                    ButtonsType.big,
+                                    details.onStepContinue,
+                                    isLastStep ? "Crée mon compte" : "Suivant",
+                                    [
+                                      ThemeColors.principaleBusinessColor,
+                                      ThemeColors.radientBusinessColor
+                                    ]),
+                              ],
+                            ));
+                      },
+                    ))
+                )
+                ),
             if (currentStep == 0)
-              SizedBox(
-                height: 20,
-              ),
+            SizedBox(
+              height: 20,
+            ),
             if (currentStep == 0)
               RichText(
                   text: TextSpan(
@@ -210,14 +214,16 @@ class _SignUpBusinessWidgetState extends State<SignUpBusinessWidget> {
                 "L'adresse de l'établissement",
                 (address) => address != null && address.length < 2
                     ? "L'adresse de l'établissementT doit faire au moins 8 characters"
-                    : null),
+                    : null,
+                    keyboardType: TextInputType.streetAddress),
             SizedBox(height: 20),
             FormInputText(
                 descriptionController,
                 "Description de votre établissement",
                 (description) => description != null && description.length < 2
                     ? "Le numéro SIRET doit faire au moins 2 characters"
-                    : null),
+                    : null,
+                    keyboardButton: TextInputAction.done,),
           ]),
         ),
         Step(
@@ -246,7 +252,8 @@ class _SignUpBusinessWidgetState extends State<SignUpBusinessWidget> {
                 'Votre email',
                 (email) => email != null && !EmailValidator.validate(email)
                     ? 'Entrer un email valide'
-                    : null),
+                    : null,
+                    keyboardType: TextInputType.emailAddress,),
             SizedBox(height: 20),
             FormInputText(
                 passwordController,
@@ -254,7 +261,8 @@ class _SignUpBusinessWidgetState extends State<SignUpBusinessWidget> {
                 (value) => value != null && value.length < 6
                     ? 'Le mot de passe doit faire au moins 6 characters'
                     : null,
-                true),
+                textHide: true,
+                keyboardButton: TextInputAction.done),
           ]),
         )
       ];

@@ -1,6 +1,7 @@
 // import '';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -32,9 +33,11 @@ final AuthenticationService authenticationService = AuthenticationService();
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return MaterialApp(
       // scaffoldMessengerKey: Utils.messengerKey,
-      localizationsDelegates: [GlobalMaterialLocalizations.delegate],
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
       supportedLocales: [const Locale('en'), const Locale('fr')],
       navigatorKey: navigatorKey,
       theme: ThemeData(
@@ -57,12 +60,7 @@ class MyApp extends StatelessWidget {
                 ? VerifyEmailPage(authenticationService)
                 : Scaffold(
                     backgroundColor: ThemeColors.backgroundColor,
-                    appBar: AppBar(
-                      titleSpacing: 0,
-                      elevation: 0.0,
-                      backgroundColor: ThemeColors.backgroundColor,
-                    ),
-                    body: AuthPage(authenticationService));
+                    body: SafeArea(child: AuthPage(authenticationService)));
           }),
     );
   }

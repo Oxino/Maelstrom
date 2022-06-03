@@ -20,21 +20,24 @@ class _AuthPageState extends State<AuthPage> {
   _AuthPageState(this.authenticationService);
 
   @override
-  Widget build(BuildContext context) => isBusiness
-      ? isLogin
-          ? LoginWidget(authenticationService,
-              onClickedBusiness: toggleBusiness,
-              onClickedSignUp: toggleLoginUser,
-              isBusiness: isBusiness)
-          : SignUpBusinessWidget(authenticationService,
-              onClickedSignUp: toggleLoginUser)
-      : isBusinessLogin
-          ? LoginWidget(authenticationService,
-              onClickedBusiness: toggleBusiness,
-              onClickedSignUp: toggleLoginBusiness,
-              isBusiness: isBusiness)
-          : SignUpWidget(authenticationService,
-              onClickedSignUp: toggleLoginBusiness);
+  Widget build(BuildContext context) {
+    return Center(
+        child: isBusiness
+            ? isLogin
+                ? LoginWidget(authenticationService,
+                    onClickedBusiness: toggleBusiness,
+                    onClickedSignUp: toggleLoginUser,
+                    isBusiness: isBusiness)
+                : SignUpBusinessWidget(authenticationService,
+                    onClickedSignUp: toggleLoginUser)
+            : isBusinessLogin
+                ? LoginWidget(authenticationService,
+                    onClickedBusiness: toggleBusiness,
+                    onClickedSignUp: toggleLoginBusiness,
+                    isBusiness: isBusiness)
+                : SignUpWidget(authenticationService,
+                    onClickedSignUp: toggleLoginBusiness));
+  }
 
   void toggleBusiness() => setState(() => isBusiness = !isBusiness);
   void toggleLoginUser() => setState(() => isLogin = !isLogin);

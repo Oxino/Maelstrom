@@ -5,8 +5,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:maelstrom/config.dart';
 import 'package:maelstrom/widgets/base_button.dart';
 import 'package:maelstrom/widgets/base_text.dart';
+import 'package:maelstrom/widgets/form_input.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
+  final bool isBusiness;
+
+  ForgotPasswordPage(this.isBusiness);
   @override
   _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
 }
@@ -48,37 +52,32 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              widget.isBusiness
+                  ? SizedBox(
+                      height: 150, // Your Height
+                      width: 150,
+                      child: SvgPicture.asset(
+                          'assets/icons/maelstrom_business.svg'),
+                    )
+                  : SizedBox(
+                      height: 150, // Your Height
+                      width: 150,
+                      child: SvgPicture.asset(
+                        'assets/icons/maelstrom.svg',
+                      ),
+                    ),
+              SizedBox(height: 50),
               BaseText(TextType.bodyText,
                   "Entrez votre adresse mail afin que nous puissions vous envoyer un mail pour réinitialiser votre mot de passe"),
               SizedBox(height: 20),
-              Container(
-                  height: 40,
-                  child: Expanded(
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: ThemeColors.grayColor,
-                              borderRadius: BorderRadius.circular(10)),
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: TextFormField(
-                            controller: emailController,
-                            textInputAction: TextInputAction.done,
-                            style: TextStyle(color: ThemeColors.whiteColor),
-                            decoration: InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.symmetric(vertical: 10.0),
-                              hintText: 'Votre email',
-                              hintStyle: TextStyle(
-                                color: ThemeColors.textUnfocusColor,
-                              ),
-                              border: InputBorder.none,
-                            ),
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            validator: (email) =>
-                                email != null && !EmailValidator.validate(email)
-                                    ? 'Entrer un email valide'
-                                    : null,
-                          )))),
+              FormInputText(
+                  emailController,
+                  'Votre email',
+                  (email) => email != null && !EmailValidator.validate(email)
+                      ? 'Entrer un email valide'
+                      : null,
+                  keyboardType: TextInputType.emailAddress,
+                  keyboardButton: TextInputAction.done),
               SizedBox(height: 20),
               BaseButton(ButtonsType.big, resetPassword,
                   "Reinitialiser mon mot de passe"),
