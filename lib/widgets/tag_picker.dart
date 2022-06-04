@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maelstrom/models/tag_model.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
@@ -52,14 +53,18 @@ class _TagPickerState extends State<TagPicker> {
           ),
           colorator: (value) {
             if (value != null) {
-              print(value);
-              print('hello');
               return Color((value as Map)['colorValue']);
             }
             return ThemeColors.principaleBusinessColor;
           },
           title: BaseText(TextType.bigText, "Tags"),
-          buttonIcon: Icon(null),
+          buttonIcon: Icon(
+            Icons.local_offer,
+            size: 20.toDouble(),
+            color: widget.selected_items.length != 0
+                ? ThemeColors.whiteColor
+                : ThemeColors.textUnfocusColor,
+          ),
           selectedItemsTextStyle: GoogleFonts.poppins(
               fontSize: 12.toDouble(),
               fontWeight: FontWeight.w400,
@@ -81,11 +86,13 @@ class _TagPickerState extends State<TagPicker> {
                   fontSize: 14.toDouble(),
                   fontWeight: FontWeight.w400,
                   color: ThemeColors.textUnfocusColor)),
-          buttonText: Text("Tags",
+          buttonText: Text("Ses tags",
               style: GoogleFonts.poppins(
-                  fontSize: 16.toDouble(),
+                  fontSize: 14.toDouble(),
                   fontWeight: FontWeight.w400,
-                  color: ThemeColors.whiteColor)),
+                  color: widget.selected_items.length > 0
+                      ? ThemeColors.whiteColor
+                      : ThemeColors.textUnfocusColor)),
           backgroundColor: ThemeColors.backgroundColor,
           items: allTags.map((e) => MultiSelectItem(e, e['name'])).toList(),
           listType: MultiSelectListType.CHIP,

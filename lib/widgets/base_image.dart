@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:maelstrom/config.dart';
@@ -15,36 +17,46 @@ class BaseImage extends StatelessWidget {
     return
         //  AspectRatio(
         //     aspectRatio: _buildImageSize(imageType),
-        Container(
-      width: _buildImageSize(imageType)[0],
-      height: _buildImageSize(imageType)[1],
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(6)),
-          image: DecorationImage(
-            image: AssetImage(
-              imageSrc,
+        // Container(
+        //     width: _buildImageSize(imageType)[0],
+        //     height: _buildImageSize(imageType)[1],
+        // decoration: BoxDecoration(
+        //     borderRadius: BorderRadius.all(Radius.circular(6)),
+        //     image: DecorationImage(
+        //       image: AssetImage(
+        //         imageSrc,
+        //       ),
+        //       fit: BoxFit.cover,
+        //     )),
+        // child:
+        Column(children: [
+      Container(
+          width: _buildImageSize(imageType)[0],
+          height: _buildImageSize(imageType)[1],
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: Image.file(
+                File(imageSrc),
+                fit: BoxFit.cover,
+              ))),
+      if (imageType == ImageType.reco)
+        Stack(
+          children: [
+            Positioned(
+              top: 75,
+              right: 0,
+              child: Container(
+                  padding: EdgeInsets.fromLTRB(10, 2, 3, 1),
+                  decoration: BoxDecoration(
+                    borderRadius:
+                        BorderRadius.only(topLeft: Radius.circular(6)),
+                    color: ThemeColors.grayColor,
+                  ),
+                  child: BaseText(TextType.littleBoldText, imageKm)),
             ),
-            fit: BoxFit.cover,
-          )),
-      child: imageType == ImageType.reco
-          ? Stack(
-              children: [
-                Positioned(
-                  top: 75,
-                  right: 0,
-                  child: Container(
-                      padding: EdgeInsets.fromLTRB(10, 2, 3, 1),
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.only(topLeft: Radius.circular(6)),
-                        color: ThemeColors.grayColor,
-                      ),
-                      child: BaseText(TextType.littleBoldText, imageKm)),
-                ),
-              ],
-            )
-          : null,
-    );
+          ],
+        )
+    ]);
   }
 
   _buildImageSize(ImageType type) {

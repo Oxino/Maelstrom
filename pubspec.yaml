@@ -45,6 +45,8 @@ dependencies:
   multi_select_flutter: ^4.1.2
   flutter_localizations:
     sdk: flutter  
+  file_picker: ^4.6.1
+  firebase_storage: ^10.2.17
 
 
 dev_dependencies:
@@ -89,6 +91,10 @@ flutter:
    - assets/icons/map.svg
    - assets/icons/maelstrom.png
    - assets/icons/go.svg  
+   - assets/icons/calendar.svg
+   - assets/icons/time.svg
+   - assets/icons/picture.svg
+   - assets/icons/tag.svg
    - assets/images/image1.jpg
    - assets/images/image2.jpg
    - assets/images/image3.jpg

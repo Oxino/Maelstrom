@@ -33,35 +33,36 @@ class PageStream extends StatelessWidget {
     final currentId = FirebaseAuth.instance.currentUser!.uid;
     print(isBusiness);
     final ApplicationBloc pageBloc = BlocProvider.of<ApplicationBloc>(context);
-    return 
-    
-    // StreamBuilder(
-      // stream: FirebaseFirestore.instance.collection('users').doc(currentId).snapshots(),
-      // builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-      //   if (snapshot.hasError) {
-      //     return Text('Something went wrong');
-      //   }
+    return
 
-      //   if (snapshot.connectionState == ConnectionState.waiting) {
-      //     return Text("Loading");
-      //   }
+        // StreamBuilder(
+        // stream: FirebaseFirestore.instance.collection('users').doc(currentId).snapshots(),
+        // builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        //   if (snapshot.hasError) {
+        //     return Text('Something went wrong');
+        //   }
 
-      //   if (snapshot.connectionState == ConnectionState.done) {
-    
-    
-    StreamBuilder<PageType>(
-        stream: pageBloc.streamPage,
-        initialData: isBusiness ? PageType.dashboard : PageType.home,
-        builder: (BuildContext context, AsyncSnapshot<PageType> snapshot) {
-          var currentPageItems = _getPageType(snapshot.requireData);
-          return Scaffold(
-            backgroundColor: ThemeColors.backgroundColor,
-            appBar: currentPageItems[0],
-            // buildBar(),
-            body: currentPageItems[1],
-            bottomNavigationBar: currentPageItems[2],
-          );
-        });
+        //   if (snapshot.connectionState == ConnectionState.waiting) {
+        //     return Text("Loading");
+        //   }
+
+        //   if (snapshot.connectionState == ConnectionState.done) {
+
+        StreamBuilder<PageType>(
+            stream: pageBloc.streamPage,
+            initialData: isBusiness ? PageType.dashboard : PageType.home,
+            builder: (BuildContext context, AsyncSnapshot<PageType> snapshot) {
+              var currentPageItems = _getPageType(snapshot.requireData);
+              return Scaffold(
+                backgroundColor: ThemeColors.backgroundColor,
+                appBar: snapshot.requireData != PageType.map
+                    ? currentPageItems[0]
+                    : null,
+                // buildBar(),
+                body: currentPageItems[1],
+                bottomNavigationBar: currentPageItems[2],
+              );
+            });
   }
 
   _getPageType(PageType type) {

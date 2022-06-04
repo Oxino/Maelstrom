@@ -11,7 +11,8 @@ class FormInputText extends StatelessWidget {
 
   FormInputText(this.inputController, this.inputText, this.inputValidator,
       {this.textHide = false,
-      TextInputType? this.keyboardType = TextInputType.text, this.keyboardButton = TextInputAction.next});
+      TextInputType? this.keyboardType = TextInputType.text,
+      this.keyboardButton = TextInputAction.next});
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +22,13 @@ class FormInputText extends StatelessWidget {
       keyboardType: keyboardType,
       textInputAction: keyboardButton,
       obscureText: textHide,
-      style: TextStyle(color: ThemeColors.whiteColor),
+      maxLines: keyboardType == TextInputType.multiline ? 4 : 1,
+      style: TextStyle(color: ThemeColors.whiteColor, fontSize: 14.toDouble()),
       decoration: InputDecoration(
+          isDense: true,
           fillColor: ThemeColors.grayColor,
           filled: true,
-          contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+          contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           hintText: inputText,
           hintStyle: TextStyle(
             color: ThemeColors.textUnfocusColor,

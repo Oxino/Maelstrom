@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EventModel {
@@ -7,6 +5,7 @@ class EventModel {
   String idBusiness;
   String name;
   String description;
+  String imageName;
   List tags;
   Timestamp date;
   int nbViews = 0;
@@ -18,6 +17,7 @@ class EventModel {
     required this.idBusiness,
     required this.name,
     required this.description,
+    required this.imageName,
     required this.tags,
     required this.date,
     required this.promote,
@@ -41,6 +41,7 @@ class EventModel {
         idBusiness: data?['idBusiness'],
         name: data?['name'],
         description: data?['description'],
+        imageName: data?['imageName'],
         tags: data?['tags'],
         date: data?['date'],
         promote: data?['promote']);
@@ -51,6 +52,7 @@ class EventModel {
       "idBusiness": idBusiness,
       "name": name,
       "description": description,
+      "imageName": imageName,
       "tags": tags,
       "date": date,
       "promote": promote,
@@ -61,6 +63,7 @@ class EventModel {
         'idBusiness': idBusiness,
         'name': name,
         'description': description,
+        'imageName': imageName,
         'tags': tags,
         'date': date,
         'promote': promote,

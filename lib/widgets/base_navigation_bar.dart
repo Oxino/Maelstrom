@@ -15,7 +15,7 @@ class BaseNavigationBar extends StatelessWidget {
     return StreamBuilder<PageType>(
         stream: pageBloc.streamPage,
         builder: (BuildContext context, AsyncSnapshot<PageType> snapshot) {
-          return Padding(
+          return Container(color: ThemeColors.backgroundColor, child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 30),
               child: BottomNavigationBar(
                 currentIndex: pageIndex,
@@ -46,7 +46,7 @@ class BaseNavigationBar extends StatelessWidget {
                 selectedFontSize: 0,
                 elevation: 0.0,
                 backgroundColor: ThemeColors.fondColor,
-              ));
+              )));
         });
   }
 

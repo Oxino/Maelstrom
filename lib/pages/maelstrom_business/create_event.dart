@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:maelstrom/bloc/application_bloc.dart';
 import 'package:maelstrom/bloc/bloc_provider.dart';
 import 'package:maelstrom/bloc/firestore_bloc.dart';
+import 'package:maelstrom/bloc/storage.dart';
 
 import 'package:maelstrom/config.dart';
 import 'package:maelstrom/models/event_model.dart';
 import 'package:maelstrom/widgets/base_button.dart';
 import 'package:maelstrom/widgets/base_text.dart';
 import 'package:maelstrom/widgets/date_time_picker.dart';
+import 'package:maelstrom/widgets/image_picker.dart';
 import 'package:maelstrom/widgets/tag_picker.dart';
 
 import 'package:multi_select_flutter/multi_select_flutter.dart';
@@ -25,6 +27,7 @@ class CreateEventPage extends StatefulWidget {
 
 class _CreateEventPageState extends State<CreateEventPage> {
   final FirestoreService _firestoreService = FirestoreService();
+  final Storage _firestoreStorage = Storage();
 
   final formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
@@ -34,6 +37,8 @@ class _CreateEventPageState extends State<CreateEventPage> {
   var tagsController = [];
   final startTimeController = TextEditingController();
   bool promoteController = false;
+  String imagePathController = '';
+  String imageNameController = '';
 
   // final bool isBusiness;
 
@@ -50,7 +55,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(tagsController);
     final ApplicationBloc pageBloc = BlocProvider.of<ApplicationBloc>(context);
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 30),
@@ -64,19 +68,23 @@ class _CreateEventPageState extends State<CreateEventPage> {
             children: [
               FormInputText(
                 nameController,
-                'Le nom de votre évènement',
+                'Son nom',
                 (value) => value != null && value.length < 4
                     ? "Le nom de votre évènement doit faire au moins 4 characters"
                     : null,
+                keyboardType: TextInputType.name,
               ),
               SizedBox(height: 20),
               FormInputText(
-                descriptionController,
-                'La description de votre évènement',
-                (value) => value != null && value.length < 5
-                    ? 'Le mot de passe doit faire au moins 5 characters'
-                    : null,
-              ),
+                  descriptionController,
+                  'Sa description',
+                  (value) => value != null && value.length < 5
+                      ? 'Le mot de passe doit faire au moins 5 characters'
+                      : null,
+                  keyboardType: TextInputType.multiline),
+              SizedBox(height: 20),
+              ImagePicker(setImageControllers, imagePathController,
+                  imageNameController),
               SizedBox(height: 20),
               TagPicker(
                 setTagController,
@@ -86,11 +94,11 @@ class _CreateEventPageState extends State<CreateEventPage> {
                     .toList(),
               ),
               SizedBox(height: 20),
-              DateTimePicker(true, setDateController, dateController,
-                  "Date de l'évènement", ThemeColors.principaleBusinessColor),
+              DateTimePicker(true, setDateController, dateController, "La date",
+                  ThemeColors.principaleBusinessColor),
               SizedBox(height: 20),
               DateTimePicker(false, setTimeController, timeController,
-                  "Heure de l'évènement", ThemeColors.principaleBusinessColor),
+                  "L'heure", ThemeColors.principaleBusinessColor),
               SizedBox(height: 20),
               Row(
                 children: [
@@ -144,10 +152,10 @@ class _CreateEventPageState extends State<CreateEventPage> {
         description: descriptionController.text.trim(),
         tags: tagsController,
         date: timestampController,
-        promote: promoteController);
+        promote: promoteController,
+        imageName: imageNameController);
 
-    print(tagsController);
-
+    _firestoreStorage.uplodFile(imagePathController, imageNameController);
     _firestoreService.createEvent(currentEvent);
 
     pageBloc.setChangePage(PageType.businessEvent);
@@ -156,6 +164,10 @@ class _CreateEventPageState extends State<CreateEventPage> {
   void setDateController(value) => setState(() => dateController = value);
   void setTimeController(value) => setState(() => timeController = value);
   void setTagController(value) => setState(() => tagsController = value);
+  void setImageControllers(imagePath, imageName) => setState(() => {
+        imagePathController = imagePath,
+        imageNameController = imageName,
+      });
   void removeTagController(value) =>
       setState(() => tagsController.remove(value));
 }

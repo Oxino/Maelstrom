@@ -8,9 +8,10 @@ import 'package:maelstrom/widgets/base_text.dart';
 import 'package:maelstrom/widgets/base_image.dart';
 
 class PromoteSection extends StatelessWidget {
-  final eventName;
-  final eventTags;
-  PromoteSection(this.eventName, this.eventTags);
+  final String eventName;
+  final List<dynamic> eventTags;
+  final String imageURL;
+  PromoteSection(this.eventName, this.eventTags, this.imageURL);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,8 +25,7 @@ class PromoteSection extends StatelessWidget {
           children: [
             Padding(
                 padding: EdgeInsets.only(right: 12),
-                child:
-                    BaseImage(ImageType.promote, 'assets/images/image3.jpg')),
+                child: BaseImage(ImageType.promote, imageURL)),
             Expanded(
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,9 +44,9 @@ class PromoteSection extends StatelessWidget {
           children: [
             Row(
                 children: eventTags.map<Widget>((tag) {
-                 if (eventTags.indexOf(tag) > 3) return Container();
-                 print(tag);
-              return TagsWidget(TagsType.small, tag['name'], Color(tag['colorValue']));
+              if (eventTags.indexOf(tag) > 3) return Container();
+              return TagsWidget(
+                  TagsType.small, tag['name'], Color(tag['colorValue']));
             }).toList()),
             BaseButton(ButtonsType.small, () {}),
           ],
