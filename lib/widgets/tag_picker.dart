@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -97,7 +99,17 @@ class _TagPickerState extends State<TagPicker> {
           items: allTags.map((e) => MultiSelectItem(e, e['name'])).toList(),
           listType: MultiSelectListType.CHIP,
           onConfirm: (values) {
-            widget.setTagsController(values);
+            if (values.length <= 3) {
+              widget.setTagsController(values);
+            } else {
+              widget.setTagsController([]);
+              widget.selected_items = [];
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: BaseText(TextType.bodyBoldText,
+                    "Vous ne pouvez pas séléctionner plus de 3 tags"),
+                backgroundColor: ThemeColors.errorColor,
+              ));
+            }
           },
           chipDisplay: MultiSelectChipDisplay(
             items: widget.selected_items,
@@ -110,9 +122,7 @@ class _TagPickerState extends State<TagPicker> {
                 color: ThemeColors.whiteColor),
             // alignment: Alignment.center,
             onTap: (value) {
-              setState(() {
-                widget.removeTagController(value);
-              });
+              widget.removeTagController(value);
             },
           ),
         ));

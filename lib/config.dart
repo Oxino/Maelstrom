@@ -31,7 +31,6 @@ enum PageType {
 }
 
 List<dynamic> allTags = [
-  {'name': 'Test', 'colorValue': 0xFFFFC952},
   {'name': 'Jeux-vidéo', 'colorValue': 0xFFB665E6},
   {'name': 'Film', 'colorValue': 0xFFFFC952},
   {'name': 'Musique', 'colorValue': 0xFFFA552D},

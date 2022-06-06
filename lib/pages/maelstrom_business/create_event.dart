@@ -32,13 +32,12 @@ class _CreateEventPageState extends State<CreateEventPage> {
   final formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
-  DateTime? dateController;
-  TimeOfDay? timeController;
-  var tagsController = [];
-  final startTimeController = TextEditingController();
-  bool promoteController = false;
   String imagePathController = '';
   String imageNameController = '';
+  List tagsController = [];
+  TimeOfDay? timeController;
+  DateTime? dateController;
+  bool promoteController = false;
 
   // final bool isBusiness;
 
@@ -48,7 +47,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
   void dispose() {
     nameController.dispose();
     descriptionController.dispose();
-    startTimeController.dispose();
 
     super.dispose();
   }
@@ -60,28 +58,32 @@ class _CreateEventPageState extends State<CreateEventPage> {
         padding: EdgeInsets.symmetric(horizontal: 30),
         child: Center(
             child: SingleChildScrollView(
-                child: Form(
-          key: formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              FormInputText(
-                nameController,
-                'Son nom',
-                (value) => value != null && value.length < 4
-                    ? "Le nom de votre évènement doit faire au moins 4 characters"
-                    : null,
-                keyboardType: TextInputType.name,
-              ),
-              SizedBox(height: 20),
-              FormInputText(
-                  descriptionController,
-                  'Sa description',
-                  (value) => value != null && value.length < 5
-                      ? 'Le mot de passe doit faire au moins 5 characters'
-                      : null,
-                  keyboardType: TextInputType.multiline),
+              Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      FormInputText(
+                        nameController,
+                        'Son nom',
+                        (value) => value != null && value.length < 4
+                            ? "Le nom de votre évènement doit faire au moins 4 characters"
+                            : null,
+                        keyboardType: TextInputType.name,
+                      ),
+                      SizedBox(height: 20),
+                      FormInputText(
+                          descriptionController,
+                          'Sa description',
+                          (value) => value != null && value.length < 5
+                              ? 'La description de votre évènement doit faire au moins 5 characters'
+                              : null,
+                          keyboardType: TextInputType.multiline),
+                    ],
+                  )),
               SizedBox(height: 20),
               ImagePicker(setImageControllers, imagePathController,
                   imageNameController),
@@ -132,7 +134,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
               SizedBox(height: 20),
             ],
           ),
-        ))));
+        )));
   }
 
   submitEvent(pageBloc) async {
@@ -140,11 +142,35 @@ class _CreateEventPageState extends State<CreateEventPage> {
     var minute = timeController?.minute;
     var dateTimeController = dateController?.add(Duration(
         hours: hour != null ? hour : 0, minutes: minute != null ? minute : 0));
-
     var timestampController = Timestamp.fromDate(
         dateTimeController != null ? dateTimeController : DateTime.now());
-
     var businessId = FirebaseAuth.instance.currentUser!.uid;
+
+    print('hello');
+
+    final isValid = formKey.currentState!.validate();
+    if (!isValid) return;
+
+    if (imagePathController == '') {
+      createError('Veuillez selectionner une image.');
+      return;
+    } else if (tagsController.length <= 0) {
+      createError('Veuillez selectionner au moins un tag.');
+      return;
+      // } else if (tagsController.length >= 3) {
+      //   createError('Ne pas seléctionner plus de 3 tags');
+      //   setTagController([]);
+      //   return;
+    } else if (dateController == null) {
+      createError('Veuillez selectionner une date');
+      return;
+    } else if (dateTimeController!.compareTo(DateTime.now()) < 0) {
+      createError('Veuillez selectionner une date dans le future');
+      return;
+    } else if (timeController == null) {
+      createError('Veuillez selectionner une heure');
+      return;
+    }
 
     final currentEvent = EventModel(
         idBusiness: businessId,
@@ -155,10 +181,10 @@ class _CreateEventPageState extends State<CreateEventPage> {
         promote: promoteController,
         imageName: imageNameController);
 
-    _firestoreStorage.uplodFile(imagePathController, imageNameController);
-    _firestoreService.createEvent(currentEvent);
+    // _firestoreStorage.uplodFile(imagePathController, imageNameController);
+    // _firestoreService.createEvent(currentEvent);
 
-    pageBloc.setChangePage(PageType.businessEvent);
+    // pageBloc.setChangePage(PageType.businessEvent);
   }
 
   void setDateController(value) => setState(() => dateController = value);
@@ -170,4 +196,11 @@ class _CreateEventPageState extends State<CreateEventPage> {
       });
   void removeTagController(value) =>
       setState(() => tagsController.remove(value));
+
+  createError(message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: BaseText(TextType.bodyBoldText, message),
+      backgroundColor: ThemeColors.errorColor,
+    ));
+  }
 }

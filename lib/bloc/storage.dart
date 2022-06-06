@@ -23,6 +23,11 @@ class Storage {
   }
 
   Future<String> getImagURL(String imageName) async {
-    return await storage.ref('events/$imageName').getDownloadURL();
+    try {
+      return await storage.ref('events').child('$imageName').getDownloadURL();
+    } catch (e) {
+      print("Storage error : $e");
+      return "";
+    }
   }
 }

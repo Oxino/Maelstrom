@@ -15,7 +15,7 @@ class PromoteSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(right: 8, top: 8, left: 8, bottom: 15),
+      padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
           color: ThemeColors.grayColor,
           borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -37,7 +37,7 @@ class PromoteSection extends StatelessWidget {
             ))
           ],
         ),
-        SizedBox(height: 20),
+        SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,7 +48,10 @@ class PromoteSection extends StatelessWidget {
               return TagsWidget(
                   TagsType.small, tag['name'], Color(tag['colorValue']));
             }).toList()),
-            BaseButton(ButtonsType.small, () {}),
+            BaseButton(ButtonsType.small, () {}, "Voir", [
+              ThemeColors.principaleBusinessColor,
+              ThemeColors.radientBusinessColor
+            ]),
           ],
         ),
       ]),
