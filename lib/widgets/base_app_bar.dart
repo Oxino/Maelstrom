@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:maelstrom/main.dart';
 
 import 'package:maelstrom/widgets/base_text.dart';
 
@@ -20,18 +21,25 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       titleSpacing: 0,
       elevation: 0.0,
-      leading: IconButton(
-        icon: SizedBox(
-          width: 11,
-          height: 18, // Your Height
-          child: SvgPicture.asset(
-            'assets/icons/arrow-back.svg',
-          ),
-        ),
-        onPressed: () => pageBloc.setChangePage(PageType.home),
-      ),
-      automaticallyImplyLeading: false,
-      title: BaseText(TextType.pageTitle, textBar),
+      // leading: null,
+      // automaticallyImplyLeading: true,
+      title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            GestureDetector(
+                // When the child is tapped, show a snackbar.
+                onTap: () => pageBloc.setChangePage(PageType.home),
+                child: SizedBox(
+                  width: 11,
+                  height: 18, // Your Height
+                  child: SvgPicture.asset(
+                    'assets/icons/arrow-back.svg',
+                  ),
+                )),
+            SizedBox(width: 15),
+            BaseText(TextType.pageTitle, textBar)
+          ]),
       backgroundColor: backgroundBar,
     );
   }

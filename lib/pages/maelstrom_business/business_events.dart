@@ -6,16 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:maelstrom/bloc/firestore_bloc.dart';
 import 'package:maelstrom/bloc/storage.dart';
+import 'package:maelstrom/widgets/business_event_app_bar.dart';
 
 import 'package:maelstrom/widgets/home/promote_section.dart';
 
 class BusinessEventPage extends StatelessWidget {
   final FirestoreService _firestoreService = FirestoreService();
-  final Storage _firestoreStorage = Storage();
+  // final Storage _firestoreStorage = Storage();
   var businessId = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   Widget build(BuildContext context) {
+    Timestamp now = Timestamp.fromDate(DateTime.now());
     // getEvent();
     // return Padding(
     //     padding: EdgeInsets.symmetric(horizontal: 30),
@@ -32,42 +34,53 @@ class BusinessEventPage extends StatelessWidget {
     //                 );
     //               }).toList());
     //             }))));
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30),
-        child: SingleChildScrollView(
-            child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection("events")
-                    .where("idBusiness", isEqualTo: businessId)
-                    .snapshots(),
-                builder: ((context, snapshot) {
-                  if (!snapshot.hasData) return LinearProgressIndicator();
-                  return Column(
-                      children: snapshot.data!.docs.map((event) {
-                    ;
-                    return Padding(
-                        padding: EdgeInsets.only(bottom: 20),
-                        child: FutureBuilder(
-                          future:
-                              _firestoreStorage.getImagURL(event['imageName']),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<String> snapshot) {
-                            if (snapshot.connectionState ==
-                                    ConnectionState.done &&
-                                snapshot.hasData) {
-                              print(snapshot.data!);
-                              return PromoteSection(
-                                  event['name'], event['tags'], snapshot.data!);
-                            }
-                            if (snapshot.hasData ||
-                                snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                              return CircularProgressIndicator();
-                            }
-                            return Container();
-                          },
-                        ));
-                  }).toList());
-                }))));
+    return Column(
+      children: [
+        BusinessEventAppBar(),
+        SizedBox(height: 20),
+        Expanded(
+            child: SingleChildScrollView(
+                child: StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection("events")
+                        .where("idBusiness", isEqualTo: businessId)
+                        .orderBy("startDate")
+                        .startAfter([now]).snapshots(),
+                    builder: ((context, snapshot) {
+                      print(snapshot);
+                      if (!snapshot.hasData) return LinearProgressIndicator();
+                      return Column(
+                          children: snapshot.data!.docs.map((event) {
+                        return Padding(
+                            padding: EdgeInsets.only(bottom: 20),
+                            child:
+                                // FutureBuilder(
+                                //   future:
+                                //       _firestoreStorage.getImageURL(event['imageName']),
+                                //   builder: (BuildContext context,
+                                //       AsyncSnapshot<String> snapshot) {
+                                //     if (snapshot.connectionState ==
+                                //             ConnectionState.done &&
+                                //         snapshot.hasData) {
+                                //       print(snapshot.data!);
+                                //       return
+
+                                // PromoteSection(
+                                //     event['name'], event['tags'], snapshot.data!);
+                                PromoteSection(event)
+                            //     }
+                            //     if (snapshot.hasData ||
+                            //         snapshot.connectionState ==
+                            //             ConnectionState.waiting) {
+                            //       return CircularProgressIndicator();
+                            //     }
+                            //     return Container();
+                            //   },
+                            // )
+                            );
+                      }).toList());
+                    }))))
+      ],
+    );
   }
 }

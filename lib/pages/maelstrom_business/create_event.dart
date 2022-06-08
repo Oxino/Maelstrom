@@ -8,6 +8,7 @@ import 'package:maelstrom/bloc/storage.dart';
 
 import 'package:maelstrom/config.dart';
 import 'package:maelstrom/models/event_model.dart';
+import 'package:maelstrom/widgets/base_app_bar.dart';
 import 'package:maelstrom/widgets/base_button.dart';
 import 'package:maelstrom/widgets/base_text.dart';
 import 'package:maelstrom/widgets/date_time_picker.dart';
@@ -35,7 +36,8 @@ class _CreateEventPageState extends State<CreateEventPage> {
   String imagePathController = '';
   String imageNameController = '';
   List tagsController = [];
-  TimeOfDay? timeController;
+  TimeOfDay? startTimeController;
+  TimeOfDay? endTimeController;
   DateTime? dateController;
   bool promoteController = false;
 
@@ -54,10 +56,11 @@ class _CreateEventPageState extends State<CreateEventPage> {
   @override
   Widget build(BuildContext context) {
     final ApplicationBloc pageBloc = BlocProvider.of<ApplicationBloc>(context);
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30),
-        child: Center(
-            child: SingleChildScrollView(
+    return SingleChildScrollView(
+      child: Column(children: [
+        BaseAppBar("Créer un évènement"),
+        SizedBox(height: 20),
+        Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -99,8 +102,11 @@ class _CreateEventPageState extends State<CreateEventPage> {
               DateTimePicker(true, setDateController, dateController, "La date",
                   ThemeColors.principaleBusinessColor),
               SizedBox(height: 20),
-              DateTimePicker(false, setTimeController, timeController,
-                  "L'heure", ThemeColors.principaleBusinessColor),
+              DateTimePicker(false, setStartTimeController, startTimeController,
+                  "L'heure de début", ThemeColors.principaleBusinessColor),
+              SizedBox(height: 20),
+              DateTimePicker(false, setEndTimeController, endTimeController,
+                  "L'heure de fin", ThemeColors.principaleBusinessColor),
               SizedBox(height: 20),
               Row(
                 children: [
@@ -134,19 +140,16 @@ class _CreateEventPageState extends State<CreateEventPage> {
               SizedBox(height: 20),
             ],
           ),
-        )));
+        )
+      ]),
+    );
   }
 
   submitEvent(pageBloc) async {
-    var hour = timeController?.hour;
-    var minute = timeController?.minute;
-    var dateTimeController = dateController?.add(Duration(
-        hours: hour != null ? hour : 0, minutes: minute != null ? minute : 0));
-    var timestampController = Timestamp.fromDate(
-        dateTimeController != null ? dateTimeController : DateTime.now());
-    var businessId = FirebaseAuth.instance.currentUser!.uid;
+    List<Timestamp> allTimestamp =
+        dateToTimestemp(dateController, startTimeController, endTimeController);
 
-    print('hello');
+    var businessId = FirebaseAuth.instance.currentUser!.uid;
 
     final isValid = formKey.currentState!.validate();
     if (!isValid) return;
@@ -157,18 +160,18 @@ class _CreateEventPageState extends State<CreateEventPage> {
     } else if (tagsController.length <= 0) {
       createError('Veuillez selectionner au moins un tag.');
       return;
-      // } else if (tagsController.length >= 3) {
-      //   createError('Ne pas seléctionner plus de 3 tags');
-      //   setTagController([]);
-      //   return;
     } else if (dateController == null) {
       createError('Veuillez selectionner une date');
       return;
-    } else if (dateTimeController!.compareTo(DateTime.now()) < 0) {
-      createError('Veuillez selectionner une date dans le future');
+    } else if (startTimeController == null) {
+      createError('Veuillez selectionner une heure de début');
       return;
-    } else if (timeController == null) {
-      createError('Veuillez selectionner une heure');
+    } else if (endTimeController == null) {
+      createError('Veuillez selectionner une heure de fin');
+      return;
+    } else if (allTimestamp[0].compareTo(Timestamp.fromDate(DateTime.now())) <
+        0) {
+      createError('Veuillez selectionner une date dans le future');
       return;
     }
 
@@ -177,18 +180,22 @@ class _CreateEventPageState extends State<CreateEventPage> {
         name: nameController.text.trim(),
         description: descriptionController.text.trim(),
         tags: tagsController,
-        date: timestampController,
+        startDate: allTimestamp[0],
+        endDate: allTimestamp[1],
         promote: promoteController,
         imageName: imageNameController);
 
-    // _firestoreStorage.uplodFile(imagePathController, imageNameController);
-    // _firestoreService.createEvent(currentEvent);
+    _firestoreStorage.uplodFile(imagePathController, imageNameController);
 
-    // pageBloc.setChangePage(PageType.businessEvent);
+    _firestoreService.createEvent(currentEvent);
+
+    pageBloc.setChangePage(PageType.businessEvent);
   }
 
   void setDateController(value) => setState(() => dateController = value);
-  void setTimeController(value) => setState(() => timeController = value);
+  void setStartTimeController(value) =>
+      setState(() => startTimeController = value);
+  void setEndTimeController(value) => setState(() => endTimeController = value);
   void setTagController(value) => setState(() => tagsController = value);
   void setImageControllers(imagePath, imageName) => setState(() => {
         imagePathController = imagePath,
@@ -202,5 +209,25 @@ class _CreateEventPageState extends State<CreateEventPage> {
       content: BaseText(TextType.bodyBoldText, message),
       backgroundColor: ThemeColors.errorColor,
     ));
+  }
+
+  dateToTimestemp(DateTime? date, TimeOfDay? startTime, TimeOfDay? endTime) {
+    int? startHour = startTime?.hour;
+    int? startMinute = startTime?.minute;
+    int? endHour = endTime?.hour;
+    int? endMinute = endTime?.minute;
+
+    DateTime? startDateTime = date?.add(Duration(
+        hours: startHour != null ? startHour : 0,
+        minutes: startMinute != null ? startMinute : 0));
+    DateTime? endDateTime = date?.add(Duration(
+        hours: endHour != null ? endHour : 0,
+        minutes: endMinute != null ? endMinute : 0));
+
+    endDateTime = endDateTime!.isAfter(startDateTime!)
+        ? endDateTime
+        : endDateTime.add(Duration(days: 1));
+
+    return [Timestamp.fromDate(startDateTime), Timestamp.fromDate(endDateTime)];
   }
 }

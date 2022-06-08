@@ -173,8 +173,17 @@ class _LoginWidgetState extends State<LoginWidget> {
               child: CircularProgressIndicator(),
             ));
 
-    widget.authenticationService.signIn(widget.isBusiness,
-        emailController.text.trim(), passwordController.text.trim());
+    var errorMessage = await widget.authenticationService.signIn(
+        widget.isBusiness,
+        emailController.text.trim(),
+        passwordController.text.trim());
+
+    if (errorMessage != '') {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: BaseText(TextType.bodyBoldText, errorMessage),
+        backgroundColor: ThemeColors.errorColor,
+      ));
+    }
 
     // Navigatio.of(context) not working !
     navigatorKey.currentState!.popUntil((route) => route.isFirst);

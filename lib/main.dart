@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:maelstrom/bloc/authentication_bloc.dart';
 import 'package:maelstrom/pages/auth.dart';
 import 'package:maelstrom/pages/verify_email.dart';
+import 'package:maelstrom/widgets/utils.dart';
 // import 'package:maelstrom/widgets/utils.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';

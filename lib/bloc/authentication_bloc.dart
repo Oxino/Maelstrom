@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:maelstrom/bloc/firestore_bloc.dart';
+import 'package:maelstrom/config.dart';
 import 'package:maelstrom/models/business_model.dart';
 import 'package:maelstrom/models/user_model.dart';
 import 'dart:async';
+
+import 'package:maelstrom/widgets/base_text.dart';
 
 class AuthenticationService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -134,8 +138,11 @@ class AuthenticationService {
         password: value,
       );
       curentUser = _firestoreService.getUser(isBusiness, authResult.user!.uid);
+
+      return '';
     } on FirebaseException catch (e) {
       print(e);
+      return e.message;
 
       // Utils.showSnackBar(e.message);
     }

@@ -93,4 +93,18 @@ class FirestoreService {
   //     print("No such document.");
   //   }
   // }
+
+  Stream<QuerySnapshot<Object?>>? getEventForUser() {
+    final Timestamp now = Timestamp.fromDate(DateTime.now());
+    final Timestamp startDateLimit =
+        Timestamp.fromDate(DateTime.now().add(const Duration(hours: 4)));
+    print(now.toDate());
+    print(startDateLimit.toDate());
+
+    final eventsRef = FirebaseFirestore.instance.collection("events");
+    eventsRef.where('startDate', isLessThan: startDateLimit);
+    eventsRef.where('endDate', isLessThan: now);
+
+    return eventsRef.snapshots();
+  }
 }

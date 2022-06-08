@@ -7,7 +7,8 @@ class EventModel {
   String description;
   String imageName;
   List tags;
-  Timestamp date;
+  Timestamp startDate;
+  Timestamp endDate;
   int nbViews = 0;
   int nbReserved = 0;
   int nbGo = 0;
@@ -19,7 +20,8 @@ class EventModel {
     required this.description,
     required this.imageName,
     required this.tags,
-    required this.date,
+    required this.startDate,
+    required this.endDate,
     required this.promote,
   });
 
@@ -43,7 +45,8 @@ class EventModel {
         description: data?['description'],
         imageName: data?['imageName'],
         tags: data?['tags'],
-        date: data?['date'],
+        startDate: data?['startDate'],
+        endDate: data?['endDate'],
         promote: data?['promote']);
   }
 
@@ -54,7 +57,8 @@ class EventModel {
       "description": description,
       "imageName": imageName,
       "tags": tags,
-      "date": date,
+      "startDate": startDate,
+      "endDate": endDate,
       "promote": promote,
     };
   }
@@ -65,7 +69,8 @@ class EventModel {
         'description': description,
         'imageName': imageName,
         'tags': tags,
-        'date': date,
+        'startDate': startDate,
+        'endDate': endDate,
         'promote': promote,
       };
 }

@@ -31,7 +31,6 @@ class PageStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentId = FirebaseAuth.instance.currentUser!.uid;
-    print(isBusiness);
     final ApplicationBloc pageBloc = BlocProvider.of<ApplicationBloc>(context);
     return
 
@@ -48,21 +47,39 @@ class PageStream extends StatelessWidget {
 
         //   if (snapshot.connectionState == ConnectionState.done) {
 
-        StreamBuilder<PageType>(
-            stream: pageBloc.streamPage,
-            initialData: isBusiness ? PageType.dashboard : PageType.home,
-            builder: (BuildContext context, AsyncSnapshot<PageType> snapshot) {
-              var currentPageItems = _getPageType(snapshot.requireData);
-              return Scaffold(
-                backgroundColor: ThemeColors.backgroundColor,
-                appBar: snapshot.requireData != PageType.map
-                    ? currentPageItems[0]
-                    : null,
-                // buildBar(),
-                body: currentPageItems[1],
-                bottomNavigationBar: currentPageItems[2],
-              );
-            });
+        Scaffold(
+      backgroundColor: ThemeColors.backgroundColor,
+      appBar: null,
+      // buildBar(),
+      body: StreamBuilder<PageType>(
+          stream: pageBloc.streamPage,
+          initialData: isBusiness ? PageType.dashboard : PageType.home,
+          builder: (BuildContext context, AsyncSnapshot<PageType> snapshot) {
+            var currentPageItems = _getPageType(snapshot.requireData);
+            return snapshot.requireData == PageType.map
+                ? currentPageItems
+                : Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 30),
+                    child: currentPageItems);
+          }),
+      bottomNavigationBar:
+          isBusiness ? BusinessNavigationBar() : BaseNavigationBar(),
+    );
+    // StreamBuilder<PageType>(
+    //     stream: pageBloc.streamPage,
+    //     initialData: isBusiness ? PageType.dashboard : PageType.home,
+    //     builder: (BuildContext context, AsyncSnapshot<PageType> snapshot) {
+    //       var currentPageItems = _getPageType(snapshot.requireData);
+    //       return Scaffold(
+    //         backgroundColor: ThemeColors.backgroundColor,
+    //         appBar: snapshot.requireData != PageType.map
+    //             ? currentPageItems[0]
+    //             : null,
+    //         // buildBar(),
+    //         body: currentPageItems[1],
+    //         bottomNavigationBar: currentPageItems[2],
+    //       );
+    //     });
   }
 
   _getPageType(PageType type) {
@@ -70,70 +87,46 @@ class PageStream extends StatelessWidget {
       switch (type) {
         case PageType.dashboard:
           {
-            return [HomeAppBar(), Dashboard(), BusinessNavigationBar()];
+            return Dashboard();
           }
         case PageType.businessEvent:
           {
-            return [
-              BusinessEventAppBar(),
-              BusinessEventPage(),
-              BusinessNavigationBar()
-            ];
+            return BusinessEventPage();
           }
         case PageType.createEvent:
           {
-            return [
-              BaseAppBar("Créer un évènement"),
-              CreateEventPage(),
-              BusinessNavigationBar()
-            ];
+            return CreateEventPage();
           }
         case PageType.user:
           {
-            return [
-              BaseAppBar(FirebaseAuth.instance.currentUser!.email!),
-              UserPage(),
-              BusinessNavigationBar()
-            ];
-          }
-        case PageType.user:
-          {
-            return [
-              BaseAppBar(FirebaseAuth.instance.currentUser!.email!),
-              UserPage(),
-              BusinessNavigationBar()
-            ];
+            return UserPage();
           }
         default:
           {
-            return [HomeAppBar(), Dashboard(), BusinessNavigationBar()];
+            return Dashboard();
           }
       }
     } else {
       switch (type) {
         case PageType.home:
           {
-            return [HomeAppBar(), HomePage(), BaseNavigationBar()];
+            return HomePage();
           }
         case PageType.list:
           {
-            return [BaseAppBar("Map"), ListPage(), BaseNavigationBar()];
+            return ListPage();
           }
         case PageType.map:
           {
-            return [BaseAppBar("Map"), MapPage(), BaseNavigationBar()];
+            return MapPage();
           }
         case PageType.user:
           {
-            return [
-              BaseAppBar(FirebaseAuth.instance.currentUser!.email!),
-              UserPage(),
-              BaseNavigationBar()
-            ];
+            return UserPage();
           }
         default:
           {
-            return [HomeAppBar(), HomePage(), BaseNavigationBar()];
+            return HomePage();
           }
       }
     }

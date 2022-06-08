@@ -16,26 +16,23 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       titleSpacing: 0,
       elevation: 0.0,
       automaticallyImplyLeading: false,
-      title: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            SizedBox(
-              height: 38, // Your Height
-              width: 38,
-              child: SvgPicture.asset(
-                'assets/icons/maelstrom.svg',
-              ),
-            ),
-            IconButton(
-                icon: SizedBox(
-                    height: 30, // Your Height
-                    width: 24,
-                    child: SvgPicture.asset(
-                      'assets/icons/user.svg',
-                    )),
-                onPressed: () => pageBloc.setChangePage(PageType.user)),
-          ])),
+      title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        SizedBox(
+          height: 38, // Your Height
+          width: 38,
+          child: SvgPicture.asset(
+            'assets/icons/maelstrom.svg',
+          ),
+        ),
+        IconButton(
+            icon: SizedBox(
+                height: 30, // Your Height
+                width: 24,
+                child: SvgPicture.asset(
+                  'assets/icons/user.svg',
+                )),
+            onPressed: () => pageBloc.setChangePage(PageType.user)),
+      ]),
       backgroundColor: ThemeColors.backgroundColor,
     );
   }

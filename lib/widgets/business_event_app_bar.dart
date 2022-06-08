@@ -18,20 +18,17 @@ class BusinessEventAppBar extends StatelessWidget
       titleSpacing: 0,
       elevation: 0.0,
       automaticallyImplyLeading: false,
-      title: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            BaseText(TextType.pageTitle, 'Vos évènements'),
-            IconButton(
-                icon: SizedBox(
-                    height: 24, // Your Height
-                    width: 24,
-                    child: SvgPicture.asset(
-                      'assets/icons/plus.svg',
-                    )),
-                onPressed: () => pageBloc.setChangePage(PageType.createEvent)),
-          ])),
+      title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        BaseText(TextType.pageTitle, 'Vos évènements'),
+        IconButton(
+            icon: SizedBox(
+                height: 24, // Your Height
+                width: 24,
+                child: SvgPicture.asset(
+                  'assets/icons/plus.svg',
+                )),
+            onPressed: () => pageBloc.setChangePage(PageType.createEvent)),
+      ]),
       backgroundColor: ThemeColors.backgroundColor,
     );
   }

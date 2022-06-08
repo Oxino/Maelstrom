@@ -2,8 +2,8 @@
 // import 'package:maelstrom/config.dart';
 
 // class Utils {
-//   final messengerKey = GlobalKey<ScaffoldMessengerState>();
 //   static showSnackBar(String? text) {
+//   final messengerKey = GlobalKey<ScaffoldMessengerState>();
 //     if (text == null) return;
 
 //     final snackBar = SnackBar(

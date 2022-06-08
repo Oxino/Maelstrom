@@ -31,16 +31,33 @@ class BaseImage extends StatelessWidget {
         // child:
         Column(children: [
       Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(6)),
-            image: DecorationImage(
-              fit: BoxFit.fill,
-              image: NetworkImage(imageSrc),
-            ),
-          ),
+          // decoration: BoxDecoration(
+          //   borderRadius: BorderRadius.all(Radius.circular(6)),
+          // image: DecorationImage(
+          //   fit: BoxFit.fill,
+          //   image: NetworkImage(imageSrc),
+          // ),
+          // ),
           width: _buildImageSize(imageType)[0],
           height: _buildImageSize(imageType)[1],
-          child: null),
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: Image.network(
+                imageSrc,
+                fit: BoxFit.cover,
+                loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                          : null,
+                    ),
+                  );
+                },
+              ))),
       if (imageType == ImageType.reco)
         Stack(
           children: [

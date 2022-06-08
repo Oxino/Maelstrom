@@ -148,8 +148,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   Future signUp() async {
     final isValid = formKey.currentState!.validate();
 
-    print(dateController);
-
     if (!isValid) return;
     if (dateController == null) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
