@@ -69,7 +69,7 @@ class EventModel {
         'description': description,
         'imageName': imageName,
         'tags': tags,
-        'startDate': startDate,
+        'w': startDate,
         'endDate': endDate,
         'promote': promote,
       };

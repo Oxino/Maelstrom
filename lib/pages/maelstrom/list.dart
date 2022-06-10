@@ -8,49 +8,21 @@ import 'package:maelstrom/bloc/storage.dart';
 import 'package:maelstrom/config.dart';
 import 'package:maelstrom/widgets/base_app_bar.dart';
 import 'package:maelstrom/widgets/base_text.dart';
+import 'package:maelstrom/widgets/choose_tag.dart';
 import 'package:maelstrom/widgets/tags_widget.dart';
 import 'package:maelstrom/widgets/base_image.dart';
 
-class ListPage extends StatelessWidget {
+class ListPage extends StatefulWidget {
+    @override
+  _ListPageState createState() => _ListPageState();
+}
+
+
+
+class _ListPageState extends State<ListPage> {
   final FirestoreService _firestoreService = FirestoreService();
-  // final List eventList = [
-  //   {
-  //     'title':
-  //         'Soirée célib : Faites des rencontre bla blab labfnzzkljj oimf zehsoa lfn ejijk bavamk aoieflefk njf ',
-  //     'place': 'La casacasa casacasa casa casacasacasac ',
-  //     'picture': 'assets/images/image1.jpg',
-  //     'km': '1km',
-  //     'tag': [],
-  //   },
-  //   {
-  //     'title': 'Tournois Super Smash Bros Ulitimate',
-  //     'place': 'Le R4dom',
-  //     'picture': 'assets/images/image2.jpg',
-  //     'km': '1.5km',
-  //     'tag': [],
-  //   },
-  //   {
-  //     'title': 'Soirée aèvec DJ Snake  1 conso offerte',
-  //     'place': 'La plage',
-  //     'picture': 'assets/images/image3.jpg',
-  //     'km': '2km',
-  //     'tag': [],
-  //   },
-  //   {
-  //     'title': 'Soirée Beer Pong',
-  //     'place': 'La Grange',
-  //     'picture': 'assets/images/image2.jpg',
-  //     'km': '2km',
-  //     'tag': [],
-  //   },
-  //   {
-  //     'title': 'Rencontre Geek',
-  //     'place': 'Le Sherlock',
-  //     'picture': 'assets/images/image1.jpg',
-  //     'km': '2.5km',
-  //     'tag': [],
-  //   },
-  // ];
+
+  List activeTags = [];
 
   @override
   Widget build(BuildContext context) {
@@ -67,45 +39,27 @@ class ListPage extends StatelessWidget {
     return Column(children: [
       BaseAppBar("Liste"),
       SizedBox(height: 20),
+      ChooseTag(setActiveTags, removeActiveTags, activeTags),
+      SizedBox(height: 20),
       Expanded(
           child: SingleChildScrollView(
               child: StreamBuilder<QuerySnapshot>(
-                  // stream: eventsRef.snapshots(),
                   stream: _firestoreService.getEventForUser(),
                   builder: ((context, snapshot) {
                     if (!snapshot.hasData) return LinearProgressIndicator();
                     return Column(
                         children: snapshot.data!.docs.map((event) {
-                      return
-                          // FutureBuilder(
-                          //   future:
-                          //       _firestoreStorage.getImageURL(event['imageName']),
-                          //   builder: (BuildContext context,
-                          //       AsyncSnapshot<String> snapshot) {
-                          //     if (snapshot.connectionState ==
-                          //             ConnectionState.done &&
-                          //         snapshot.hasData) {
-                          //       print(snapshot.data!);
-                          //       return
-                          EventList(event);
-                      // ;}
-                      //     if (snapshot.hasData ||
-                      //         snapshot.connectionState ==
-                      //             ConnectionState.waiting) {
-                      //       return CircularProgressIndicator();
-                      //     }
-                      //     return Container();
-                      //   },
-                      // )
+                      return EventList(event);
                     }).toList());
                   })))
-          // Column(
-          //     children: event.map((event) {
-          //   return EventList(event);
-          // }).toList())
           )
     ]);
   }
+
+
+  void setActiveTags(value) => setState(() => activeTags.add(value));
+  void removeActiveTags(value) =>
+      setState(() => activeTags.remove(value));
 }
 
 class EventList extends StatelessWidget {

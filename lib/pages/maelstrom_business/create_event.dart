@@ -12,8 +12,8 @@ import 'package:maelstrom/widgets/base_app_bar.dart';
 import 'package:maelstrom/widgets/base_button.dart';
 import 'package:maelstrom/widgets/base_text.dart';
 import 'package:maelstrom/widgets/date_time_picker.dart';
-import 'package:maelstrom/widgets/image_picker.dart';
-import 'package:maelstrom/widgets/tag_picker.dart';
+import 'package:maelstrom/widgets/create_event/image_picker.dart';
+import 'package:maelstrom/widgets/create_event/tag_picker.dart';
 
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 

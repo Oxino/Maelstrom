@@ -25,16 +25,6 @@ class TagPicker extends StatefulWidget {
 class _TagPickerState extends State<TagPicker> {
   @override
   Widget build(BuildContext context) {
-    List<String> all_items = [
-      "Célibataire",
-      "Autre",
-      "Promo",
-      "Jeux vidéo",
-      "Guest",
-      "Quizz",
-      "Film",
-      "Blind Test",
-    ];
     return Container(
         decoration: BoxDecoration(
           boxShadow: [

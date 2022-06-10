@@ -16,7 +16,10 @@ class TagsWidget extends StatelessWidget {
           : EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       decoration: BoxDecoration(
         color: tagColor,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: tagType == TagsType.button
+            ? BorderRadius.only(
+                topLeft: Radius.circular(12), bottomRight: Radius.circular(7))
+            : BorderRadius.circular(8),
       ),
       child: tagType == TagsType.bubble
           ? Container()
@@ -47,6 +50,10 @@ class TagsWidget extends StatelessWidget {
         {
           return 15.toDouble();
         }
+      case TagsType.button:
+        {
+          return 15.toDouble();
+        }
 
       default:
         {
@@ -55,4 +62,3 @@ class TagsWidget extends StatelessWidget {
     }
   }
 }
-

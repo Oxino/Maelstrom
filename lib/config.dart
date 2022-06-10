@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:maelstrom/models/tag_model.dart';
 
-enum TagsType { bubble, small, medium, big }
+enum TagsType { bubble, small, medium, big, button }
 
 enum ButtonsType { icon, small, big }
 
