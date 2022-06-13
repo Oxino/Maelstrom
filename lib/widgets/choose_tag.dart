@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:maelstrom/config.dart';
 import 'package:maelstrom/widgets/base_text.dart';
@@ -7,10 +8,9 @@ import 'package:maelstrom/widgets/tags_widget.dart';
 
 class ChooseTag extends StatefulWidget {
   var setTagsController;
-  var removeTagController;
   var selectedTags;
-  ChooseTag(this.setTagsController, this.removeTagController, this.selectedTags,
-      {Key? key})
+  // allTags.sort((a, b) => a["name"].compareTo(b["name"]));
+  ChooseTag(this.setTagsController, this.selectedTags, {Key? key})
       : super(key: key);
 
   @override
@@ -18,27 +18,40 @@ class ChooseTag extends StatefulWidget {
 }
 
 class _ChooseTagState extends State<ChooseTag> {
+  bool isExpend = false;
+  final allTags = AllTags.getAllTagsSort();
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Wrap(
+    List visibleTags = isExpend ? allTags : widget.selectedTags;
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          BaseText(TextType.sectionTitle, 'Tags'),
+          IconButton(
+              icon: SizedBox(
+                  height: 24, // Your Height
+                  width: 24,
+                  child: SvgPicture.asset(
+                    'assets/icons/plus.svg',
+                  )),
+              onPressed: () => setState(() => isExpend = !isExpend))
+        ],
+      ),
+      SizedBox(height: 5),
+      Wrap(
           spacing: 7,
           runSpacing: 10,
-          children: allTags.map<Widget>((tag) {
-            print(widget.selectedTags);
-            var isSelected = (widget.selectedTags.singleWhere(
-                (it) => it['name'] == tag['name'],
-                orElse: () => null));
-            print(isSelected);
-            return TextButton(
-                onPressed: widget.setTagsController(tag),
+          children: visibleTags.map<Widget>((tag) {
+            return InkWell(
+                onTap: () => widget.setTagsController(tag),
                 child: TagsWidget(
                     TagsType.button,
                     tag['name'],
-                    isSelected == null
-                        ? ThemeColors.grayColor
-                        : Color(tag['colorValue'])));
-          }).toList()),
-    );
+                    widget.selectedTags.contains(tag)
+                        ? Color(tag['colorValue'])
+                        : ThemeColors.grayColor));
+          }).toList())
+    ]);
   }
 }

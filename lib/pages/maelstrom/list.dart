@@ -6,6 +6,7 @@ import 'package:maelstrom/bloc/firestore_bloc.dart';
 import 'package:maelstrom/bloc/storage.dart';
 
 import 'package:maelstrom/config.dart';
+import 'package:maelstrom/models/tag_model.dart';
 import 'package:maelstrom/widgets/base_app_bar.dart';
 import 'package:maelstrom/widgets/base_text.dart';
 import 'package:maelstrom/widgets/choose_tag.dart';
@@ -13,11 +14,9 @@ import 'package:maelstrom/widgets/tags_widget.dart';
 import 'package:maelstrom/widgets/base_image.dart';
 
 class ListPage extends StatefulWidget {
-    @override
+  @override
   _ListPageState createState() => _ListPageState();
 }
-
-
 
 class _ListPageState extends State<ListPage> {
   final FirestoreService _firestoreService = FirestoreService();
@@ -36,11 +35,13 @@ class _ListPageState extends State<ListPage> {
     eventsRef.where('startDate', isLessThan: startDateLimit);
     eventsRef.where('endDate', isLessThan: now);
 
-    return Column(children: [
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       BaseAppBar("Liste"),
       SizedBox(height: 20),
-      ChooseTag(setActiveTags, removeActiveTags, activeTags),
-      SizedBox(height: 20),
+      ChooseTag(setActiveTags, activeTags),
+      SizedBox(height: 30),
+      BaseText(TextType.sectionTitle, 'Les Evènements'),
+      SizedBox(height: 15),
       Expanded(
           child: SingleChildScrollView(
               child: StreamBuilder<QuerySnapshot>(
@@ -51,15 +52,17 @@ class _ListPageState extends State<ListPage> {
                         children: snapshot.data!.docs.map((event) {
                       return EventList(event);
                     }).toList());
-                  })))
-          )
+                  }))))
     ]);
   }
 
+  void setActiveTags(Map value) => setState(() {
+        activeTags.contains(value)
+            ? activeTags.remove(value)
+            : activeTags.add(value);
 
-  void setActiveTags(value) => setState(() => activeTags.add(value));
-  void removeActiveTags(value) =>
-      setState(() => activeTags.remove(value));
+        activeTags.sort((a, b) => a["name"].compareTo(b["name"]));
+      });
 }
 
 class EventList extends StatelessWidget {

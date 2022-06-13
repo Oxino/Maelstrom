@@ -146,9 +146,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
   }
 
   submitEvent(pageBloc) async {
-    List<Timestamp> allTimestamp =
-        dateToTimestemp(dateController, startTimeController, endTimeController);
-
     var businessId = FirebaseAuth.instance.currentUser!.uid;
 
     final isValid = formKey.currentState!.validate();
@@ -169,11 +166,18 @@ class _CreateEventPageState extends State<CreateEventPage> {
     } else if (endTimeController == null) {
       createError('Veuillez selectionner une heure de fin');
       return;
-    } else if (allTimestamp[0].compareTo(Timestamp.fromDate(DateTime.now())) <
+    }
+
+    List<Timestamp> allTimestamp =
+        dateToTimestemp(dateController, startTimeController, endTimeController);
+
+    if (allTimestamp[0].compareTo(Timestamp.fromDate(DateTime.now())) <
         0) {
       createError('Veuillez selectionner une date dans le future');
       return;
     }
+
+    print(tagsController);
 
     final currentEvent = EventModel(
         idBusiness: businessId,

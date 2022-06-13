@@ -25,6 +25,7 @@ class TagPicker extends StatefulWidget {
 class _TagPickerState extends State<TagPicker> {
   @override
   Widget build(BuildContext context) {
+    final allTags = AllTags.getAllTagsSort();
     return Container(
         decoration: BoxDecoration(
           boxShadow: [
@@ -86,20 +87,24 @@ class _TagPickerState extends State<TagPicker> {
                       ? ThemeColors.whiteColor
                       : ThemeColors.textUnfocusColor)),
           backgroundColor: ThemeColors.backgroundColor,
-          items: allTags.map((e) => MultiSelectItem(e, e['name'])).toList(),
+          items: allTags
+              .map<MultiSelectItem<Object?>>(
+                  (e) => MultiSelectItem(e, e['name']))
+              .toList(),
           listType: MultiSelectListType.CHIP,
           onConfirm: (values) {
-            if (values.length <= 3) {
-              widget.setTagsController(values);
-            } else {
-              widget.setTagsController([]);
-              widget.selected_items = [];
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: BaseText(TextType.bodyBoldText,
-                    "Vous ne pouvez pas séléctionner plus de 3 tags"),
-                backgroundColor: ThemeColors.errorColor,
-              ));
-            }
+            print(values);
+            // if (values.length <= 3) {
+            widget.setTagsController(values);
+            // } else {
+            //   widget.setTagsController([]);
+            //   widget.selected_items = [];
+            //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            //     content: BaseText(TextType.bodyBoldText,
+            //         "Vous ne pouvez pas séléctionner plus de 3 tags"),
+            //     backgroundColor: ThemeColors.errorColor,
+            //   ));
+            // }
           },
           chipDisplay: MultiSelectChipDisplay(
             items: widget.selected_items,
