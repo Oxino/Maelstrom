@@ -52,7 +52,7 @@ class TagsWidget extends StatelessWidget {
         }
       case TagsType.button:
         {
-          return 15.toDouble();
+          return 12.toDouble();
         }
 
       default:

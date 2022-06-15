@@ -58,7 +58,11 @@ class _CreateEventPageState extends State<CreateEventPage> {
     final ApplicationBloc pageBloc = BlocProvider.of<ApplicationBloc>(context);
     return SingleChildScrollView(
       child: Column(children: [
-        BaseAppBar("Créer un évènement"),
+        BaseAppBar(
+          leftIcon: 'assets/icons/arrow-back.svg',
+          leftIconFuction: PageType.businessEvent,
+          textBar: "Créer un évènement",
+        ),
         SizedBox(height: 20),
         Center(
           child: Column(
@@ -171,8 +175,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
     List<Timestamp> allTimestamp =
         dateToTimestemp(dateController, startTimeController, endTimeController);
 
-    if (allTimestamp[0].compareTo(Timestamp.fromDate(DateTime.now())) <
-        0) {
+    if (allTimestamp[0].compareTo(Timestamp.fromDate(DateTime.now())) < 0) {
       createError('Veuillez selectionner une date dans le future');
       return;
     }

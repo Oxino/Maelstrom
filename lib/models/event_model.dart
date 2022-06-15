@@ -25,13 +25,19 @@ class EventModel {
     required this.promote,
   });
 
-  // EventModel.fromData(DocumentSnapshot<Object?> data)
-  //     : idBusiness = data['idBusiness'],
-  //       name = data['name'],
-  //       description = data['description'],
-  //       tags = data['tags'],
-  //       date = data['date'],
-  //       promote = data['promote'];
+  static EventModel formSnapshot(DocumentSnapshot snap) {
+    EventModel event = EventModel(
+        idBusiness: snap['idBusiness'],
+        name: snap['name'],
+        description: snap['description'],
+        imageName: snap['imageName'],
+        tags: snap['tags'],
+        startDate: snap['startDate'],
+        endDate: snap['endDate'],
+        promote: snap['promote']);
+
+    return event;
+  }
 
   factory EventModel.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,

@@ -9,7 +9,6 @@ import 'package:maelstrom/widgets/tags_widget.dart';
 class ChooseTag extends StatefulWidget {
   var setTagsController;
   var selectedTags;
-  // allTags.sort((a, b) => a["name"].compareTo(b["name"]));
   ChooseTag(this.setTagsController, this.selectedTags, {Key? key})
       : super(key: key);
 
@@ -27,13 +26,16 @@ class _ChooseTagState extends State<ChooseTag> {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          BaseText(TextType.sectionTitle, 'Tags'),
+          BaseText(TextType.sectionTitle, 'Les Evènements'),
           IconButton(
               icon: SizedBox(
-                  height: 24, // Your Height
-                  width: 24,
+                  height: 20, // Your Height
+                  width: 20,
                   child: SvgPicture.asset(
-                    'assets/icons/plus.svg',
+                    'assets/icons/tag.svg',
+                    color: isExpend
+                        ? ThemeColors.principaleColor
+                        : ThemeColors.whiteColor,
                   )),
               onPressed: () => setState(() => isExpend = !isExpend))
         ],

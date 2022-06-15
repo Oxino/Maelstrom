@@ -14,7 +14,7 @@ enum TextType {
   bodyText,
   littleBoldText,
   littleText,
-  smallText
+  smallText,
 }
 
 enum ImageType { big, promote, reco, square, smallSquare }
@@ -27,7 +27,8 @@ enum PageType {
   login,
   dashboard,
   createEvent,
-  businessEvent
+  businessEvent,
+  event
 }
 
 class AllTags {

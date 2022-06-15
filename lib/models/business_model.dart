@@ -21,6 +21,20 @@ class BusinessModel {
     required this.email,
   });
 
+  static BusinessModel formSnapshot(DocumentSnapshot snap) {
+    BusinessModel event = BusinessModel(
+        id: snap['id'],
+        institutionName: snap['institutionName'],
+        siret: snap['siret'],
+        address: snap['address'],
+        description: snap['description'],
+        firstName: snap['firstName'],
+        lastName: snap['lastName'],
+        email: snap['email']);
+
+    return event;
+  }
+
   BusinessModel.fromData(DocumentSnapshot<Object?> data)
       : id = data['id'],
         institutionName = data['institutionName'],

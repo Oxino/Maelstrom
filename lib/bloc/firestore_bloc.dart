@@ -94,7 +94,7 @@ class FirestoreService {
   //   }
   // }
 
-  Stream<QuerySnapshot<Object?>>? getEventForUser() {
+  Stream<QuerySnapshot<Object?>>? getEventForUser(tagFilter) {
     final Timestamp now = Timestamp.fromDate(DateTime.now());
     final Timestamp startDateLimit =
         Timestamp.fromDate(DateTime.now().add(const Duration(hours: 4)));
@@ -104,6 +104,9 @@ class FirestoreService {
     final eventsRef = FirebaseFirestore.instance.collection("events");
     eventsRef.where('startDate', isLessThan: startDateLimit);
     eventsRef.where('endDate', isLessThan: now);
+    if (tagFilter.length > 0) {
+      eventsRef.where('tags', arrayContains: tagFilter);
+    }
 
     return eventsRef.snapshots();
   }

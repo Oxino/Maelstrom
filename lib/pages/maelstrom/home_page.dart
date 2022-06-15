@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:maelstrom/config.dart';
+import 'package:maelstrom/widgets/base_app_bar.dart';
 
 import 'package:maelstrom/widgets/base_text.dart';
 import 'package:maelstrom/widgets/home/home_app_bar.dart';
@@ -12,13 +13,6 @@ import 'package:maelstrom/widgets/home/reco_section.dart';
 
 // class HomePage extends BasePage {
 class HomePage extends StatelessWidget {
-  final event = {
-    'title': 'Soirée célib : Faites des rencontre',
-    'place': 'La casa',
-    'picture': 'assets/images/image1.jpg',
-    'km': '1km',
-    'tag': [],
-  };
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

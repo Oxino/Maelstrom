@@ -1,7 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="12.891" height="19.852" viewBox="0 0 12.891 19.852">
-  <g id="pointe-de-fleche-gauche" transform="translate(-110.325 1.019)">
-    <g id="Groupe_30" data-name="Groupe 30" transform="translate(111.325 0)">
-      <path id="Tracé_45" data-name="Tracé 45" d="M111.518,9.223,121.9,17.7c.258.207.376.123.263-.188l-2.756-8.1a1.9,1.9,0,0,1,0-1.125L122.158.3c.114-.311,0-.4-.263-.19L111.52,8.476A.456.456,0,0,0,111.518,9.223Z" transform="translate(-111.325 0)" fill="none" stroke="#f1f1f1" stroke-width="2"/>
-    </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="24.858" height="21.754" viewBox="0 0 24.858 21.754">
+  <g id="arrow-left-short" transform="translate(-8.998 -10.123)">
+    <path id="Tracé_221" data-name="Tracé 221" d="M20.976,10.58a1.554,1.554,0,0,1,0,2.2L12.751,21l8.225,8.222a1.555,1.555,0,0,1-2.2,2.2L9.455,22.1a1.554,1.554,0,0,1,0-2.2l9.321-9.321a1.554,1.554,0,0,1,2.2,0Z" transform="translate(0)" fill="#f1f1f1" fill-rule="evenodd"/>
+    <path id="Tracé_222" data-name="Tracé 222" d="M10.125,18.429a1.554,1.554,0,0,1,1.554-1.554h20.2a1.554,1.554,0,1,1,0,3.107h-20.2A1.554,1.554,0,0,1,10.125,18.429Z" transform="translate(0.429 2.572)" fill="#f1f1f1" fill-rule="evenodd"/>
   </g>
 </svg>

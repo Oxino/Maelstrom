@@ -6,6 +6,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:maelstrom/bloc/authentication_bloc.dart';
+import 'package:maelstrom/bloc/business_bloc.dart';
+import 'package:maelstrom/bloc/event_bloc.dart';
 import 'package:maelstrom/pages/auth.dart';
 import 'package:maelstrom/pages/verify_email.dart';
 import 'package:maelstrom/widgets/utils.dart';
@@ -24,8 +26,11 @@ Future main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(
-      BlocProvider<ApplicationBloc>(bloc: ApplicationBloc(), child: MyApp()));
+  runApp(BlocProvider<ApplicationBloc>(
+      bloc: ApplicationBloc(),
+      child: BlocProvider<BusinessBloc>(
+          bloc: BusinessBloc(),
+          child: BlocProvider<EventBloc>(bloc: EventBloc(), child: MyApp()))));
 }
 
 final navigatorKey = GlobalKey<NavigatorState>();
