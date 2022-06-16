@@ -1,7 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:maelstrom/bloc/firestore_bloc.dart';
+// import 'package:maelstrom/bloc/firestore_bloc.dart';
 import 'package:maelstrom/config.dart';
 import 'dart:async';
 
@@ -23,7 +22,7 @@ class VerifyEmailPage extends StatefulWidget {
 }
 
 class _VerifyEmailPageState extends State<VerifyEmailPage> {
-  final FirestoreService _firestoreService = FirestoreService();
+  // final FirestoreService _firestoreService = FirestoreService();
   bool isEmailVerified = false;
   Timer? timer;
   bool isBusinessUser = false;

@@ -1,9 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:maelstrom/models/tag_model.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 import 'package:maelstrom/config.dart';

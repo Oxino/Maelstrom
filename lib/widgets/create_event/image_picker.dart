@@ -1,16 +1,10 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:maelstrom/bloc/application_bloc.dart';
-import 'package:maelstrom/bloc/bloc_provider.dart';
-import 'package:maelstrom/bloc/storage.dart';
 import 'package:maelstrom/config.dart';
 
-import 'package:intl/intl.dart';
-import 'package:maelstrom/widgets/base_image.dart';
 import 'package:maelstrom/widgets/base_text.dart';
 
 class ImagePicker extends StatefulWidget {

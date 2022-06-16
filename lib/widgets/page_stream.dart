@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:maelstrom/config.dart';
 
@@ -27,7 +27,7 @@ class PageStream extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentId = FirebaseAuth.instance.currentUser!.uid;
+    // final currentId = FirebaseAuth.instance.currentUser!.uid;
     final ApplicationBloc pageBloc = BlocProvider.of<ApplicationBloc>(context);
     return Scaffold(
       backgroundColor: ThemeColors.backgroundColor,

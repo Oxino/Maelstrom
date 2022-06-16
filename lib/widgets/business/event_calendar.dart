@@ -27,13 +27,14 @@ class _EventCalendarState extends State<EventCalendar> {
     return StreamBuilder<List<EventModel?>>(
         stream: _eventRepos.getBusinessWeekEvents(widget.idBusiness),
         builder: ((context, snapshot) {
-          if (!snapshot.hasData || snapshot.data! == null)
+          if (!snapshot.hasData) {
             return Container(
               child: BaseText(
                 TextType.bodyBoldText,
                 "Pas d'évènement corespondant a votre recherche",
               ),
             );
+          }
           List<CalendarEvent> allCalendarEvent =
               _getDateLabelFormat(snapshot.data!);
           return Padding(
@@ -67,17 +68,18 @@ class _EventCalendarState extends State<EventCalendar> {
       allCalendarEvent.add(CalendarEvent(i, label, number, dayEvent));
       currentDate = currentDate.add(const Duration(days: 1));
     }
-    print(allCalendarEvent);
     return allCalendarEvent;
   }
 
-  EventModel? _getDayEvent(events, currentDate) {
+  EventModel? _getDayEvent(List<EventModel?> events, DateTime currentDate) {
     return events.firstWhere((event) {
+      if (event == null) {
+        return false;
+      }
       String currentDateFormat = DateFormat('dd-MM-yyyy').format(currentDate);
-      String eventDateFormat = DateFormat('dd-MM-yyyy').format(event.startDate);
-      eventDateFormat == currentDateFormat;
-    }, () {
-      return null;
-    });
+      String eventDateFormat =
+          DateFormat('dd-MM-yyyy').format(event.startDate.toDate());
+      return eventDateFormat == currentDateFormat;
+    }, orElse: () => null);
   }
 }

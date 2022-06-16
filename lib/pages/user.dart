@@ -1,11 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:maelstrom/bloc/application_bloc.dart';
-import 'package:maelstrom/bloc/bloc_provider.dart';
 
 import 'package:maelstrom/config.dart';
 import 'package:maelstrom/widgets/base_app_bar.dart';
-import 'package:maelstrom/widgets/base_text.dart';
 
 import 'package:maelstrom/widgets/base_button.dart';
 

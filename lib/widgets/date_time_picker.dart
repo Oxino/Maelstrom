@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:maelstrom/bloc/application_bloc.dart';
-import 'package:maelstrom/bloc/bloc_provider.dart';
 import 'package:maelstrom/config.dart';
 
 import 'package:intl/intl.dart';

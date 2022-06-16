@@ -4,30 +4,27 @@ import 'package:flutter/material.dart';
 
 import 'package:maelstrom/bloc/bloc_provider.dart';
 import 'package:maelstrom/bloc/business_bloc.dart';
-import 'package:maelstrom/bloc/event_bloc.dart';
+// import 'package:maelstrom/bloc/event_bloc.dart';
 
 import 'package:maelstrom/config.dart';
 
 import 'package:maelstrom/models/business_model.dart';
-import 'package:maelstrom/models/event_model.dart';
 
 import 'package:maelstrom/widgets/base_app_bar.dart';
 import 'package:maelstrom/widgets/base_text.dart';
 import 'package:maelstrom/widgets/business/event_calendar.dart';
 
-
-
 // class HomePage extends BasePage {
 class EventPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final EventBloc eventBloc = BlocProvider.of<EventBloc>(context);
+    // final EventBloc eventBloc = BlocProvider.of<EventBloc>(context);
     final BusinessBloc businessBloc = BlocProvider.of<BusinessBloc>(context);
     // final currentEvent = eventBloc.streamEvent;
     return StreamBuilder<BusinessModel>(
         stream: businessBloc.streamBusiness,
         builder: ((context, snapshot) {
-          if (!snapshot.hasData)
+          if (!snapshot.hasData) {
             return Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30),
                 child: Column(children: [
@@ -44,6 +41,7 @@ class EventPage extends StatelessWidget {
                     ),
                   ))
                 ]));
+          }
           BusinessModel business = snapshot.data!;
           return Column(
             children: [

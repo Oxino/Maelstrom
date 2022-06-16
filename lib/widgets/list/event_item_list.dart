@@ -6,7 +6,6 @@ import 'package:maelstrom/bloc/storage.dart';
 import 'package:maelstrom/bloc/bloc_provider.dart';
 
 import 'package:maelstrom/bloc/application_bloc.dart';
-import 'package:maelstrom/bloc/event_bloc.dart';
 
 import 'package:maelstrom/config.dart';
 import 'package:maelstrom/models/business_model.dart';
@@ -27,7 +26,7 @@ class EventItemList extends StatelessWidget {
     final BusinessBloc businessBloc = BlocProvider.of<BusinessBloc>(context);
 
     final BusinessRepo _businessRepo = BusinessRepo();
-    final curentEvent = _businessRepo.getCurrentBusiness(event.idBusiness);
+    // final curentEvent = _businessRepo.getCurrentBusiness(event.idBusiness);
     return Padding(
         padding: EdgeInsets.only(bottom: 15),
         child: StreamBuilder<BusinessModel>(
@@ -41,8 +40,6 @@ class EventItemList extends StatelessWidget {
               return InkWell(
                   onTap: () {
                     pageBloc.setChangePage(PageType.event);
-                    print('Le snapshot : $snapshot');
-                    print('la data : ${snapshot.data}');
                     if (snapshot.data != null) {
                       businessBloc.setBusiness(snapshot.data!);
                     }

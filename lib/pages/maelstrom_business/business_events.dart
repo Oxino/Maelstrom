@@ -4,15 +4,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:maelstrom/bloc/firestore_bloc.dart';
+// import 'package:maelstrom/bloc/firestore_bloc.dart';
 import 'package:maelstrom/config.dart';
 import 'package:maelstrom/widgets/base_app_bar.dart';
 
 import 'package:maelstrom/widgets/home/promote_section.dart';
 
 class BusinessEventPage extends StatelessWidget {
-  final FirestoreService _firestoreService = FirestoreService();
-  var businessId = FirebaseAuth.instance.currentUser!.uid;
+  // final FirestoreService _firestoreService = FirestoreService();
+  String businessId = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   Widget build(BuildContext context) {

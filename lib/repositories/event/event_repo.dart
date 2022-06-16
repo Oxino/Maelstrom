@@ -29,16 +29,17 @@ class EventRepos extends BaseEventRepo {
 
   @override
   Stream<List<EventModel?>> getBusinessWeekEvents(String idBusiness) {
-    final now = DateTime.now();
-    final week = now.add(const Duration(days: 7));
-    print(week);
-    return _eventCollectionReference
-        .where('isBusiness', isEqualTo: idBusiness)
-        .where('startDate', isLessThan: week)
-        .snapshots()
-        .map((snapshot) {
+    Timestamp now = Timestamp.fromDate(DateTime.now());
+    Timestamp week =
+        Timestamp.fromDate(DateTime.now().add(const Duration(days: 7)));
+
+    Query<Object?> eventsQuery =
+        _eventCollectionReference.where('startDate', isLessThan: week);
+    eventsQuery = eventsQuery.where('idBusiness', isEqualTo: idBusiness);
+    return eventsQuery.snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
-        if (doc['endDate'] > now) {
+        if (now.compareTo(doc['endDate']) > 1) {
+          print('hello $doc');
           return EventModel.formSnapshot(doc);
         }
       }).toList();
@@ -53,7 +54,7 @@ class EventRepos extends BaseEventRepo {
     bool isEventInProgress;
     bool isEventVisible;
 
-    var eventsQuery =
+    Query<Object?> eventsQuery =
         _eventCollectionReference.where('endDate', isGreaterThan: now);
     if (activeTags.length > 0) {
       eventsQuery = eventsQuery.where('tags', arrayContainsAny: activeTags);
@@ -64,7 +65,7 @@ class EventRepos extends BaseEventRepo {
         //Check if event is in progress
         isEventInProgress = now.compareTo(doc['startDate']) > 0 &&
             now.compareTo(doc['endDate']) < 0;
-        //If event in progress we whaite the endDate to hide
+        //If event in progress we waite the endDate to hide
         //If is not in progress we hide all event who start in 4 hour
         isEventVisible = isEventInProgress
             ? now.compareTo(doc['endDate']) < 0

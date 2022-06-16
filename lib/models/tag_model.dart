@@ -1,6 +1,5 @@
 
 import 'package:flutter/cupertino.dart';
-import 'package:maelstrom/config.dart';
 
 class TagModel {
   final String name;
