@@ -17,15 +17,16 @@ class EventRepos extends BaseEventRepo {
     });
   }
 
-  // @override
-  // Stream<List<EventModel>> getBusinessEvents(String idBusiness) {
-  //   return _eventCollectionReference
-  //       .where('isBusiness', isEqualTo: idBusiness)
-  //       .snapshots()
-  //       .map((snapshot) {
-  //     return snapshot.docs.map((doc) => EventModel.formSnapshot(doc)).toList();
-  //   });
-  // }
+  @override
+  Stream<List<EventModel>> getBusinessEvents(String idBusiness) {
+    return _eventCollectionReference
+        .where('isBusiness', isEqualTo: idBusiness)
+        .orderBy("startDate")
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) => EventModel.formSnapshot(doc)).toList();
+    });
+  }
 
   @override
   Stream<List<EventModel?>> getBusinessWeekEvents(String idBusiness) {
@@ -44,6 +45,14 @@ class EventRepos extends BaseEventRepo {
         }
       }).toList();
     });
+  }
+
+  @override
+  Stream<EventModel?> geEventById(String id) {
+    return _eventCollectionReference
+        .doc(id)
+        .snapshots()
+        .map((snapshot) => EventModel.formSnapshot(snapshot));
   }
 
   @override
