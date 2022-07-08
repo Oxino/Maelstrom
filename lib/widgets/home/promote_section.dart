@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:maelstrom/bloc/storage.dart';
 
 import 'package:maelstrom/config.dart';
+import 'package:maelstrom/models/event_model.dart';
 
 import 'package:maelstrom/widgets/tags_widget.dart';
 import 'package:maelstrom/widgets/base_button.dart';
@@ -15,8 +16,8 @@ class PromoteSection extends StatelessWidget {
   // final String imageURL;
   // PromoteSection(this.eventName, this.eventTags, this.imageURL);
 
-  final QueryDocumentSnapshot<Object?> event;
-  PromoteSection(this.event);
+  final EventModel event;
+  PromoteSection(EventModel this.event);
   @override
   Widget build(BuildContext context) {
     final Storage _firestoreStorage = Storage();
@@ -32,7 +33,7 @@ class PromoteSection extends StatelessWidget {
             Padding(
                 padding: EdgeInsets.only(right: 12),
                 child: FutureBuilder(
-                  future: _firestoreStorage.getImageURL(event['imageName']),
+                  future: _firestoreStorage.getImageURL(event.imageName),
                   builder:
                       (BuildContext context, AsyncSnapshot<String> snapshot) {
                     if (snapshot.connectionState == ConnectionState.done &&
@@ -52,7 +53,7 @@ class PromoteSection extends StatelessWidget {
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                BaseText(TextType.bodyBoldText, event['name']),
+                BaseText(TextType.bodyBoldText, event.name),
                 SizedBox(height: 10),
                 BaseText(TextType.littleText, 'Lieu'),
               ],
@@ -65,8 +66,8 @@ class PromoteSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
-                children: event['tags'].map<Widget>((tag) {
-              if (event["tags"].indexOf(tag) > 3) return Container();
+                children: event.tags.map<Widget>((tag) {
+              if (event.tags.indexOf(tag) > 3) return Container();
               return TagsWidget(
                   TagsType.small, tag['name'], Color(tag['colorValue']));
             }).toList()),
