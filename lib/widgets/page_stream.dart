@@ -13,7 +13,7 @@ import 'package:maelstrom/pages/maelstrom/list_page.dart';
 import 'package:maelstrom/pages/maelstrom/map_page.dart';
 import 'package:maelstrom/pages/maelstrom/business_page.dart';
 import 'package:maelstrom/pages/maelstrom_business/dashboard.dart';
-import 'package:maelstrom/pages/maelstrom_business/business_events.dart';
+import 'package:maelstrom/pages/maelstrom_business/business_list_event.dart';
 import 'package:maelstrom/pages/maelstrom_business/create_event.dart';
 
 import 'package:maelstrom/widgets/base_navigation_bar.dart';
@@ -58,7 +58,7 @@ class PageStream extends StatelessWidget {
           }
         case PageType.businessEvent:
           {
-            return BusinessEventPage();
+            return BusinessListEventPage();
           }
         case PageType.createEvent:
           {
