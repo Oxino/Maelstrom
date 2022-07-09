@@ -7,7 +7,9 @@ import '../../bloc/application_bloc.dart';
 import '../../bloc/bloc_provider.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
+  bool isBusiness;
   Size get preferredSize => new Size.fromHeight(60);
+  HomeAppBar({bool this.isBusiness = false});
   @override
   Widget build(BuildContext context) {
     final ApplicationBloc pageBloc = BlocProvider.of<ApplicationBloc>(context);
@@ -21,7 +23,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           height: 38, // Your Height
           width: 38,
           child: SvgPicture.asset(
-            'assets/icons/maelstrom.svg',
+            isBusiness ?'assets/icons/maelstrom_business.svg' : 'assets/icons/maelstrom.svg',
           ),
         ),
         IconButton(

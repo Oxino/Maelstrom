@@ -42,7 +42,7 @@ class Dashboard extends StatelessWidget {
 
     return Column(
       children: [
-        HomeAppBar(),
+        HomeAppBar(isBusiness: true),
         Expanded(
             child: SingleChildScrollView(
                 child: Column(
