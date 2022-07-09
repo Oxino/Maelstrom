@@ -99,6 +99,12 @@ flutter:
    - assets/icons/time.svg
    - assets/icons/picture.svg
    - assets/icons/tag.svg
+   - assets/icons/data_event.svg
+   - assets/icons/data_see.svg
+   - assets/icons/data_user.svg
+   - assets/icons/data_tag.svg
+   - assets/icons/data_provide.svg
+   - assets/icons/data_go.svg
    - assets/images/image1.jpg
    - assets/images/image2.jpg
    - assets/images/image3.jpg

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="49" viewBox="0 0 50 49">
+  <g id="Groupe_208" data-name="Groupe 208" transform="translate(-27.807 -3.391)">
+    <rect id="Rectangle_164" data-name="Rectangle 164" width="50" height="49" rx="8" transform="translate(27.807 3.391)" fill="#39b3fa"/>
+    <g id="user-filled" transform="translate(35.878 12.354)">
+      <path id="Tracé_234" data-name="Tracé 234" d="M6.75,31.98H26.3V27.093a6.85,6.85,0,0,0-6.843-6.843H13.593A6.85,6.85,0,0,0,6.75,27.093Z" transform="translate(0 -2.36)" fill="#f1f1f1"/>
+      <path id="Tracé_235" data-name="Tracé 235" d="M10.125,9.093A6.843,6.843,0,1,0,16.968,2.25a6.843,6.843,0,0,0-6.843,6.843Z" transform="translate(-0.442)" fill="#f1f1f1"/>
+    </g>
+  </g>
+</svg>

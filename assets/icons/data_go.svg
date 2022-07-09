@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="49" viewBox="0 0 50 49">
+  <g id="Groupe_214" data-name="Groupe 214" transform="translate(0.193 -0.391)">
+    <rect id="Rectangle_164" data-name="Rectangle 164" width="50" height="49" rx="8" transform="translate(-0.193 0.391)" fill="#39b3fa"/>
+    <path id="map-marker" d="M14.747,0A10.317,10.317,0,0,0,4.43,10.317a8.859,8.859,0,0,0,1.443,5.292L14.747,27.37l8.874-11.761a9.717,9.717,0,0,0,1.443-5.292A10.317,10.317,0,0,0,14.747,0Zm0,5.976a4.342,4.342,0,1,1-4.342,4.341A4.343,4.343,0,0,1,14.747,5.976Z" transform="translate(9.656 11.604)" fill="#f1f1f1"/>
+  </g>
+</svg>

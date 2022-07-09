@@ -85,4 +85,38 @@ class EventRepos extends BaseEventRepo {
       }).toList();
     });
   }
+
+  @override
+  List<double> getNumeberBusinnessEventsByMonth(String idBusiness) {
+    List<List<Timestamp>> allMonthPeriod = [];
+    for (var i = 1; i < 13; i++) {
+      if (i == 12) {
+        allMonthPeriod.add([
+          Timestamp.fromDate(DateTime(DateTime.now().year, i)),
+          Timestamp.fromDate(DateTime(DateTime.now().year + 1, 1))
+        ]);
+      }
+      allMonthPeriod.add([
+        Timestamp.fromDate(DateTime(DateTime.now().year, i)),
+        Timestamp.fromDate(DateTime(DateTime.now().year, i + 1))
+      ]);
+    }
+    ;
+    List<double> numberByMonthList = [];
+
+    List allBusinessEvents = [];
+
+    _eventCollectionReference
+        .where('isBusiness', isEqualTo: idBusiness)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) {
+        allBusinessEvents.add(EventModel.formSnapshot(doc));
+      });
+    });
+
+
+
+    return [0];
+  }
 }
