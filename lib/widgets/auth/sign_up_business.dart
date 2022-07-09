@@ -118,7 +118,7 @@ class _SignUpBusinessWidgetState extends State<SignUpBusinessWidget> {
                         } else {
                           final isValid = formKey1.currentState!.validate();
                           if (!isValid) return;
-                          setState(() => {});
+                          setState(() => currentStep += 1);
                         }
                       },
                       onStepCancel: () {
@@ -206,14 +206,14 @@ class _SignUpBusinessWidgetState extends State<SignUpBusinessWidget> {
                 FormInputText(
                     siretController,
                     "Numéro SIRET",
-                    (value) => value != null && value.length < 2
+                    (value) => value != null && value.length < 6
                         ? "Le numéro SIRET de l'établissement doit faire au moins 6 characters"
                         : null),
                 SizedBox(height: 20),
                 FormInputText(
                     addressController,
                     "L'adresse de l'établissement",
-                    (address) => address != null && address.length < 2
+                    (address) => address != null && address.length < 8
                         ? "L'adresse de l'établissementT doit faire au moins 8 characters"
                         : null,
                     keyboardType: TextInputType.streetAddress),
@@ -221,7 +221,7 @@ class _SignUpBusinessWidgetState extends State<SignUpBusinessWidget> {
                 FormInputText(
                   descriptionController,
                   "Description de votre établissement",
-                  (description) => description != null && description.length < 2
+                  (description) => description != null && description.length < 8
                       ? "Le numéro SIRET doit faire au moins 2 characters"
                       : null,
                   keyboardType: TextInputType.multiline,
