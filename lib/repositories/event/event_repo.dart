@@ -72,12 +72,11 @@ class EventRepos extends BaseEventRepo {
     return eventsQuery.snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
         //Check if event is in progress
-        isEventInProgress = now.compareTo(doc['startDate']) > 0 &&
-            now.compareTo(doc['endDate']) < 0;
+        isEventInProgress = now.compareTo(doc['startDate']) > 0;
         //If event in progress we waite the endDate to hide
         //If is not in progress we hide all event who start in 4 hour
         isEventVisible = isEventInProgress
-            ? now.compareTo(doc['endDate']) < 0
+            ? true
             : startDateLimit.compareTo(doc['startDate']) > 0;
         if (isEventVisible) {
           return EventModel.formSnapshot(doc);
@@ -114,8 +113,6 @@ class EventRepos extends BaseEventRepo {
         allBusinessEvents.add(EventModel.formSnapshot(doc));
       });
     });
-
-
 
     return [0];
   }
