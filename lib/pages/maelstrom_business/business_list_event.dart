@@ -13,7 +13,7 @@ import 'package:maelstrom/repositories/event/event_repo.dart';
 import 'package:maelstrom/widgets/base_app_bar.dart';
 import 'package:maelstrom/widgets/base_text.dart';
 
-import 'package:maelstrom/widgets/home/promote_section.dart';
+import 'package:maelstrom/widgets/home/promote_widget.dart';
 
 class BusinessListEventPage extends StatelessWidget {
   // final FirestoreService _firestoreService = FirestoreService();
@@ -51,7 +51,10 @@ class BusinessListEventPage extends StatelessWidget {
                                 children: [
                                   BaseText(TextType.sectionTitle, eventDate),
                                   SizedBox(height: 10),
-                                  PromoteSection(event),
+                                  PromoteWidget(
+                                    event,
+                                    isBusiness: true,
+                                  ),
                                 ]));
                       }).toList());
                     }))))

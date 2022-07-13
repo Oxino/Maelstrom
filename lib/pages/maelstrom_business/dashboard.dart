@@ -16,7 +16,7 @@ import 'package:maelstrom/widgets/dashboard/data_box.dart';
 import 'package:maelstrom/widgets/dashboard/line_chart.dart';
 import 'package:maelstrom/widgets/dashboard/pie_chart.dart';
 import 'package:maelstrom/widgets/home/home_app_bar.dart';
-import 'package:maelstrom/widgets/home/promote_section.dart';
+import 'package:maelstrom/widgets/home/promote_widget.dart';
 
 // class HomePage extends BasePage {
 class Dashboard extends StatelessWidget {
@@ -25,7 +25,7 @@ class Dashboard extends StatelessWidget {
   int year = DateTime.now().year;
   @override
   Widget build(BuildContext context) {
-  List test = _eventRepos.getNumeberBusinnessEventsByMonth(idBusiness);
+    // List test = _eventRepos.getNumeberBusinnessEventsByMonth(idBusiness);
     EventModel event = new EventModel(
         idBusiness: 'PagMMWubUGUParLJbkRSmcWB1Dw1',
         name: "Soiréee beer bong",
@@ -57,7 +57,7 @@ class Dashboard extends StatelessWidget {
                     return BaseText(
                         TextType.bodyBoldText, "Something went wrong");
                   }
-                  return PromoteSection(snapshot.data!);
+                  return PromoteWidget(snapshot.data!, isBusiness: true);
                 })),
             SizedBox(height: 30),
             BaseText(TextType.sectionTitle, "Vos statistiques globales"),
@@ -71,7 +71,8 @@ class Dashboard extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: DataBox('Evénement', 78, 'assets/icons/data_event.svg'),
+                  child:
+                      DataBox('Evénement', 78, 'assets/icons/data_event.svg'),
                 ),
                 SizedBox(width: 15),
                 Expanded(
