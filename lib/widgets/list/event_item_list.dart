@@ -52,25 +52,7 @@ class EventItemList extends StatelessWidget {
                     child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          FutureBuilder(
-                            future:
-                                _firestoreStorage.getImageURL(event.imageName),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<String> snapshot) {
-                              if (snapshot.connectionState ==
-                                      ConnectionState.done &&
-                                  snapshot.hasData) {
-                                return BaseImage(
-                                    ImageType.smallSquare, snapshot.data!);
-                              }
-                              if (snapshot.hasData ||
-                                  snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                return CircularProgressIndicator();
-                              }
-                              return Container();
-                            },
-                          ),
+                          BaseImage(ImageType.smallSquare, event.imageName),
                           SizedBox(width: 8),
                           Flexible(
                               child: Column(
