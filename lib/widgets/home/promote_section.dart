@@ -4,6 +4,7 @@ import 'package:maelstrom/repositories/event/event_repo.dart';
 import 'package:maelstrom/widgets/base_text.dart';
 
 import 'package:maelstrom/config.dart';
+import 'package:maelstrom/widgets/clickable_event.dart';
 import 'package:maelstrom/widgets/home/promote_widget.dart';
 
 class PromoteSection extends StatelessWidget {
@@ -25,9 +26,7 @@ class PromoteSection extends StatelessWidget {
               Column(
                   children: snapshot.data!.map((event) {
                 if (event != null) {
-                  return Column(
-                    children: [PromoteWidget(event)],
-                  );
+                  return ClickableEvent(event.idBusiness, PromoteWidget(event));
                 } else {
                   return Container();
                 }
