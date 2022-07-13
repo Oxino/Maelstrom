@@ -6,6 +6,9 @@ import 'package:maelstrom/config.dart';
 
 import 'package:maelstrom/widgets/base_text.dart';
 import 'package:maelstrom/widgets/home/home_app_bar.dart';
+import 'package:maelstrom/widgets/home/promote_section.dart';
+import 'package:maelstrom/widgets/home/reco_section.dart';
+
 // class HomePage extends BasePage {
 class HomePage extends StatelessWidget {
   @override
@@ -17,12 +20,8 @@ class HomePage extends StatelessWidget {
           SizedBox(height: 20),
           // SearchSection(),
           SizedBox(height: 20),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: BaseText(TextType.sectionTitle, "Evènement de la soirée"),
-          ),
-          SizedBox(height: 15),
-          // PromoteSection(event),
+
+          PromoteSection(),
           SizedBox(height: 30),
           Align(
             alignment: Alignment.centerLeft,
