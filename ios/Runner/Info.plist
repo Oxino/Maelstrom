@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
+	<key>MGLMapboxAccessTokens</key>
+	<string>sk.eyJ1Ijoib3hpbm8iLCJhIjoiY2w1aDNkaWhqMDNubzNiczAyNmRxYnE0aiJ9.Q-qC47H2LryRKj0ivCcjUw</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>Maelstrom a besoin de votre position pour vous amener a vos événemets</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

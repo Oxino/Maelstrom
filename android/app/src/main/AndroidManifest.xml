@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.maelstrom">
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
    <application
         android:label="maelstrom"
         android:name="${applicationName}"
@@ -7,6 +9,10 @@
 
         <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyCoY61Voj6crO07gKDAOYSZ4XZ560l7b9w"/>
+
+        <!-- <meta-data android:name="mapbox_access_token" android:value="pk.eyJ1Ijoib3hpbm8iLCJhIjoiY2t3ZGo5Y3hhMXZ6eDJvcW14ZWdjMnozYSJ9.aHUP-svWOxOFUlO2YhNQAg" /> -->
+
+        <!-- <meta-data android:mane="com.mapbox.token" android:value="sk.eyJ1Ijoib3hpbm8iLCJhIjoiY2w1aDNkaWhqMDNubzNiczAyNmRxYnE0aiJ9.Q-qC47H2LryRKj0ivCcjUw"/> -->
 
         <activity
             android:name=".MainActivity"
