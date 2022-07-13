@@ -86,34 +86,61 @@ class EventRepos extends BaseEventRepo {
   }
 
   @override
-  List<double> getNumeberBusinnessEventsByMonth(String idBusiness) {
-    List<List<Timestamp>> allMonthPeriod = [];
-    for (var i = 1; i < 13; i++) {
-      if (i == 12) {
-        allMonthPeriod.add([
-          Timestamp.fromDate(DateTime(DateTime.now().year, i)),
-          Timestamp.fromDate(DateTime(DateTime.now().year + 1, 1))
-        ]);
-      }
-      allMonthPeriod.add([
-        Timestamp.fromDate(DateTime(DateTime.now().year, i)),
-        Timestamp.fromDate(DateTime(DateTime.now().year, i + 1))
-      ]);
-    }
-    ;
-    List<double> numberByMonthList = [];
+  Stream<List<EventModel?>> getTodayPromoteEvents() {
+    final Timestamp now = Timestamp.fromDate(DateTime.now());
+    final Timestamp startDateLimit =
+        Timestamp.fromDate(DateTime.now().add(const Duration(hours: 4)));
+    bool isEventInProgress;
+    bool isEventVisible;
 
-    List allBusinessEvents = [];
+    Query<Object?> eventsQuery =
+        _eventCollectionReference.where('endDate', isGreaterThan: now);
+    eventsQuery = eventsQuery.where('promote', isEqualTo: true);
 
-    _eventCollectionReference
-        .where('isBusiness', isEqualTo: idBusiness)
-        .snapshots()
-        .map((snapshot) {
+    return eventsQuery.snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
-        allBusinessEvents.add(EventModel.formSnapshot(doc));
-      });
+        //Check if event is in progress
+        isEventInProgress = now.compareTo(doc['startDate']) > 0;
+        //If event in progress we waite the endDate to hide
+        //If is not in progress we hide all event who start in 4 hour
+        isEventVisible = isEventInProgress
+            ? true
+            : startDateLimit.compareTo(doc['startDate']) > 0;
+        if (isEventVisible) {
+          return EventModel.formSnapshot(doc);
+        }
+      }).toList();
     });
-
-    return [0];
   }
+
+  // @override
+  // List<double> getNumeberBusinnessEventsByMonth(String idBusiness) {
+  //   List<List<Timestamp>> allMonthPeriod = [];
+  //   for (var i = 1; i < 13; i++) {
+  //     if (i == 12) {
+  //       allMonthPeriod.add([
+  //         Timestamp.fromDate(DateTime(DateTime.now().year, i)),
+  //         Timestamp.fromDate(DateTime(DateTime.now().year + 1, 1))
+  //       ]);
+  //     }
+  //     allMonthPeriod.add([
+  //       Timestamp.fromDate(DateTime(DateTime.now().year, i)),
+  //       Timestamp.fromDate(DateTime(DateTime.now().year, i + 1))
+  //     ]);
+  //   };
+  //   List<double> numberByMonthList = [];
+
+  //   List allBusinessEvents = [];
+
+  //   _eventCollectionReference
+  //       .where('isBusiness', isEqualTo: idBusiness)
+  //       .snapshots()
+  //       .map((snapshot) {
+  //     return snapshot.docs.map((doc) {
+  //       allBusinessEvents.add(EventModel.formSnapshot(doc));
+  //     });
+  //   });
+
+  //   return [0];
+  // }
 }
