@@ -6,6 +6,7 @@ import 'package:maelstrom/config.dart';
 
 import 'package:maelstrom/bloc/bloc_provider.dart';
 import 'package:maelstrom/bloc/application_bloc.dart';
+import 'package:maelstrom/pages/maelstrom/map_test.dart';
 
 import 'package:maelstrom/pages/user.dart';
 import 'package:maelstrom/pages/maelstrom/home_page.dart';
@@ -85,7 +86,8 @@ class PageStream extends StatelessWidget {
           }
         case PageType.map:
           {
-            return MapPage();
+            // return MapPage();
+            return MapView();
           }
         case PageType.user:
           {
