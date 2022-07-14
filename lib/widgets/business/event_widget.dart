@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:maelstrom/bloc/application_bloc.dart';
+import 'package:maelstrom/bloc/bloc_provider.dart';
+import 'package:maelstrom/bloc/event_bloc.dart';
 import 'package:maelstrom/config.dart';
 import 'package:maelstrom/models/event_model.dart';
 import 'package:maelstrom/widgets/base_button.dart';
@@ -17,6 +20,8 @@ class EventWidget extends StatefulWidget {
 class _EventWidgetState extends State<EventWidget> {
   @override
   Widget build(BuildContext context) {
+    final ApplicationBloc pageBloc = BlocProvider.of<ApplicationBloc>(context);
+    final EventBloc eventBloc = BlocProvider.of<EventBloc>(context);
     bool hasSelectedEvent = widget.event != null;
     if (hasSelectedEvent) {
       EventModel event = widget.event!;
@@ -48,7 +53,10 @@ class _EventWidgetState extends State<EventWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   BaseText(TextType.bigText, '2km'),
-                  BaseButton(ButtonsType.big, () {})
+                  BaseButton(ButtonsType.big, () {
+                    pageBloc.setChangePage(PageType.path);
+                    eventBloc.setEvent(event);
+                  })
                 ],
               )
             ],

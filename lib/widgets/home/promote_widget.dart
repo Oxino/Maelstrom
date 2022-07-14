@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:maelstrom/bloc/application_bloc.dart';
+import 'package:maelstrom/bloc/bloc_provider.dart';
+import 'package:maelstrom/bloc/event_bloc.dart';
 import 'package:maelstrom/bloc/storage.dart';
 
 import 'package:maelstrom/config.dart';
@@ -25,6 +28,8 @@ class PromoteWidget extends StatelessWidget {
   PromoteWidget(EventModel this.event, {bool this.isBusiness = false});
   @override
   Widget build(BuildContext context) {
+    final ApplicationBloc pageBloc = BlocProvider.of<ApplicationBloc>(context);
+    final EventBloc eventBloc = BlocProvider.of<EventBloc>(context);
     return Container(
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
@@ -74,7 +79,10 @@ class PromoteWidget extends StatelessWidget {
             isBusiness
                 ? BaseButton(ButtonsType.small, () {}, "Voir",
                     [ThemeColors.principaleColor, ThemeColors.radientColor])
-                : BaseButton(ButtonsType.small, () {}, "Y aller",
+                : BaseButton(ButtonsType.small, () {
+                    pageBloc.setChangePage(PageType.path);
+                    eventBloc.setEvent(event);
+                  }, "Y aller",
                     [ThemeColors.principaleColor, ThemeColors.radientColor]),
           ],
         ),

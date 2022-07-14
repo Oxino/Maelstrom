@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:maelstrom/bloc/application_bloc.dart';
+import 'package:maelstrom/bloc/bloc_provider.dart';
+import 'package:maelstrom/bloc/event_bloc.dart';
 import 'package:maelstrom/bloc/storage.dart';
 import 'package:maelstrom/models/business_model.dart';
 import 'package:maelstrom/models/event_model.dart';
@@ -19,6 +22,8 @@ class RecoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ApplicationBloc pageBloc = BlocProvider.of<ApplicationBloc>(context);
+    final EventBloc eventBloc = BlocProvider.of<EventBloc>(context);
     return Container(
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
@@ -57,7 +62,11 @@ class RecoCard extends StatelessWidget {
                           return TagsWidget(TagsType.bubble, tag['name'],
                               Color(tag['colorValue']));
                         }).toList()),
-                    BaseButton(ButtonsType.icon, () {}),
+                    BaseButton(ButtonsType.icon, () {
+
+                    pageBloc.setChangePage(PageType.path);
+                    eventBloc.setEvent(event);
+                    }),
                   ],
                 )
               ],

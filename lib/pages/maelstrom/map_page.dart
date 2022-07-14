@@ -1,144 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-// import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:maelstrom/config.dart';
+import 'package:maelstrom/models/business_model.dart';
+import 'package:maelstrom/models/event_model.dart';
+import 'package:maelstrom/repositories/business/business_repo.dart';
+import 'package:maelstrom/repositories/event/event_repo.dart';
+import 'package:maelstrom/widgets/base_text.dart';
+import 'package:maelstrom/widgets/event_map.dart';
 
 class MapPage extends StatefulWidget {
-  MapPage({Key? key}) : super(key: key);
-
   @override
-  State<MapPage> createState() => _MapPageState();
+  _MapPageState createState() => _MapPageState();
 }
 
 class _MapPageState extends State<MapPage> {
+  final EventRepos _eventRepos = EventRepos();
+  final BusinessRepo _businessRepos = BusinessRepo();
+  CameraPosition _initialLocation =
+      CameraPosition(target: LatLng(44.837789, -0.57918));
   late GoogleMapController mapController;
-  final LatLng _center = const LatLng(44.837789, -0.57918);
-  bool isMapCreated = false;
 
   late Position _currentPosition;
-  String _currentAddress = '';
 
   Set<Marker> markers = {};
+  Set<EventModel> events = {};
 
   final startAddressController = TextEditingController();
+  final destinationAddressController = TextEditingController();
 
-  String _startAddress = '';
-  String _destinationAddress = '';
+  final startAddressFocusNode = FocusNode();
+  final desrinationAddressFocusNode = FocusNode();
 
-  @override
-  void initState() {
-    super.initState();
-    _getCurrentLocation();
-  }
+  EventModel? currentEvent;
 
-  // Method for retrieving the current location
+  late PolylinePoints polylinePoints;
+  Map<PolylineId, Polyline> polylines = {};
+  List<LatLng> polylineCoordinates = [];
 
-  _getCurrentLocation() async {
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((Position position) async {
-      setState(() {
-        // Store the position in the variable
-        _currentPosition = position;
-
-        print('CURRENT POS: $_currentPosition');
-
-        // For moving the camera to current location
-        mapController.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              target: LatLng(position.latitude, position.longitude),
-              zoom: 18.0,
-            ),
-          ),
-        );
-      });
-      await _getAddress();
-    }).catchError((e) {
-      print(e);
-    });
-  }
-  // Method for retrieving the address
-
-  _getAddress() async {
-    try {
-      // Places are retrieved using the coordinates
-      List<Placemark> p = await placemarkFromCoordinates(
-          _currentPosition.latitude, _currentPosition.longitude);
-
-      // Taking the most probable result
-      Placemark place = p[0];
-
-      setState(() {
-        // Structuring the address
-        _currentAddress =
-            "${place.name}, ${place.locality}, ${place.postalCode}, ${place.country}";
-
-        // Update the text of the TextField
-        startAddressController.text = _currentAddress;
-
-        // Setting the user's present location as the starting address
-        _startAddress = _currentAddress;
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future<bool> _calculateDistance() async {
-    try {
-      // Retrieving placemarks from addresses
-      List<Location> startPlacemark = await locationFromAddress(_startAddress);
-      List<Location> destinationPlacemark =
-          await locationFromAddress(_destinationAddress);
-
-// Storing latitude & longitude of start and destination location
-      double startLatitude = startPlacemark[0].latitude;
-      double startLongitude = startPlacemark[0].longitude;
-      double destinationLatitude = destinationPlacemark[0].latitude;
-      double destinationLongitude = destinationPlacemark[0].longitude;
-
-      String startCoordinatesString = '($startLatitude, $startLongitude)';
-      String destinationCoordinatesString =
-          '($destinationLatitude, $destinationLongitude)';
-
-// Start Location Marker
-      Marker startMarker = Marker(
-        markerId: MarkerId(startCoordinatesString),
-        position: LatLng(startLatitude, startLongitude),
-        infoWindow: InfoWindow(
-          title: 'Start $startCoordinatesString',
-          snippet: _startAddress,
-        ),
-        icon: BitmapDescriptor.defaultMarker,
-      );
-
-// Destination Location Marker
-      Marker destinationMarker = Marker(
-        markerId: MarkerId(destinationCoordinatesString),
-        position: LatLng(destinationLatitude, destinationLongitude),
-        infoWindow: InfoWindow(
-          title: 'Destination $destinationCoordinatesString',
-          snippet: _destinationAddress,
-        ),
-        icon: BitmapDescriptor.defaultMarker,
-      );
-
-      // Add the markers to the list
-      markers.add(startMarker);
-      markers.add(destinationMarker);
-    } catch (e) {
-      print(e);
-    }
-    return false;
-  }
-
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-    isMapCreated = true;
-    changeMapMode();
-  }
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   changeMapMode() {
     getJsonFile("assets/map_style.json").then(setMapStyle);
@@ -152,50 +55,155 @@ class _MapPageState extends State<MapPage> {
     mapController.setMapStyle(mapStyle);
   }
 
+  // Method for retrieving the current location
+  _getCurrentLocation() async {
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) async {
+      setState(() {
+        _currentPosition = position;
+        print('CURRENT POS: $_currentPosition');
+        mapController.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              target: LatLng(position.latitude, position.longitude),
+              zoom: 13.0,
+            ),
+          ),
+        );
+      });
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
+
+  setCurrentEvent(EventModel event) {
+    setState(() => {
+          if (currentEvent != event)
+            currentEvent = event
+          else
+            currentEvent = null
+        });
+  }
+
+  createMarkers(MarkerId markerId, EventModel event, String address) async {
+    List<Location> addressPlacemark = await locationFromAddress(address);
+    Marker marker = Marker(
+      markerId: markerId,
+      // infoWindow: InfoWindow(title: event.name),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
+      position:
+          LatLng(addressPlacemark[0].latitude, addressPlacemark[0].longitude),
+      onTap: () => setCurrentEvent(event),
+    );
+    markers.add(marker);
+  }
+
+  initilizeMarkers(List<EventModel?> listEvent) {
+    listEvent.forEach((event) {
+      if (event != null) {
+        Stream<BusinessModel> stream =
+            _businessRepos.getCurrentBusiness(event.idBusiness);
+        stream.listen((business) {
+          MarkerId markerId = MarkerId(event.name);
+          String address = business.address;
+          createMarkers(markerId, event, address);
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (isMapCreated) {
-      changeMapMode();
-    }
-    return GoogleMap(
-      onMapCreated: _onMapCreated,
-      myLocationButtonEnabled: true,
-      // gestureRecognizers: Set()
-      //   ..add(Factory<PanGestureRecognizer>(() => PanGestureRecognizer())),
-      zoomControlsEnabled: false,
-      initialCameraPosition: CameraPosition(
-        target: _center,
-        zoom: 13.0,
-      ),
-      markers: Set<Marker>.from(markers),
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
+    return Container(
+      height: height,
+      width: width,
+      child: Scaffold(
+          key: _scaffoldKey,
+          body: StreamBuilder<List<EventModel?>>(
+              stream: _eventRepos.getTodayEvents([]),
+              builder: ((context, snapshot) {
+                if (!snapshot.hasData)
+                  return Container(
+                    child: BaseText(
+                      TextType.bodyBoldText,
+                      "Pas d'évènement corespondant a votre recherche",
+                    ),
+                  );
+                initilizeMarkers(snapshot.data!);
+                bool isEvent = currentEvent != null;
+                return Stack(
+                  children: <Widget>[
+                    // Map View
+
+                    GoogleMap(
+                      // markers: {if (firstMarker != null) firstMarker},
+                      markers: Set<Marker>.from(markers),
+                      initialCameraPosition: _initialLocation,
+                      myLocationEnabled: true,
+                      myLocationButtonEnabled: false,
+                      mapType: MapType.normal,
+                      zoomGesturesEnabled: true,
+                      zoomControlsEnabled: false,
+                      polylines: Set<Polyline>.of(polylines.values),
+                      onMapCreated: (GoogleMapController controller) {
+                        mapController = controller;
+                        changeMapMode();
+                      },
+                    ),
+                    // Show current location button
+                    SafeArea(
+                      child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              right: 10.0, bottom: isEvent ? 240.0 : 15.0),
+                          child: ClipOval(
+                            child: Material(
+                              color:
+                                  ThemeColors.principaleColor, // button color
+                              child: InkWell(
+                                splashColor:
+                                    ThemeColors.radientColor, // inkwell color
+                                child: SizedBox(
+                                  width: 56,
+                                  height: 56,
+                                  child: Icon(Icons.my_location),
+                                ),
+                                onTap: () {
+                                  mapController.animateCamera(
+                                    CameraUpdate.newCameraPosition(
+                                      CameraPosition(
+                                        target: LatLng(
+                                          _currentPosition.latitude,
+                                          _currentPosition.longitude,
+                                        ),
+                                        zoom: 13.0,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SafeArea(
+                        child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: EventMap(currentEvent),
+                    ))
+                  ],
+                );
+              }))),
     );
   }
 }
-
-// class MapPage extends StatefulWidget {
-//   MapPage({Key? key}) : super(key: key);
-
-//   @override
-//   State<MapPage> createState() => _MapPageState();
-// }
-
-// class _MapPageState extends State<MapPage> {
-//   MapboxMapController? mapController;
-//   var isLight = true;
-
-//   _onMapCreated(MapboxMapController controller) {
-//     mapController = controller;
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MapboxMap(
-//       styleString: MapboxStyles.DARK,
-//       // accessToken: MapsDemo.ACCESS_TOKEN,
-//       onMapCreated: _onMapCreated,
-//       initialCameraPosition:
-//           const CameraPosition(target: LatLng(44.837789, -0.57918)),
-//       // onStyleLoadedCallback: _onStyleLoadedCallback,
-//     );
-//   }
-// }

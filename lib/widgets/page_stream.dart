@@ -6,12 +6,12 @@ import 'package:maelstrom/config.dart';
 
 import 'package:maelstrom/bloc/bloc_provider.dart';
 import 'package:maelstrom/bloc/application_bloc.dart';
-import 'package:maelstrom/pages/maelstrom/map_test.dart';
+import 'package:maelstrom/pages/maelstrom/map_page.dart';
+import 'package:maelstrom/pages/maelstrom/path_page.dart';
 
 import 'package:maelstrom/pages/user.dart';
 import 'package:maelstrom/pages/maelstrom/home_page.dart';
 import 'package:maelstrom/pages/maelstrom/list_page.dart';
-import 'package:maelstrom/pages/maelstrom/map_page.dart';
 import 'package:maelstrom/pages/maelstrom/business_page.dart';
 import 'package:maelstrom/pages/maelstrom_business/dashboard.dart';
 import 'package:maelstrom/pages/maelstrom_business/business_list_event.dart';
@@ -39,7 +39,8 @@ class PageStream extends StatelessWidget {
           builder: (BuildContext context, AsyncSnapshot<PageType> snapshot) {
             var currentPageItems = _getPageType(snapshot.requireData);
             return snapshot.requireData == PageType.map ||
-                    snapshot.requireData == PageType.event
+                    snapshot.requireData == PageType.event ||
+                    snapshot.requireData == PageType.path
                 ? currentPageItems
                 : Padding(
                     padding: EdgeInsets.symmetric(horizontal: 30),
@@ -86,8 +87,7 @@ class PageStream extends StatelessWidget {
           }
         case PageType.map:
           {
-            // return MapPage();
-            return MapView();
+            return MapPage();
           }
         case PageType.user:
           {
@@ -96,6 +96,10 @@ class PageStream extends StatelessWidget {
         case PageType.event:
           {
             return EventPage();
+          }
+        case PageType.path:
+          {
+            return PathPage();
           }
         default:
           {
