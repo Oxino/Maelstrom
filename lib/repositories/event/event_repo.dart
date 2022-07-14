@@ -37,12 +37,12 @@ class EventRepos extends BaseEventRepo {
     Query<Object?> eventsQuery =
         _eventCollectionReference.where('startDate', isLessThan: week);
     eventsQuery = eventsQuery.where('idBusiness', isEqualTo: idBusiness);
+    eventsQuery.orderBy('startDate');
     return eventsQuery.snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
-        if (now.compareTo(doc['endDate']) > 1) {
-          print('hello $doc');
-          return EventModel.formSnapshot(doc);
-        }
+        // if (now.compareTo(doc['endDate']) > 1) {
+        return EventModel.formSnapshot(doc);
+        // }
       }).toList();
     });
   }
