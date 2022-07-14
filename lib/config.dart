@@ -27,7 +27,8 @@ enum PageType {
   dashboard,
   createEvent,
   businessEvent,
-  event
+  event,
+  path
 }
 
 class AllTags {
