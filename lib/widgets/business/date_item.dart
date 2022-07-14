@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:maelstrom/config.dart';
 import 'package:maelstrom/models/calendar_event_model.dart';
+import 'package:maelstrom/models/event_model.dart';
 import 'package:maelstrom/widgets/base_text.dart';
 
 class DateItem extends StatefulWidget {
@@ -21,8 +22,8 @@ class DateItem extends StatefulWidget {
 class _DateItemState extends State<DateItem> {
   @override
   Widget build(BuildContext context) {
-    final bool haveEvent = widget.calendarEvent.event != null;
-    print(haveEvent);
+    final EventModel? event = widget.calendarEvent.event;
+    final bool haveEvent = event != null;
     return Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -32,7 +33,7 @@ class _DateItemState extends State<DateItem> {
             height: 10,
             decoration: haveEvent
                 ? BoxDecoration(
-                    color: TagsColors.yellowTag,
+                    color: Color(event.tags[0]['colorValue']),
                     borderRadius: BorderRadius.all(Radius.circular(10)))
                 : null,
           ),
@@ -40,7 +41,7 @@ class _DateItemState extends State<DateItem> {
             height: 8,
           ),
           InkWell(
-              onTap: () => widget.setOnClick(),
+              onTap: () => haveEvent ? widget.setOnClick() : null,
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
                 decoration: widget.isActive

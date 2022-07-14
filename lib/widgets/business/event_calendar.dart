@@ -10,6 +10,7 @@ import 'package:maelstrom/models/event_model.dart';
 
 import 'package:maelstrom/widgets/base_text.dart';
 import 'package:maelstrom/widgets/business/date_item.dart';
+import 'package:maelstrom/widgets/business/event_widget.dart';
 
 class EventCalendar extends StatefulWidget {
   final String idBusiness;
@@ -40,16 +41,22 @@ class _EventCalendarState extends State<EventCalendar> {
           print('event');
           return Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: allCalendarEvent.map<Widget>((calendarEvent) {
-                    return DateItem(
-                        calendarEvent: calendarEvent,
-                        isActive: calendarEvent.index == currentItemActive,
-                        setOnClick: () =>
-                            _setCurrentItemActive(calendarEvent.index));
-                  }).toList()));
+              child: Column(
+                children: [
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: allCalendarEvent
+                          .map<Widget>((CalendarEvent calendarEvent) {
+                        return DateItem(
+                            calendarEvent: calendarEvent,
+                            isActive: calendarEvent.index == currentItemActive,
+                            setOnClick: () =>
+                                _setCurrentItemActive(calendarEvent.index));
+                      }).toList()),
+                  // EventWidget(),
+                ],
+              ));
         }));
   }
 
@@ -73,15 +80,16 @@ class _EventCalendarState extends State<EventCalendar> {
   }
 
   EventModel? _getDayEvent(List<EventModel?> events, DateTime currentDate) {
+    EventModel? result = null;
     events.forEach((event) {
       String currentDateFormat = DateFormat('dd-MM-yyyy').format(currentDate);
       String eventDateFormat =
           DateFormat('dd-MM-yyyy').format(event!.startDate.toDate());
       if (eventDateFormat == currentDateFormat) {
-        return event;
+        result = event;
       }
     });
-    return null;
+    return result;
     // return events.firstWhere((event) {
     //   if (event == null) {
     //     return false;
