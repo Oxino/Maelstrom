@@ -4,6 +4,7 @@ import 'package:maelstrom/repositories/event/event_repo.dart';
 import 'package:maelstrom/widgets/base_text.dart';
 
 import 'package:maelstrom/config.dart';
+import 'package:maelstrom/widgets/clickable_event.dart';
 import 'package:maelstrom/widgets/home/reco_card.dart';
 
 class RecoSection extends StatelessWidget {
@@ -31,7 +32,7 @@ class RecoSection extends StatelessWidget {
               physics: ScrollPhysics(),
               children: snapshot.data!.map((event) {
                 if (event != null) {
-                  return RecoCard(event);
+                  return ClickableEvent(event.idBusiness, RecoCard(event));
                 } else {
                   return Container();
                 }
