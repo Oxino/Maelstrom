@@ -22,7 +22,7 @@ class EventCalendar extends StatefulWidget {
 
 class _EventCalendarState extends State<EventCalendar> {
   final EventRepos _eventRepos = EventRepos();
-  int currentItemActive = 0;
+  int? currentItemActive = null;
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<EventModel?>>(
@@ -38,29 +38,43 @@ class _EventCalendarState extends State<EventCalendar> {
           }
           List<CalendarEvent> allCalendarEvent =
               _getDateLabelFormat(snapshot.data!);
-          print('event');
-          return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
+          return Expanded(
               child: Column(
-                children: [
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: allCalendarEvent
-                          .map<Widget>((CalendarEvent calendarEvent) {
-                        return DateItem(
-                            calendarEvent: calendarEvent,
-                            isActive: calendarEvent.index == currentItemActive,
-                            setOnClick: () =>
-                                _setCurrentItemActive(calendarEvent.index));
-                      }).toList()),
-                  // EventWidget(),
-                ],
-              ));
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    children: [
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: allCalendarEvent
+                              .map<Widget>((CalendarEvent calendarEvent) {
+                            return DateItem(
+                                calendarEvent: calendarEvent,
+                                isActive:
+                                    calendarEvent.index == currentItemActive,
+                                setOnClick: () =>
+                                    _setCurrentItemActive(calendarEvent.index));
+                          }).toList()),
+                    ],
+                  )),
+              SizedBox(height: 10),
+              currentItemActive != null
+                  ? EventWidget(allCalendarEvent[currentItemActive!].event)
+                  : Column(children: [
+                      BaseText(TextType.sectionTitle,
+                          "Pas d'événement cette semaine"),
+                      SizedBox(height: 250),
+                    ])
+            ],
+          ));
         }));
   }
 
-  void _setCurrentItemActive(item) => setState(() => currentItemActive = item);
+  void _setCurrentItemActive(index) =>
+      setState(() => currentItemActive = index);
 
   List<CalendarEvent> _getDateLabelFormat(events) {
     DateTime currentDate = DateTime.now();
@@ -76,7 +90,24 @@ class _EventCalendarState extends State<EventCalendar> {
       allCalendarEvent.add(CalendarEvent(i, label, number, dayEvent));
       currentDate = currentDate.add(const Duration(days: 1));
     }
+
+    if (currentItemActive == null) setFirstEventActive(allCalendarEvent);
+
     return allCalendarEvent;
+  }
+
+  setFirstEventActive(List<CalendarEvent> allCalendarEvent) {
+    int? firstEvent;
+    for (var i = 0; i < allCalendarEvent.length; i++) {
+      if (allCalendarEvent[i].event != null) {
+        firstEvent = allCalendarEvent[i].index;
+        break;
+      } else
+        firstEvent = null;
+    }
+    if (firstEvent != null) {
+      currentItemActive = firstEvent;
+    }
   }
 
   EventModel? _getDayEvent(List<EventModel?> events, DateTime currentDate) {
@@ -90,14 +121,5 @@ class _EventCalendarState extends State<EventCalendar> {
       }
     });
     return result;
-    // return events.firstWhere((event) {
-    //   if (event == null) {
-    //     return false;
-    //   }
-    //   String currentDateFormat = DateFormat('dd-MM-yyyy').format(currentDate);
-    //   String eventDateFormat =
-    //       DateFormat('dd-MM-yyyy').format(event.startDate.toDate());
-    //   return eventDateFormat == currentDateFormat;
-    // }, orElse: () => null);
   }
 }

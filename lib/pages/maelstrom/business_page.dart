@@ -1,6 +1,7 @@
 // import '';
 
 import 'package:flutter/material.dart';
+import 'package:maelstrom/bloc/application_bloc.dart';
 
 import 'package:maelstrom/bloc/bloc_provider.dart';
 import 'package:maelstrom/bloc/business_bloc.dart';
@@ -16,6 +17,7 @@ import 'package:maelstrom/widgets/business/event_calendar.dart';
 
 // class HomePage extends BasePage {
 class EventPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     // final EventBloc eventBloc = BlocProvider.of<EventBloc>(context);
@@ -52,18 +54,14 @@ class EventPage extends StatelessWidget {
                     children: [
                       BaseAppBar(
                           leftIcon: 'assets/icons/arrow-back.svg',
-                          leftIconFuction: PageType.list,
+                          leftIconFuction: PageType.home,
                           textBar: business.institutionName),
                       SizedBox(height: 20),
                       BaseText(TextType.bodyBoldText, business.description),
                       SizedBox(height: 30),
                     ],
                   )),
-              Column(
-                children: [
-                  EventCalendar(business.id),
-                ],
-              ),
+              EventCalendar(business.id),
             ],
           );
         }));

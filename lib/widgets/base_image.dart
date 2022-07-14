@@ -38,11 +38,12 @@ class BaseImage extends StatelessWidget {
                         },
                       )
                     : connexionState
-                        ? FittedBox(
-                            child: Image.asset(
-                                'assets/images/default_picture_3.png'),
-                            fit: BoxFit.cover,
-                          )
+                        ? Container()
+                        // FittedBox(
+                        //     child: Image.asset(
+                        //         'assets/images/default_picture_3.png'),
+                        //     fit: BoxFit.cover,
+                        //   )
                         : Container()),
           ),
           if (imageType == ImageType.reco)
