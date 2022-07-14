@@ -37,6 +37,7 @@ class _EventCalendarState extends State<EventCalendar> {
           }
           List<CalendarEvent> allCalendarEvent =
               _getDateLabelFormat(snapshot.data!);
+          print('event');
           return Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Row(
@@ -72,14 +73,23 @@ class _EventCalendarState extends State<EventCalendar> {
   }
 
   EventModel? _getDayEvent(List<EventModel?> events, DateTime currentDate) {
-    return events.firstWhere((event) {
-      if (event == null) {
-        return false;
-      }
+    events.forEach((event) {
       String currentDateFormat = DateFormat('dd-MM-yyyy').format(currentDate);
       String eventDateFormat =
-          DateFormat('dd-MM-yyyy').format(event.startDate.toDate());
-      return eventDateFormat == currentDateFormat;
-    }, orElse: () => null);
+          DateFormat('dd-MM-yyyy').format(event!.startDate.toDate());
+      if (eventDateFormat == currentDateFormat) {
+        return event;
+      }
+    });
+    return null;
+    // return events.firstWhere((event) {
+    //   if (event == null) {
+    //     return false;
+    //   }
+    //   String currentDateFormat = DateFormat('dd-MM-yyyy').format(currentDate);
+    //   String eventDateFormat =
+    //       DateFormat('dd-MM-yyyy').format(event.startDate.toDate());
+    //   return eventDateFormat == currentDateFormat;
+    // }, orElse: () => null);
   }
 }
