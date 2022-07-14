@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maelstrom/config.dart';
 
 import 'dart:math' show cos, sqrt, asin;
 
@@ -37,6 +39,18 @@ class _MapViewState extends State<MapView> {
   List<LatLng> polylineCoordinates = [];
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  changeMapMode() {
+    getJsonFile("assets/map_style.json").then(setMapStyle);
+  }
+
+  Future<String> getJsonFile(String path) async {
+    return await rootBundle.loadString(path);
+  }
+
+  void setMapStyle(String mapStyle) {
+    mapController.setMapStyle(mapStyle);
+  }
 
   Widget _textField({
     required TextEditingController controller,
@@ -328,6 +342,7 @@ class _MapViewState extends State<MapView> {
               polylines: Set<Polyline>.of(polylines.values),
               onMapCreated: (GoogleMapController controller) {
                 mapController = controller;
+                changeMapMode();
               },
             ),
             // Show zoom buttons
@@ -515,9 +530,9 @@ class _MapViewState extends State<MapView> {
                   padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
                   child: ClipOval(
                     child: Material(
-                      color: Colors.orange.shade100, // button color
+                      color: ThemeColors.principaleColor, // button color
                       child: InkWell(
-                        splashColor: Colors.orange, // inkwell color
+                        splashColor: ThemeColors.radientColor, // inkwell color
                         child: SizedBox(
                           width: 56,
                           height: 56,
