@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:maelstrom/config.dart';
 import 'package:maelstrom/models/calendar_event_model.dart';
@@ -19,10 +18,11 @@ class DateItem extends StatefulWidget {
   State<DateItem> createState() => _DateItemState();
 }
 
-class _DateItemState extends State<DateItem> {  
+class _DateItemState extends State<DateItem> {
   @override
   Widget build(BuildContext context) {
-  final bool haveEvent =  widget.calendarEvent.event != null;
+    final bool haveEvent = widget.calendarEvent.event != null;
+    print(haveEvent);
     return Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,11 +51,13 @@ class _DateItemState extends State<DateItem> {
                     : null,
                 child: Column(
                   children: [
-                    BaseText(TextType.bodyBoldText, widget.calendarEvent.dateLabel),
+                    BaseText(
+                        TextType.bodyBoldText, widget.calendarEvent.dateLabel),
                     SizedBox(
                       height: 3,
                     ),
-                    BaseText(TextType.bodyBoldText, widget.calendarEvent.dateNumber),
+                    BaseText(
+                        TextType.bodyBoldText, widget.calendarEvent.dateNumber),
                   ],
                 ),
               ))
