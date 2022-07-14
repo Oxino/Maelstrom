@@ -17,18 +17,15 @@ class HomePage extends StatelessWidget {
       child: Column(
         children: [
           HomeAppBar(),
-          SizedBox(height: 20),
           // SearchSection(),
           SizedBox(height: 20),
-
           PromoteSection(),
           SizedBox(height: 30),
           Align(
             alignment: Alignment.centerLeft,
             child: BaseText(TextType.sectionTitle, "Recomandations"),
           ),
-          SizedBox(height: 15),
-          // RecoSection(),
+          RecoSection(),
           SizedBox(height: 30),
         ],
       ),
