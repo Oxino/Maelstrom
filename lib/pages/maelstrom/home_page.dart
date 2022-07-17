@@ -13,22 +13,25 @@ import 'package:maelstrom/widgets/home/reco_section.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          HomeAppBar(),
-          // SearchSection(),
-          SizedBox(height: 20),
-          PromoteSection(),
-          SizedBox(height: 30),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: BaseText(TextType.sectionTitle, "Recomandations"),
-          ),
-          RecoSection(),
-          SizedBox(height: 30),
-        ],
-      ),
+    return Column(
+      children: [
+        HomeAppBar(),
+        Expanded(
+            child: SingleChildScrollView(
+                child: Column(
+          children: [
+            SizedBox(height: 20),
+            PromoteSection(),
+            SizedBox(height: 30),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: BaseText(TextType.sectionTitle, "Recomandations"),
+            ),
+            RecoSection(),
+            SizedBox(height: 30),
+          ],
+        )))
+      ],
     );
   }
 }
