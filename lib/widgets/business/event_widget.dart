@@ -12,7 +12,9 @@ import 'package:maelstrom/widgets/tags_widget.dart';
 class EventWidget extends StatefulWidget {
   EventModel? event;
   bool isBusiness;
-  EventWidget(EventModel? this.event, {bool this.isBusiness = false, Key? key})
+  bool isToday;
+  EventWidget(EventModel? this.event,
+      {bool this.isBusiness = false, bool this.isToday = false, Key? key})
       : super(key: key);
 
   @override
@@ -50,17 +52,20 @@ class _EventWidgetState extends State<EventWidget> {
                   }).toList()),
               SizedBox(height: 15),
               BaseText(TextType.bodyText, event.description),
-              if(!widget.isBusiness) SizedBox(height: 30),
+              if (!widget.isBusiness) SizedBox(height: 30),
               widget.isBusiness
                   ? Container()
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         BaseText(TextType.bigText, '2km'),
-                        BaseButton(ButtonsType.big, () {
-                          pageBloc.setChangePage(PageType.path);
-                          eventBloc.setEvent(event);
-                        })
+                        widget.isToday
+                            ? BaseButton(ButtonsType.big, () {
+                                pageBloc.setChangePage(PageType.path);
+                                eventBloc.setEvent(event);
+                              })
+                            : BaseButton(
+                                ButtonsType.big, () {}, "Prévoir d'y aller")
                       ],
                     ),
             ],

@@ -62,7 +62,7 @@ class _EventCalendarState extends State<EventCalendar> {
                   )),
               SizedBox(height: 10),
               currentItemActive != null
-                  ? EventWidget(allCalendarEvent[currentItemActive!].event)
+                  ? EventWidget(allCalendarEvent[currentItemActive!].event, isToday: currentItemActive! == 0,)
                   : Column(children: [
                       BaseText(TextType.sectionTitle,
                           "Pas d'événement cette semaine"),
