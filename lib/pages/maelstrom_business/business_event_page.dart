@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:maelstrom/bloc/bloc_provider.dart';
 import 'package:maelstrom/bloc/event_bloc.dart';
 
 import 'package:maelstrom/config.dart';
-import 'package:maelstrom/models/calendar_event_model.dart';
 
 import 'package:maelstrom/repositories/event/event_repo.dart';
 
 import 'package:maelstrom/models/event_model.dart';
 import 'package:maelstrom/widgets/base_app_bar.dart';
 
-import 'package:maelstrom/widgets/base_text.dart';
-import 'package:maelstrom/widgets/business/date_item.dart';
 import 'package:maelstrom/widgets/business/event_widget.dart';
 import 'package:maelstrom/widgets/dashboard/data_box.dart';
-import 'package:maelstrom/widgets/home/home_app_bar.dart';
 
 class BusinessEventPage extends StatefulWidget {
   BusinessEventPage({Key? key}) : super(key: key);
@@ -55,7 +50,7 @@ class _BusinessEventPageState extends State<BusinessEventPage> {
                             children: [
                               Expanded(
                                 child: DataBox(
-                                    'Vue', 8224, 'assets/icons/data_see.svg'),
+                                    'Vue', 556, 'assets/icons/data_see.svg'),
                               )
                             ],
                           ),
@@ -63,13 +58,13 @@ class _BusinessEventPageState extends State<BusinessEventPage> {
                           Row(
                             children: [
                               Expanded(
-                                child: DataBox('Prévu', 852,
+                                child: DataBox('Prévu', 22,
                                     'assets/icons/data_provide.svg'),
                               ),
                               SizedBox(width: 15),
                               Expanded(
                                 child: DataBox(
-                                    'Venu', 1644, 'assets/icons/data_go.svg'),
+                                    'Venu', 53, 'assets/icons/data_go.svg'),
                               )
                             ],
                           ),
