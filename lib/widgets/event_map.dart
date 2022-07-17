@@ -39,17 +39,23 @@ class _EventMapState extends State<EventMap> {
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  BaseText(TextType.pageTitle, event.name),
-                  SizedBox(height: 10),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: event.tags.map<Widget>((tag) {
-                        if (event.tags.indexOf(tag) > 3) return Container();
-                        return TagsWidget(TagsType.big, tag['name'],
-                            Color(tag['colorValue']));
-                      }).toList()),
-                  SizedBox(height: 30),
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        BaseText(TextType.pageTitle, event.name),
+                        SizedBox(height: 10),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: event.tags.map<Widget>((tag) {
+                              if (event.tags.indexOf(tag) > 3)
+                                return Container();
+                              return TagsWidget(TagsType.big, tag['name'],
+                                  Color(tag['colorValue']));
+                            }).toList()),
+                        SizedBox(height: 30),
+                      ]),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
