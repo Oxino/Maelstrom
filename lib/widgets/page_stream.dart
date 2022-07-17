@@ -68,7 +68,7 @@ class PageStream extends StatelessWidget {
           }
         case PageType.user:
           {
-            return UserPage();
+            return UserPage(isBusiness);
           }
         default:
           {
@@ -91,7 +91,7 @@ class PageStream extends StatelessWidget {
           }
         case PageType.user:
           {
-            return UserPage();
+            return UserPage(isBusiness);
           }
         case PageType.event:
           {
