@@ -7,6 +7,7 @@ import 'package:maelstrom/models/user_model.dart';
 import 'package:maelstrom/repositories/business/business_repo.dart';
 import 'package:maelstrom/repositories/user/user_repo.dart';
 import 'package:maelstrom/widgets/base_app_bar.dart';
+import 'package:maelstrom/widgets/base_button.dart';
 
 import 'package:maelstrom/widgets/base_text.dart';
 import 'package:maelstrom/widgets/business_item_list.dart';
@@ -38,7 +39,16 @@ class UserPage extends StatelessWidget {
                         textBar: 'Erreur'),
                     SizedBox(height: 20),
                     BaseText(TextType.sectionTitle, "Pas d'utilisateur",
-                        textMaxSize: 30)
+                        textMaxSize: 30),
+                    SizedBox(height: 10),
+                    Align(
+                      alignment: Alignment.center,
+                      child: BaseButton(
+                          ButtonsType.big,
+                          () => FirebaseAuth.instance.signOut(),
+                          "Se déconnecter",
+                          [ThemeColors.grayColor, ThemeColors.grayColor]),
+                    ),
                   ],
                 );
               }
@@ -72,7 +82,16 @@ class UserPage extends StatelessWidget {
                         textBar: 'Erreur'),
                     SizedBox(height: 20),
                     BaseText(TextType.sectionTitle, "Pas d'utilisateur",
-                        textMaxSize: 30)
+                        textMaxSize: 30),
+                    SizedBox(height: 10),
+                    Align(
+                      alignment: Alignment.center,
+                      child: BaseButton(
+                          ButtonsType.big,
+                          () => FirebaseAuth.instance.signOut(),
+                          "Se déconnecter",
+                          [ThemeColors.grayColor, ThemeColors.grayColor]),
+                    ),
                   ],
                 );
               }
