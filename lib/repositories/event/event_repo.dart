@@ -20,8 +20,8 @@ class EventRepos extends BaseEventRepo {
   @override
   Stream<List<EventModel>> getBusinessEvents(String idBusiness) {
     return _eventCollectionReference
-        .where('isBusiness', isEqualTo: idBusiness)
-        .orderBy("startDate")
+        .where('idBusiness', isEqualTo: idBusiness)
+        .orderBy("startDate", descending: true)
         .snapshots()
         .map((snapshot) {
       return snapshot.docs.map((doc) => EventModel.formSnapshot(doc)).toList();
