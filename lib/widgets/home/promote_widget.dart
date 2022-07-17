@@ -77,7 +77,10 @@ class PromoteWidget extends StatelessWidget {
                   TagsType.small, tag['name'], Color(tag['colorValue']));
             }).toList()),
             isBusiness
-                ? BaseButton(ButtonsType.small, () {}, "Voir",
+                ? BaseButton(ButtonsType.small, () {
+                    pageBloc.setChangePage(PageType.businessSingleEvent);
+                    eventBloc.setEvent(event);
+                  }, "Voir",
                     [ThemeColors.principaleColor, ThemeColors.radientColor])
                 : BaseButton(ButtonsType.small, () {
                     pageBloc.setChangePage(PageType.path);

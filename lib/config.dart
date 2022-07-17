@@ -28,7 +28,8 @@ enum PageType {
   createEvent,
   businessEvent,
   event,
-  path
+  path,
+  businessSingleEvent
 }
 
 class AllTags {

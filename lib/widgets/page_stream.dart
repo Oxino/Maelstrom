@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 // import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:maelstrom/config.dart';
 
 import 'package:maelstrom/bloc/bloc_provider.dart';
 import 'package:maelstrom/bloc/application_bloc.dart';
 import 'package:maelstrom/pages/maelstrom/map_page.dart';
 import 'package:maelstrom/pages/maelstrom/path_page.dart';
+import 'package:maelstrom/pages/maelstrom_business/business_event_page.dart';
 
 import 'package:maelstrom/pages/user.dart';
 import 'package:maelstrom/pages/maelstrom/home_page.dart';
 import 'package:maelstrom/pages/maelstrom/list_page.dart';
-import 'package:maelstrom/pages/maelstrom/business_page.dart';
+import 'package:maelstrom/pages/maelstrom/event_page.dart';
 import 'package:maelstrom/pages/maelstrom_business/dashboard.dart';
 import 'package:maelstrom/pages/maelstrom_business/business_list_event.dart';
 import 'package:maelstrom/pages/maelstrom_business/create_event.dart';
@@ -40,7 +40,8 @@ class PageStream extends StatelessWidget {
             var currentPageItems = _getPageType(snapshot.requireData);
             return snapshot.requireData == PageType.map ||
                     snapshot.requireData == PageType.event ||
-                    snapshot.requireData == PageType.path
+                    snapshot.requireData == PageType.path ||
+                    snapshot.requireData == PageType.businessSingleEvent
                 ? currentPageItems
                 : Padding(
                     padding: EdgeInsets.symmetric(horizontal: 30),
@@ -69,6 +70,10 @@ class PageStream extends StatelessWidget {
         case PageType.user:
           {
             return UserPage(isBusiness);
+          }
+        case PageType.businessSingleEvent:
+          {
+            return BusinessEventPage();
           }
         default:
           {
