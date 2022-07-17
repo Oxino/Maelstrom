@@ -75,3 +75,5 @@ class TagsColors {
   static const greenTag = Color(0xFF79E674);
   static const purpleTag = Color(0xFFB665E6);
 }
+
+const String googleApiKey = 'AIzaSyCoY61Voj6crO07gKDAOYSZ4XZ560l7b9w';

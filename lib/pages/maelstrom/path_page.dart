@@ -9,8 +9,10 @@ import 'package:maelstrom/bloc/event_bloc.dart';
 import 'package:maelstrom/config.dart';
 import 'package:maelstrom/models/business_model.dart';
 import 'package:maelstrom/models/event_model.dart';
+import 'package:maelstrom/pages/maelstrom/direction_model.dart';
 import 'package:maelstrom/repositories/business/business_repo.dart';
 import 'package:maelstrom/repositories/event/event_repo.dart';
+import 'package:maelstrom/repositories/map/direction_repo.dart';
 import 'package:maelstrom/widgets/base_text.dart';
 import 'package:maelstrom/widgets/event_map.dart';
 import 'package:maelstrom/widgets/event_path.dart';
@@ -28,6 +30,10 @@ class _PathPageState extends State<PathPage> {
   late GoogleMapController mapController;
 
   late Position _currentPosition;
+
+  LatLng _destinationPosition = LatLng(0.0, 0.0);
+  LatLng _startPosition = LatLng(0.0, 0.0);
+  Directions? _info = null;
 
   Set<Marker> markers = {};
   Set<EventModel> events = {};
@@ -64,11 +70,12 @@ class _PathPageState extends State<PathPage> {
         .then((Position position) async {
       setState(() {
         _currentPosition = position;
+        _startPosition = LatLng(position.latitude, position.longitude);
         print('CURRENT POS: $_currentPosition');
         mapController.animateCamera(
           CameraUpdate.newCameraPosition(
             CameraPosition(
-              target: LatLng(position.latitude, position.longitude),
+              target: _startPosition,
               zoom: 13.0,
             ),
           ),
@@ -79,6 +86,12 @@ class _PathPageState extends State<PathPage> {
     });
   }
 
+  getDirections() async {
+    final direction = await DirectionRepo().getDirections(
+        origin: _startPosition, destination: _destinationPosition);
+    setState(() => _info = direction);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -87,13 +100,15 @@ class _PathPageState extends State<PathPage> {
 
   createMarkers(MarkerId markerId, EventModel event, String address) async {
     List<Location> addressPlacemark = await locationFromAddress(address);
+    _destinationPosition =
+        LatLng(addressPlacemark[0].latitude, addressPlacemark[0].longitude);
     Marker marker = Marker(
       markerId: markerId,
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
-      position:
-          LatLng(addressPlacemark[0].latitude, addressPlacemark[0].longitude),
+      position: _destinationPosition,
     );
     markers.add(marker);
+    getDirections();
   }
 
   initilizeMarker(EventModel event) {
@@ -141,6 +156,46 @@ class _PathPageState extends State<PathPage> {
                           mapController = controller;
                           changeMapMode();
                         },
+                      ),
+                      SafeArea(
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: Padding(
+                            padding:
+                                EdgeInsets.only(right: 10.0, bottom: 175.0),
+                            child: ClipOval(
+                              child: Material(
+                                color:
+                                    ThemeColors.principaleColor, // button color
+                                child: InkWell(
+                                  splashColor:
+                                      ThemeColors.radientColor, // inkwell color
+                                  child: SizedBox(
+                                    width: 56,
+                                    height: 56,
+                                    child: Icon(Icons.my_location),
+                                  ),
+                                  onTap: () {
+                                    mapController.animateCamera(
+                                      _info != null
+                                          ? CameraUpdate.newLatLngBounds(
+                                              _info!.bounds, 100.0)
+                                          : CameraUpdate.newCameraPosition(
+                                              CameraPosition(
+                                                target: LatLng(
+                                                  _currentPosition.latitude,
+                                                  _currentPosition.longitude,
+                                                ),
+                                                zoom: 13.0,
+                                              ),
+                                            ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                       SafeArea(
                           child: Align(
