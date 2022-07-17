@@ -34,6 +34,7 @@ class EventPage extends StatelessWidget {
                     leftIcon: 'assets/icons/arrow-back.svg',
                     leftIconFuction: PageType.list,
                     textBar: 'Evènement',
+                    rightIcon: 'assets/icons/star.svg',
                   ),
                   Expanded(
                       child: Center(

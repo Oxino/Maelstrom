@@ -96,6 +96,7 @@ flutter:
    - assets/icons/button-icon.svg
    - assets/icons/home.svg
    - assets/icons/list.svg
+   - assets/icons/star.svg
    - assets/icons/map.svg
    - assets/icons/maelstrom.png
    - assets/icons/go.svg  
