@@ -21,6 +21,10 @@ class RecoSection extends StatelessWidget {
                 "Pas d'évènement aujourd'hui",
               ),
             );
+            List<EventModel?> finalEventList = [];
+            snapshot.data!.forEach((event) {
+              if (event != null) finalEventList.add(event);
+            });
           return GridView(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -30,7 +34,7 @@ class RecoSection extends StatelessWidget {
               ),
               shrinkWrap: true,
               physics: ScrollPhysics(),
-              children: snapshot.data!.map((event) {
+              children: finalEventList.map((event) {
                 if (event != null) {
                   return ClickableEvent(event.idBusiness, RecoCard(event));
                 } else {
