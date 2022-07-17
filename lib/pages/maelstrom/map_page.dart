@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -24,7 +25,7 @@ class _MapPageState extends State<MapPage> {
       CameraPosition(target: LatLng(44.837789, -0.57918));
   late GoogleMapController mapController;
 
-  bool isActive = true;
+  bool isActive = false;
   late Position _currentPosition;
 
   Set<Marker> markers = {};
@@ -60,10 +61,10 @@ class _MapPageState extends State<MapPage> {
   _getCurrentLocation() async {
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) async {
+      _currentPosition = position;
+      print('CURRENT POS: $_currentPosition');
       setState(() {
         isActive = true;
-        _currentPosition = position;
-        print('CURRENT POS: $_currentPosition');
         // mapController.animateCamera(
         //   CameraUpdate.newCameraPosition(
         //     CameraPosition(
@@ -91,7 +92,6 @@ class _MapPageState extends State<MapPage> {
 
   @override
   void initState() {
-    bool isActive = false;
     super.initState();
     _getCurrentLocation();
   }
@@ -173,44 +173,70 @@ class _MapPageState extends State<MapPage> {
                         goToBordeaux();
                       },
                     ),
-                    // Show current location button
-                    SafeArea(
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              right: 10.0, bottom: isEvent ? 240.0 : 15.0),
-                          child: ClipOval(
-                            child: Material(
-                              color:
-                                  ThemeColors.principaleColor, // button color
-                              child: InkWell(
-                                splashColor:
-                                    ThemeColors.radientColor, // inkwell color
-                                child: SizedBox(
-                                  width: 56,
-                                  height: 56,
-                                  child: Icon(Icons.my_location),
-                                ),
-                                onTap: () {
-                                  mapController.animateCamera(
-                                    CameraUpdate.newCameraPosition(
-                                      CameraPosition(
-                                        target: LatLng(
-                                          _currentPosition.latitude,
-                                          _currentPosition.longitude,
-                                        ),
-                                        zoom: 13.0,
+                    if (!isActive)
+                      SafeArea(
+                          child: Align(
+                              alignment: Alignment.center,
+                              child: Container(
+                                height: 300,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 50),
+                                  decoration: BoxDecoration(
+                                    color: ThemeColors.backgroundColor.withOpacity(0.80),
+                                    borderRadius:
+                                        BorderRadius.all((Radius.circular(10))),
+                                  ),
+                                  child: Column(children: [
+                                    SizedBox(
+                                      height: 150, // Your Height
+                                      width: 150,
+                                      child: SvgPicture.asset(
+                                        'assets/icons/maelstrom.svg',
                                       ),
                                     ),
-                                  );
-                                },
+                                    SizedBox(height: 15,),
+                                    BaseText(TextType.sectionTitle,
+                                        "Nous recherchons les événements..."),
+                                  ])))),
+                    // Show current location button
+                    if (isActive)
+                      SafeArea(
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                right: 10.0, bottom: isEvent ? 240.0 : 15.0),
+                            child: ClipOval(
+                              child: Material(
+                                color:
+                                    ThemeColors.principaleColor, // button color
+                                child: InkWell(
+                                  splashColor:
+                                      ThemeColors.radientColor, // inkwell color
+                                  child: SizedBox(
+                                    width: 56,
+                                    height: 56,
+                                    child: Icon(Icons.my_location),
+                                  ),
+                                  onTap: () {
+                                    mapController.animateCamera(
+                                      CameraUpdate.newCameraPosition(
+                                        CameraPosition(
+                                          target: LatLng(
+                                            _currentPosition.latitude,
+                                            _currentPosition.longitude,
+                                          ),
+                                          zoom: 13.0,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
                     SafeArea(
                         child: Align(
                       alignment: Alignment.bottomCenter,
