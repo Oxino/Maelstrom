@@ -24,6 +24,7 @@ class _MapPageState extends State<MapPage> {
       CameraPosition(target: LatLng(44.837789, -0.57918));
   late GoogleMapController mapController;
 
+  bool isActive = true;
   late Position _currentPosition;
 
   Set<Marker> markers = {};
@@ -60,24 +61,37 @@ class _MapPageState extends State<MapPage> {
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) async {
       setState(() {
+        isActive = true;
         _currentPosition = position;
         print('CURRENT POS: $_currentPosition');
-        mapController.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              target: LatLng(position.latitude, position.longitude),
-              zoom: 13.0,
-            ),
-          ),
-        );
+        // mapController.animateCamera(
+        //   CameraUpdate.newCameraPosition(
+        //     CameraPosition(
+        //       target: LatLng(position.latitude, position.longitude),
+        //       zoom: 13.0,
+        //     ),
+        //   ),
+        // );
       });
     }).catchError((e) {
       print(e);
     });
   }
 
+  goToBordeaux() {
+    mapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(44.837789, -0.57918),
+          zoom: 13.0,
+        ),
+      ),
+    );
+  }
+
   @override
   void initState() {
+    bool isActive = false;
     super.initState();
     _getCurrentLocation();
   }
@@ -156,6 +170,7 @@ class _MapPageState extends State<MapPage> {
                       onMapCreated: (GoogleMapController controller) {
                         mapController = controller;
                         changeMapMode();
+                        goToBordeaux();
                       },
                     ),
                     // Show current location button
