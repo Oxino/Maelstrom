@@ -21,49 +21,30 @@ class BaseImage extends StatelessWidget {
             snapshot.hasData;
         bool connexionState = snapshot.hasData ||
             snapshot.connectionState == ConnectionState.waiting;
-        return Column(children: [
-          Container(
-            width: _buildImageSize(imageType)[0],
-            height: _buildImageSize(imageType)[1],
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(6),
-                child: hasData
-                    ? Image.network(
-                        snapshot.data!,
-                        fit: BoxFit.cover,
-                        loadingBuilder: (BuildContext context, Widget child,
-                            ImageChunkEvent? loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Center();
-                        },
-                      )
-                    : connexionState
-                        ? Container()
-                        // FittedBox(
-                        //     child: Image.asset(
-                        //         'assets/images/default_picture_3.png'),
-                        //     fit: BoxFit.cover,
-                        //   )
-                        : Container()),
-          ),
-          if (imageType == ImageType.reco)
-            Stack(
-              children: [
-                Positioned(
-                  top: 75,
-                  right: 0,
-                  child: Container(
-                      padding: EdgeInsets.fromLTRB(10, 2, 3, 1),
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.only(topLeft: Radius.circular(6)),
-                        color: ThemeColors.grayColor,
-                      ),
-                      child: BaseText(TextType.littleBoldText, imageKm)),
-                ),
-              ],
-            )
-        ]);
+        return Container(
+          width: _buildImageSize(imageType)[0],
+          height: _buildImageSize(imageType)[1],
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: hasData
+                  ? Image.network(
+                      snapshot.data!,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center();
+                      },
+                    )
+                  : connexionState
+                      ? Container()
+                      // FittedBox(
+                      //     child: Image.asset(
+                      //         'assets/images/default_picture_3.png'),
+                      //     fit: BoxFit.cover,
+                      //   )
+                      : Container()),
+        );
       },
     );
   }

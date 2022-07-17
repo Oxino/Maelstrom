@@ -33,7 +33,7 @@ class RecoCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // BaseImage(ImageType.reco, event.imageName),
+            BaseImage(ImageType.reco, event.imageName),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
