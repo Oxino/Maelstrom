@@ -22,7 +22,7 @@ class BusinessModel {
   });
 
   static BusinessModel formSnapshot(DocumentSnapshot snap) {
-    BusinessModel event = BusinessModel(
+    BusinessModel business = BusinessModel(
         id: snap['id'],
         institutionName: snap['institutionName'],
         siret: snap['siret'],
@@ -32,7 +32,7 @@ class BusinessModel {
         lastName: snap['lastName'],
         email: snap['email']);
 
-    return event;
+    return business;
   }
 
   BusinessModel.fromData(DocumentSnapshot<Object?> data)

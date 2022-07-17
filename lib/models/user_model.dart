@@ -6,7 +6,7 @@ class UserModel {
   final String lastName;
   final Timestamp birthDate;
   final String email;
-  List<String> favorite = [];
+  List<dynamic> favorite = [];
 
   UserModel(
       {required this.id,
@@ -14,7 +14,20 @@ class UserModel {
       required this.lastName,
       required this.birthDate,
       required this.email,
-      favorite});
+      this.favorite = const []});
+
+  static UserModel formSnapshot(DocumentSnapshot snap) {
+    UserModel user = UserModel(
+      id: snap['id'],
+      firstName: snap['firstName'],
+      lastName: snap['lastName'],
+      birthDate: snap['birthDate'],
+      email: snap['email'],
+      favorite: snap['favorite'],
+    );
+
+    return user;
+  }
 
   UserModel.fromData(DocumentSnapshot<Object?> data)
       : id = data['id'],
@@ -31,7 +44,7 @@ class UserModel {
           lastName: json['lastName']! as String,
           birthDate: json['birthDate']! as Timestamp,
           email: json['email']! as String,
-          favorite: json['favorite']! as List<String>,
+          favorite: json['favorite']! as List<dynamic>,
         );
 
   Map<String, dynamic> toJson() => {
